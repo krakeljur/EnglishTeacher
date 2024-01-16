@@ -51,4 +51,6 @@ dependencies {
     implementation(Libs.Google.Hilt)
     kapt(Libs.Google.HiltCompiler)
 
+    implementation(project(Mod.Core.Common))
+
 }

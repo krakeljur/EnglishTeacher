@@ -43,9 +43,9 @@ object Libs {
     }
 }
 
-val Modules = object {
+object Mod {
     val Data = ":data"
-    val Features = object {
+    object Features {
         val SignUp = ":features:sign-up"
         val SignIn = ":features:sign-in"
         val Catalog = ":features:catalog"
@@ -53,5 +53,8 @@ val Modules = object {
         val Game = ":features:game"
         val Peoples = ":features:peoples"
         val Profile = ":features:profile"
+    }
+    object Core {
+        val Common = ":core:common"
     }
 }
