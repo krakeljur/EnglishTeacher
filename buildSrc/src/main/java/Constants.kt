@@ -1,4 +1,8 @@
 val hiltVersion = "2.44"
+val roomVersion = "2.6.1"
+val pagingVersion = "3.2.1"
+val retrofitVersion = "2.9.0"
+
 val compileAndroidSdk = 34
 val minAndroidSkd = 24
 val targetAndroidSdk = 33
@@ -16,8 +20,20 @@ object Libs {
     }
     object Google{
         val Material = "com.google.android.material:material:1.11.0"
+
         val Hilt = "com.google.dagger:hilt-android:$hiltVersion"
         val HiltCompiler = "com.google.dagger:hilt-compiler:$hiltVersion"
+
+        val RoomKtx = "androidx.room:room-ktx:$roomVersion" //for Kotlin Flows, Coroutines
+        val RoomCompiler = "androidx.room:room-compiler:$roomVersion"
+        val RoomRuntime = "androidx.room:room-runtime:$roomVersion"
+        val RoomPaging = "androidx.room:room-paging:$roomVersion"
+
+        val Paging = "androidx.paging:paging-runtime:$pagingVersion"
+    }
+    object SquareUp {
+        val Moshi = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+        val Retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
     }
     object JetBrains  {
         val CoroutineScope = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
