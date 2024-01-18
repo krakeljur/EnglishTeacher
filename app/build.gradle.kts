@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.englishteacher"
-        minSdk = minAndroidSkd
+        minSdk = minAndroidSdk
         targetSdk = targetAndroidSdk
         versionCode = 1
         versionName = "1.0"

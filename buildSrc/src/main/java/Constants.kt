@@ -4,7 +4,7 @@ val pagingVersion = "3.2.1"
 val retrofitVersion = "2.9.0"
 
 val compileAndroidSdk = 34
-val minAndroidSkd = 24
+val minAndroidSdk = 24
 val targetAndroidSdk = 33
 
 object Libs {
