@@ -32,4 +32,8 @@ class ProfileViewModel @Inject constructor(
             editNameUseCase.editName(newName)
         }
     }
+
+    fun getStatistic(){
+        router.launchStatistic()
+    }
 }

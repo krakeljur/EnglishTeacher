@@ -7,4 +7,7 @@
     <string name="change">Change</string>
     <string name="statistic">Check statistic</string>
     <string name="logout">Logout</string>
+    <string name="rename_hint">Your new name</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>
