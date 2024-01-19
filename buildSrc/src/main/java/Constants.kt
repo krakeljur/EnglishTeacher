@@ -55,6 +55,7 @@ object Mod {
         val Profile = ":features:profile"
     }
     object Core {
+        val Presentation = ":core:presentation"
         val Common = ":core:common"
     }
 }

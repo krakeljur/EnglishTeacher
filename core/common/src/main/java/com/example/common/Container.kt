@@ -6,6 +6,6 @@ package com.example.common
  */
 sealed class Container<out T> {
     data class Success<out T>(val data: T) : Container<T>()
-    data class Error<out T>(val data: T) : Container<T>()
+    data class Error<out T>(val message: String) : Container<T>()
     data object Pending : Container<Nothing>()
 }

@@ -1,12 +1,10 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "com.example.profile"
+    namespace = "com.example.presentation"
     compileSdk = compileAndroidSdk
 
     defaultConfig {
@@ -40,15 +38,12 @@ android {
 
 dependencies {
 
-
     implementation(Libs.Android.CoreKtx)
     implementation(Libs.Android.AppCompat)
+    implementation(Libs.Android.LifecycleRuntimeKtx)
     implementation(Libs.Android.FragmentKtx)
 
-
     implementation(Libs.Google.Material)
-    implementation(Libs.Google.Hilt)
-    kapt(Libs.Google.HiltCompiler)
 
-    implementation(project(Mod.Core.Presentation))
+    api(project(Mod.Core.Common))
 }
