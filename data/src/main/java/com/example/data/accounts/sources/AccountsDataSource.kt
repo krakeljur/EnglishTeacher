@@ -7,8 +7,6 @@ interface AccountsDataSource {
 
     suspend fun signIn(login : String, password: String) : Pair<String, AccountDataEntity>
 
-    suspend fun getAccount(id: Long): AccountDataEntity
-
     suspend fun setAccountUsername(accountWithNewName: AccountDataEntity)
 
     suspend fun signUp(signUpDataEntity: SignUpDataEntity)

@@ -21,7 +21,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
 
 
     private val accountFlow: MutableStateFlow<Container<AccountDataEntity>> =
-        MutableStateFlow(Container.Pending)
+        MutableStateFlow(Container.Error("AuthException"))
 
     private var token: String? = null
 
@@ -35,7 +35,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAccount(id: Long): Flow<Container<AccountDataEntity>> {
+    override fun getAccount(): Flow<Container<AccountDataEntity>> {
         return accountFlow.asStateFlow()
     }
 

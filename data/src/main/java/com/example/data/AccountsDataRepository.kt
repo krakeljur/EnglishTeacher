@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AccountsDataRepository {
 
-    fun getAccount(id: Long): Flow<Container<AccountDataEntity>>
+    fun getAccount(): Flow<Container<AccountDataEntity>>
 
     suspend fun setAccountUsername(newName: String)
 

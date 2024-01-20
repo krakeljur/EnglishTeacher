@@ -37,14 +37,6 @@ class InMemoryDataSourceImpl(
         throw WrongPasswordException()
     }
 
-    override suspend fun getAccount(id: Long): AccountDataEntity {
-        val index = accounts.indexOfFirst {
-            it.id == id
-        }
-        if (index == -1)
-            throw AccountDoesNotExistException()
-        return accounts[index].toAccountDataEntity()
-    }
 
     override suspend fun setAccountUsername(accountWithNewName: AccountDataEntity) {
         val index = accounts.indexOfFirst {
