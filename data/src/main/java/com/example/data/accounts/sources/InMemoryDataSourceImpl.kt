@@ -1,6 +1,7 @@
 package com.example.data.accounts.sources
 
 import com.example.data.accounts.entity.AccountDataEntity
+import com.example.data.accounts.entity.SignUpDataEntity
 import com.example.data.accounts.exceptions.AccountDoesNotExistException
 import com.example.data.accounts.exceptions.IncorrectLoginException
 import com.example.data.accounts.exceptions.WrongPasswordException
@@ -52,6 +53,22 @@ class InMemoryDataSourceImpl(
         if (index == -1)
             throw AccountDoesNotExistException()
         accounts[index].name = accountWithNewName.name
+    }
+
+    override suspend fun signUp(signUpDataEntity: SignUpDataEntity) {
+        val newId = accounts.last().id + 1
+        accounts.add(
+            FullAccountDataEntity(
+                newId,
+                signUpDataEntity.name,
+                signUpDataEntity.login,
+                signUpDataEntity.pass
+            )
+        )
+    }
+
+    override suspend fun logout() {
+        tokens.clear()
     }
 }
 
