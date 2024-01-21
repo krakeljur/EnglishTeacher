@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
     private val viewModel by viewModels<SignInViewModel>()
-    private lateinit var binding : FragmentSignInBinding
+    private lateinit var binding: FragmentSignInBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,12 +29,32 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.isSign()
 
         setupListeners()
     }
 
     private fun setupListeners() {
-        /*HERE BOTTOM LISTENERS*/
+        binding.signInButton.setOnClickListener {
+            if (binding.loginEditText.text.isBlank())
+                binding.loginEditText.error = "NOT EMPTY"
+            else if (binding.passwordEditText.text.isBlank())
+                binding.passwordEditText.error = "NOT EMPTY"
+            else {
+                try {
+                    binding.errorTV.visibility = View.GONE
+                    viewModel.signIn(
+                        binding.loginEditText.text.toString(),
+                        binding.passwordEditText.text.toString()
+                    )
+                } catch (e: Exception) {
+                    binding.errorTV.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        binding.signUpButton.setOnClickListener {
+            viewModel.launchSignUp()
+        }
+
     }
 }

@@ -17,20 +17,24 @@ class SignInViewModel @Inject constructor(
     private val isSignedInUseCase: IsSignedInUseCase
 ) : ViewModel() {
 
-    fun isSign(){
 
-        val signed = isSignedInUseCase.isSigned()
+    init {
+        viewModelScope.launch {
+            isSignedInUseCase.isSigned().collect {
+                if (it)
+                    router.launchFavorites()
+            }
+        }
+    }
 
-        if (signed)
-            router.launchFavorites()
-
+    fun launchSignUp() {
+        router.launchSignUp()
     }
 
     fun signIn(login: String, password: String) {
         viewModelScope.launch {
             try {
                 signInUseCase.signIn(login, password)
-                router.launchFavorites()
             } catch (_: Exception) {
                 throw IllegalStateException()
             }
