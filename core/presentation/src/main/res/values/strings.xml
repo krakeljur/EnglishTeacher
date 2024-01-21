@@ -14,4 +14,5 @@
     <string name="signIn">Sign In</string>
     <string name="password">Password</string>
     <string name="error_password_login">Bad login or password</string>
+    <string name="error_signup">User with this login already exist</string>
 </resources>
