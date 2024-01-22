@@ -23,4 +23,6 @@
     <string name="description">Description</string>
     <string name="eng">English word</string>
     <string name="rus">Russian word</string>
+    <string name="favorite">Favorites</string>
+    <string name="change_status">Change Status</string>
 </resources>

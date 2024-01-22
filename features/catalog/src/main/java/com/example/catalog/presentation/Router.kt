@@ -8,7 +8,4 @@ interface Router {
 
     fun launchCard()
 
-    fun launchFavorites()
-
-    fun launchCatalog()
 }
