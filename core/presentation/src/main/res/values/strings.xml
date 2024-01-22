@@ -15,4 +15,12 @@
     <string name="password">Password</string>
     <string name="error_password_login">Bad login or password</string>
     <string name="error_signup">User with this login already exist</string>
+    <string name="id">id</string>
+    <string name="start">Start</string>
+    <string name="back">Back</string>
+    <string name="add_favorite">Add to favorites</string>
+    <string name="delete_favorite">Delete from favorites</string>
+    <string name="description">Description</string>
+    <string name="eng">English word</string>
+    <string name="rus">Russian word</string>
 </resources>

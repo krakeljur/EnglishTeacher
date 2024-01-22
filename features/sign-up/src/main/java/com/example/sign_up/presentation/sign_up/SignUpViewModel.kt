@@ -5,9 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.sign_up.domain.SignUpUseCase
 import com.example.sign_up.domain.entities.SignUpData
 import com.example.sign_up.presentation.SignUpRouter
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+@HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val router: SignUpRouter

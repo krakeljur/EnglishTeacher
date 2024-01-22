@@ -1,14 +1,16 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.example.catalog"
-    compileSdk = 33
+    compileSdk = compileAndroidSdk
 
     defaultConfig {
-        minSdk = 24
+        minSdk = minAndroidSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -30,13 +32,28 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures{
+        viewBinding = true
+    }
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation(Libs.Android.CoreKtx)
+    implementation(Libs.Android.FragmentKtx)
+    implementation(Libs.Android.RecyclerView)
+    implementation(Libs.Android.AppCompat)
+
+    implementation(Libs.Google.Material)
+    implementation(Libs.Google.Hilt)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    kapt(Libs.Google.HiltCompiler)
+
+    implementation(project(Mod.Core.Presentation))
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
