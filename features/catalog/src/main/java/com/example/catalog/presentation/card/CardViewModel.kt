@@ -1,12 +1,17 @@
 package com.example.catalog.presentation.card
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.catalog.domain.GetLessonUseCase
 import com.example.catalog.domain.entities.LessonData
 import com.example.catalog.presentation.Router
 import com.example.common.Container
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,9 +21,24 @@ class CardViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    fun getLesson(id: Long): Flow<Container<LessonData>> {
-        return getLessonUseCase.getLesson(id)
+    private var lesson: MutableStateFlow<Container<LessonData>> = MutableStateFlow(Container.Pending)
+
+    fun init(id: Long) {
+        lesson = getLessonUseCase.getLesson(id) as MutableStateFlow<Container<LessonData>>
     }
+
+    val stateCard: Flow<StateCard> = lesson.mapLatest {
+        when (it) {
+            is Container.Success -> StateCard(false, false, it.data)
+            is Container.Pending -> StateCard(true, false, null)
+            is Container.Error -> StateCard(false, true, null)
+        }
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        StateCard(true, false, null)
+    )
+
 
     fun startGame() {
         router.launchGame()
@@ -27,4 +47,12 @@ class CardViewModel @Inject constructor(
     fun goBack() {
         router.launchBack()
     }
+
+
 }
+
+data class StateCard(
+    val isLoading: Boolean,
+    val isError: Boolean,
+    val lesson: LessonData?
+)

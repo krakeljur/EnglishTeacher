@@ -16,4 +16,6 @@ interface LessonRepository {
 
     suspend fun deleteFavorite(idLesson: Long)
 
+    suspend fun update()
+
 }

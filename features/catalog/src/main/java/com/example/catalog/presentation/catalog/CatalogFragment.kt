@@ -15,7 +15,6 @@ import com.example.catalog.databinding.FragmentCatalogBinding
 import com.example.catalog.domain.entities.LessonData
 import com.example.catalog.presentation.catalog.adapters.CatalogActionListener
 import com.example.catalog.presentation.catalog.adapters.CatalogAdapter
-import com.example.common.Container
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -69,52 +68,20 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
     private fun setupObserves() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect {
+                    if (it.isError) {
+                        error("oops") { viewModel.update() }
+                    } else if (it.isLoading) {
+                        pending()
+                    } else {
+                        success()
+                        lastCatalog = it.catalog
+                        lastFavorite = it.favorites
 
-                with(binding) {
-
-                    viewModel.getCatalog().collect {
-
-
-                        containerView.showSuccess()
-
-                        when (it) {
-                            is Container.Pending -> {
-                                pending()
-                            }
-
-                            is Container.Error -> {
-                                error(it.message)
-                            }
-
-                            is Container.Success -> {
-                                success()
-                                lastCatalog = it.data
-                                if (!switchFavorite.isActivated)
-                                    adapter.catalog = it.data
-                            }
-                        }
-                    }
-
-                    viewModel.getFavorite().collect {
-
-                        containerView.showSuccess()
-
-                        when (it) {
-                            is Container.Pending -> {
-                                pending()
-                            }
-
-                            is Container.Error -> {
-                                error(it.message)
-                            }
-
-                            is Container.Success -> {
-                                success()
-                                lastFavorite = it.data
-                                if (switchFavorite.isActivated)
-                                    adapter.catalog = it.data
-                            }
-
+                        if (binding.switchFavorite.isChecked) {
+                            adapter.catalog = it.favorites
+                        } else {
+                            adapter.catalog = it.catalog
                         }
                     }
                 }

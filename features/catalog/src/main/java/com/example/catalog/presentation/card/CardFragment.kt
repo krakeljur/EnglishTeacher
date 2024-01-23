@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catalog.R
 import com.example.catalog.databinding.FragmentCardBinding
 import com.example.catalog.presentation.card.adapters.WordAdapter
-import com.example.common.Container
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -42,48 +41,43 @@ class CardFragment : Fragment(R.layout.fragment_card) {
         super.onViewCreated(view, savedInstanceState)
 
         //HARDCODE FOR TEST
-        val idLesson = 1L
+        viewModel.init(1)
 
-        setupObserve(idLesson)
+
+        setupObserve()
         setupListeners()
     }
 
-    private fun setupObserve(id: Long) {
+    private fun setupObserve() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getLesson(id).collect {
+                viewModel.stateCard.collect {
                     binding.container.showSuccess()
-                    when (it) {
-                        is Container.Pending -> {
-                            binding.cardConstraintLayout.visibility = View.GONE
-                            binding.container.showPending()
-                        }
-
-                        is Container.Error -> {
-                            binding.cardConstraintLayout.visibility = View.GONE
-                            binding.container.showError(it.message) { viewModel.goBack() }
-                        }
-
-                        is Container.Success -> {
-                            binding.cardConstraintLayout.visibility = View.VISIBLE
-                            adapter.words = it.data.words
-                            binding.descriptionTextView.text = it.data.description
-                            binding.idLessonTextView.text = it.data.id.toString()
-                            binding.nameLessonTextView.text = it.data.name
-                        }
+                    if (it.isLoading) {
+                        binding.cardConstraintLayout.visibility = View.GONE
+                        binding.container.showPending()
+                    } else if (it.isError || it.lesson == null) {
+                        binding.cardConstraintLayout.visibility = View.GONE
+                        binding.container.showError("it.message") { viewModel.goBack() }
+                    } else {
+                        binding.cardConstraintLayout.visibility = View.VISIBLE
+                        adapter.words = it.lesson.words
+                        binding.descriptionTextView.text = it.lesson.description
+                        binding.idLessonTextView.text = it.lesson.id.toString()
+                        binding.nameLessonTextView.text = it.lesson.name
                     }
                 }
             }
         }
-
     }
 
-    private fun setupListeners() {
-        binding.backButton.setOnClickListener {
-            viewModel.goBack()
-        }
-        binding.startButton.setOnClickListener {
-            viewModel.startGame()
-        }
+
+private fun setupListeners() {
+    binding.backButton.setOnClickListener {
+        viewModel.goBack()
     }
+    binding.startButton.setOnClickListener {
+        viewModel.startGame()
+    }
+}
 }
