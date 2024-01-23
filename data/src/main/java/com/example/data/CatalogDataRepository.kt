@@ -17,4 +17,10 @@ interface CatalogDataRepository {
 
     fun getWords(idLesson: Long): Flow<Container<List<WordDataEntity>>>
 
+    suspend fun updateCatalog()
+
+    suspend fun updateFavorite()
+
+    suspend fun updateWords(id: Long)
+
 }

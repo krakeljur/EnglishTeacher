@@ -7,18 +7,32 @@ import com.example.data.catalog.entities.WordDataEntity
 import com.example.data.catalog.sources.CatalogDataSource
 import com.example.data.settings.SettingsDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class CatalogDataRepositoryImpl @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
     private val catalogDataSource: CatalogDataSource
 ) : CatalogDataRepository {
+
+    private val catalog: MutableStateFlow<Container<List<LessonDataEntity>>> =
+        MutableStateFlow(Container.Success(emptyList()))
+
+    private val favorites: MutableStateFlow<Container<List<LessonDataEntity>>> =
+        MutableStateFlow(Container.Success(emptyList()))
+
+    private val words: MutableStateFlow<Container<List<WordDataEntity>>> =
+        MutableStateFlow(Container.Success(emptyList()))
+
     override fun getCatalog(): Flow<Container<List<LessonDataEntity>>> {
-        return catalogDataSource.getCatalog()
+        catalog.value = Container.Success(catalogDataSource.getCatalog())
+        return catalog.asStateFlow()
     }
 
     override fun getFavorite(): Flow<Container<List<LessonDataEntity>>> {
-        return getFavorite()
+        favorites.value = Container.Success(catalogDataSource.getFavorite())
+        return favorites
     }
 
     override suspend fun addFavorite(idLesson: Long) {
@@ -30,7 +44,20 @@ class CatalogDataRepositoryImpl @Inject constructor(
     }
 
     override fun getWords(idLesson: Long): Flow<Container<List<WordDataEntity>>> {
-        return catalogDataSource.getWords(idLesson)
+        words.value = Container.Success(catalogDataSource.getWords(idLesson))
+        return words
+    }
+
+    override suspend fun updateCatalog() {
+        favorites.value = Container.Success(catalogDataSource.getCatalog())
+    }
+
+    override suspend fun updateFavorite() {
+        favorites.value = Container.Success(catalogDataSource.getFavorite())
+    }
+
+    override suspend fun updateWords(idLesson: Long) {
+        words.value = Container.Success(catalogDataSource.getWords(idLesson))
     }
 
 
