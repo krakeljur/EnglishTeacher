@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignUpFragment() : Fragment(R.layout.fragment_sign_up) {
 
-    private val viewModel by viewModels<SignUpViewModel>()
+    val viewModel by viewModels<SignUpViewModel>()
     private lateinit var binding: FragmentSignUpBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

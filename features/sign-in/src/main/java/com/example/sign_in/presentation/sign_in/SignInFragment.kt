@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
-    private val viewModel by viewModels<SignInViewModel>()
+    val viewModel by viewModels<SignInViewModel>()
     private lateinit var binding: FragmentSignInBinding
 
     override fun onCreateView(

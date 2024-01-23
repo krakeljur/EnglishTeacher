@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CardFragment : Fragment(R.layout.fragment_card) {
 
-    private val viewModel by viewModels<CardViewModel>()
+    val viewModel by viewModels<CardViewModel>()
     private lateinit var binding: FragmentCardBinding
     private val adapter = WordAdapter()
 

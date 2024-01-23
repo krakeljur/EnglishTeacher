@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class CatalogFragment : Fragment(R.layout.fragment_catalog) {
 
 
-    private val viewModel by viewModels<CatalogViewModel>()
+    val viewModel by viewModels<CatalogViewModel>()
     private lateinit var binding: FragmentCatalogBinding
     private lateinit var adapter: CatalogAdapter
     private var lastCatalog = emptyList<LessonData>()

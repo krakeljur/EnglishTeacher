@@ -25,4 +25,7 @@
     <string name="rus">Russian word</string>
     <string name="favorite">Favorites</string>
     <string name="change_status">Change Status</string>
+    <string name="time">Time</string>
+    <string name="correct">Correct</string>
+    <string name="wrong">Wrong</string>
 </resources>

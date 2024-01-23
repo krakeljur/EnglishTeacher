@@ -4,6 +4,8 @@ interface ProfileRouter {
 
     fun launchStatistic()
 
+    fun launchProfile()
+
     fun launchSignIn()
 
 
