@@ -1,4 +1,4 @@
-package com.example.data.accounts.entity
+package com.example.data.accounts.entities
 
 data class AccountDataEntity (
     val id : Long,

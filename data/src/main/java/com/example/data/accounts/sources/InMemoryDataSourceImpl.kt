@@ -1,7 +1,7 @@
 package com.example.data.accounts.sources
 
-import com.example.data.accounts.entity.AccountDataEntity
-import com.example.data.accounts.entity.SignUpDataEntity
+import com.example.data.accounts.entities.AccountDataEntity
+import com.example.data.accounts.entities.SignUpDataEntity
 import com.example.data.accounts.exceptions.AccountDoesNotExistException
 import com.example.data.accounts.exceptions.IncorrectLoginException
 import com.example.data.accounts.exceptions.WrongPasswordException

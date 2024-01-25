@@ -2,8 +2,8 @@ package com.example.data.accounts
 
 import com.example.common.Container
 import com.example.data.AccountsDataRepository
-import com.example.data.accounts.entity.AccountDataEntity
-import com.example.data.accounts.entity.SignUpDataEntity
+import com.example.data.accounts.entities.AccountDataEntity
+import com.example.data.accounts.entities.SignUpDataEntity
 import com.example.data.accounts.sources.AccountsDataSource
 import com.example.data.settings.SettingsDataSource
 import kotlinx.coroutines.CoroutineScope
