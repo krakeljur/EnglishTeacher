@@ -1,9 +1,7 @@
 package com.example.catalog.presentation.catalog
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,11 +28,10 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
     private var lastFavorite = emptyList<LessonData>()
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentCatalogBinding.inflate(layoutInflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentCatalogBinding.bind(view)
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.catalogRecyclerView.layoutManager = layoutManager
@@ -53,12 +50,6 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         }
         )
         binding.catalogRecyclerView.adapter = adapter
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
 
         setupListeners()

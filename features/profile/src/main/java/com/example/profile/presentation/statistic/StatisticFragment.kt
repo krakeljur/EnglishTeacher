@@ -1,9 +1,7 @@
 package com.example.profile.presentation.statistic
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -24,23 +22,18 @@ class StatisticFragment : Fragment(R.layout.fragment_statistic) {
     private lateinit var binding: FragmentStatisticBinding
     private val adapter = StatisticAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentStatisticBinding.inflate(inflater, container, false)
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentStatisticBinding.bind(view)
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewStat.layoutManager = layoutManager
         binding.recyclerViewStat.adapter = adapter
 
 
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.setOnClickListener {
             viewModel.launchProfile()

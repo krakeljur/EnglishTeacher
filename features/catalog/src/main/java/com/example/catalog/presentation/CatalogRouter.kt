@@ -1,6 +1,6 @@
 package com.example.catalog.presentation
 
-interface Router {
+interface CatalogRouter {
 
     fun launchBack()
 

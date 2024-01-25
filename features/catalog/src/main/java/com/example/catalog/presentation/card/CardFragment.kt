@@ -1,9 +1,7 @@
 package com.example.catalog.presentation.card
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -23,22 +21,16 @@ class CardFragment : Fragment(R.layout.fragment_card) {
     private lateinit var binding: FragmentCardBinding
     private val adapter = WordAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentCardBinding.inflate(layoutInflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentCardBinding.bind(view)
 
         val layoutManager = LinearLayoutManager(requireContext())
 
         binding.wordsRecyclerView.layoutManager = layoutManager
         binding.wordsRecyclerView.adapter = adapter
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         //HARDCODE FOR TEST
         viewModel.init(1)

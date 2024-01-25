@@ -8,7 +8,7 @@ import com.example.catalog.domain.DeleteFavoriteUseCase
 import com.example.catalog.domain.GetCatalogUseCase
 import com.example.catalog.domain.GetFavoritesUseCase
 import com.example.catalog.domain.entities.LessonData
-import com.example.catalog.presentation.Router
+import com.example.catalog.presentation.CatalogRouter
 import com.example.common.Container
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
-    private val router: Router,
+    private val catalogRouter: CatalogRouter,
     private val addFavoriteUseCase: AddFavoriteUseCase,
     private val deleteFavoriteUseCase: DeleteFavoriteUseCase,
     private val getCatalogUseCase: GetCatalogUseCase,
@@ -69,7 +69,7 @@ class CatalogViewModel @Inject constructor(
     }
 
     fun launchLesson() {
-        router.launchCard()
+        catalogRouter.launchCard()
     }
 
     fun update() {

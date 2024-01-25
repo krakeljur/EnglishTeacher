@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.catalog.domain.GetLessonUseCase
 import com.example.catalog.domain.entities.LessonData
-import com.example.catalog.presentation.Router
+import com.example.catalog.presentation.CatalogRouter
 import com.example.common.Container
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CardViewModel @Inject constructor(
-    private val router: Router,
+    private val catalogRouter: CatalogRouter,
     private val getLessonUseCase: GetLessonUseCase
 ) : ViewModel() {
 
@@ -41,11 +41,11 @@ class CardViewModel @Inject constructor(
 
 
     fun startGame() {
-        router.launchGame()
+        catalogRouter.launchGame()
     }
 
     fun goBack() {
-        router.launchBack()
+        catalogRouter.launchBack()
     }
 
 

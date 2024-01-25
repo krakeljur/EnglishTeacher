@@ -2,11 +2,9 @@ package com.example.profile.presentation.profile
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,18 +24,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     val viewModel by viewModels<ProfileViewModel>()
     private lateinit var binding: FragmentProfileBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentProfileBinding.bind(view)
 
         observeProfile()
         setupListeners()
