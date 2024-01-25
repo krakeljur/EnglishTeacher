@@ -28,4 +28,10 @@
     <string name="time">Time</string>
     <string name="correct">Correct</string>
     <string name="wrong">Wrong</string>
+    <string name="next">Next</string>
+    <string name="answer">Your answer</string>
+    <string name="help">Help</string>
+    <string name="question">Question</string>
+    <string name="hint">Hint</string>
+
 </resources>
