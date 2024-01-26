@@ -2,6 +2,7 @@ val hiltVersion = "2.44"
 val roomVersion = "2.6.1"
 val pagingVersion = "3.2.1"
 val retrofitVersion = "2.9.0"
+val navVersion = "2.7.6"
 
 val compileAndroidSdk = 34
 val minAndroidSdk = 24
@@ -17,6 +18,8 @@ object Libs {
         val LifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
         val ConstraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
         val RecyclerView = "androidx.recyclerview:recyclerview:1.3.2"
+        val NavigationFragment = "androidx.navigation:navigation-fragment:$navVersion"
+        val NavigationUI = "androidx.navigation:navigation-ui:$navVersion"
     }
     object Google{
         val Material = "com.google.android.material:material:1.11.0"

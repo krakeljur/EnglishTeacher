@@ -31,7 +31,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
 
         setupObserve()
         setupListeners()
-
     }
 
     private fun setupObserve() {

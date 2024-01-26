@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -48,6 +49,8 @@ dependencies {
     implementation(Libs.Android.CoreKtx)
     implementation(Libs.Android.AppCompat)
     implementation(Libs.Android.ConstraintLayout)
+    implementation(Libs.Android.NavigationFragment)
+    implementation(Libs.Android.NavigationUI)
 
     implementation(Libs.Google.Material)
 
