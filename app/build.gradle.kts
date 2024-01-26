@@ -42,6 +42,9 @@ android {
     hilt {
         enableAggregatingTask = true
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

@@ -35,5 +35,7 @@
     <string name="hint">Hint</string>
     <string name="catalog">Catalog</string>
     <string name="profile">Profile</string>
+    <string name="card">Card</string>
+    <string name="game">Game</string>
 
 </resources>

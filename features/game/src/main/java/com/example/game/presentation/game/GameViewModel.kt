@@ -76,7 +76,7 @@ class GameViewModel @Inject constructor(
             setResultUseCase.setResult(resultGame)
         }
         clear()
-        gameRouter.launchLesson()
+        gameRouter.returnToCardFromGame()
     }
 
     private fun clear() {

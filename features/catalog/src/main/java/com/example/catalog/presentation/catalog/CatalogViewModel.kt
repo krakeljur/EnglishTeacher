@@ -69,7 +69,7 @@ class CatalogViewModel @Inject constructor(
     }
 
     fun launchLesson() {
-        catalogRouter.launchCard()
+        catalogRouter.launchCardFromCatalog()
     }
 
     fun update() {

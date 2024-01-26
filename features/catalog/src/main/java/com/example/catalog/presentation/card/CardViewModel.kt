@@ -41,11 +41,11 @@ class CardViewModel @Inject constructor(
 
 
     fun startGame() {
-        catalogRouter.launchGame()
+        catalogRouter.launchGameFromCard()
     }
 
     fun goBack() {
-        catalogRouter.launchBack()
+        catalogRouter.launchBackFromCard()
     }
 
 

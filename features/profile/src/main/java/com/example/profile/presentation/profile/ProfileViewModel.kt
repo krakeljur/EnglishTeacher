@@ -23,7 +23,7 @@ class ProfileViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             logoutUseCase.logout()
-            router.launchSignIn()
+            router.launchSignInFromProfile()
         }
     }
 
@@ -34,6 +34,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun getStatistic(){
-        router.launchStatistic()
+        router.launchStatisticFromProfile()
     }
 }

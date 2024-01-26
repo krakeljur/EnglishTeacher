@@ -2,11 +2,11 @@ package com.example.profile.presentation
 
 interface ProfileRouter {
 
-    fun launchStatistic()
+    fun launchStatisticFromProfile()
 
-    fun launchProfile()
+    fun goBackToProfileFromStatistic()
 
-    fun launchSignIn()
+    fun launchSignInFromProfile()
 
 
 }

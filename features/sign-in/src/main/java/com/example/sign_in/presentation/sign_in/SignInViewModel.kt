@@ -22,7 +22,7 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             isSignedInUseCase.isSigned().collect {
                 if (it)
-                    router.launchFavorites()
+                    router.launchCatalog()
             }
         }
     }

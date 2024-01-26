@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="com.example.sign_in.presentation.sign_in.SignInFragment"
-        android:label="SignInFragment"
+        android:label="@string/signIn"
         tools:layout="@layout/fragment_sign_in"
         >
         <action
@@ -16,13 +16,15 @@
             app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_signInFragment_to_catalogFragment"
-            app:destination="@id/catalogFragment" />
+            app:destination="@id/catalogFragment"
+            app:popUpTo="@id/signInFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.sign_up.presentation.sign_up.SignUpFragment"
-        android:label="fragment_sign_up"
+        android:label="@string/signUp"
         tools:layout="@layout/fragment_sign_up" />
 
     <fragment
@@ -48,7 +50,7 @@
     <fragment
         android:id="@+id/cardFragment"
         android:name="com.example.catalog.presentation.card.CardFragment"
-        android:label="CardFragment"
+        android:label="@string/card"
         tools:layout="@layout/fragment_card">
         <action
             android:id="@+id/action_cardFragment_to_gameFragment"
@@ -58,14 +60,14 @@
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.example.game.presentation.game.GameFragment"
-        android:label="GameFragment"
+        android:label="@string/game"
         tools:layout="@layout/fragment_game"
         />
 
     <fragment
         android:id="@+id/statisticFragment"
         android:name="com.example.profile.presentation.statistic.StatisticFragment"
-        android:label="StatisticFragment"
+        android:label="@string/statistic"
         tools:layout="@layout/fragment_statistic"/>
 
 

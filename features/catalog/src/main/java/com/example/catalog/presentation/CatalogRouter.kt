@@ -2,10 +2,10 @@ package com.example.catalog.presentation
 
 interface CatalogRouter {
 
-    fun launchBack()
+    fun launchBackFromCard()
 
-    fun launchGame()
+    fun launchGameFromCard()
 
-    fun launchCard()
+    fun launchCardFromCatalog()
 
 }

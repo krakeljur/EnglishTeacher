@@ -20,7 +20,7 @@ class SignUpViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 signUpUseCase.signUp(signUpData)
-                router.launchSignIn()
+                router.goBackToSignInFromSignUp()
             } catch (e: Exception) {
                 throw IllegalStateException()
             }
