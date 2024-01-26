@@ -33,5 +33,7 @@
     <string name="help">Help</string>
     <string name="question">Question</string>
     <string name="hint">Hint</string>
+    <string name="catalog">Catalog</string>
+    <string name="profile">Profile</string>
 
 </resources>

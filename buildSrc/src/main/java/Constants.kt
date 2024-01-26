@@ -52,7 +52,6 @@ object Mod {
         val SignUp = ":features:sign-up"
         val SignIn = ":features:sign-in"
         val Catalog = ":features:catalog"
-        val Favorites = ":features:favorites"
         val Game = ":features:game"
         val Peoples = ":features:peoples"
         val Profile = ":features:profile"

@@ -57,4 +57,12 @@ dependencies {
     implementation(Libs.Google.Hilt)
     kapt(Libs.Google.HiltCompiler)
 
+    implementation(project(Mod.Data))
+    implementation(project(Mod.Core.Presentation))
+    implementation(project(Mod.Features.Catalog))
+    implementation(project(Mod.Features.Game))
+    implementation(project(Mod.Features.Profile))
+    implementation(project(Mod.Features.SignIn))
+    implementation(project(Mod.Features.SignUp))
+
 }
