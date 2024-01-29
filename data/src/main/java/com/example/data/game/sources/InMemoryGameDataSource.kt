@@ -2,8 +2,9 @@ package com.example.data.game.sources
 
 import com.example.data.catalog.entities.WordDataEntity
 import com.example.data.game.etities.ResultGameEntity
+import javax.inject.Inject
 
-class InMemoryGameDataSource() : GameDataSource {
+class InMemoryGameDataSource @Inject constructor() : GameDataSource {
 
     private val words = listOf(WordDataEntity(
         "Корабль",

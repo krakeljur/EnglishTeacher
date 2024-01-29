@@ -2,8 +2,9 @@ package com.example.englishteacher.navigation
 
 import androidx.navigation.NavController
 import com.example.englishteacher.R
+import javax.inject.Inject
 
-class RouterImpl : Router {
+class RouterImpl @Inject constructor() : Router {
 
     override var navController: NavController? = null
 

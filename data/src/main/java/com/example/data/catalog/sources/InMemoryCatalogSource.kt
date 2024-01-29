@@ -2,8 +2,9 @@ package com.example.data.catalog.sources
 
 import com.example.data.catalog.entities.LessonDataEntity
 import com.example.data.catalog.entities.WordDataEntity
+import javax.inject.Inject
 
-class InMemoryCatalogSource() : CatalogDataSource {
+class InMemoryCatalogSource @Inject constructor() : CatalogDataSource {
 
 
     private val catalogList: MutableList<LessonDataEntity> =

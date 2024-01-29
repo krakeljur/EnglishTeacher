@@ -6,8 +6,9 @@ import com.example.data.accounts.exceptions.AccountDoesNotExistException
 import com.example.data.accounts.exceptions.IncorrectLoginException
 import com.example.data.accounts.exceptions.WrongPasswordException
 import java.util.UUID
+import javax.inject.Inject
 
-class InMemoryDataSourceImpl(
+class InMemoryDataSourceImpl @Inject constructor(
 
 ) : AccountsDataSource {
 

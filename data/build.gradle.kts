@@ -42,7 +42,8 @@ dependencies {
     implementation(Libs.SquareUp.Moshi)
 
     implementation(Libs.Google.RoomKtx)
-    implementation(Libs.Google.RoomCompiler)
+    kapt(Libs.Google.RoomCompiler)
+
     implementation(Libs.Google.RoomRuntime)
     implementation(Libs.Google.RoomPaging)
 

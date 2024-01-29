@@ -1,4 +1,4 @@
-val hiltVersion = "2.44"
+val hiltVersion = "2.48"
 val roomVersion = "2.6.1"
 val pagingVersion = "3.2.1"
 val retrofitVersion = "2.9.0"
