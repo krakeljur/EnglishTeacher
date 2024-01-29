@@ -2,7 +2,7 @@ package com.example.englishteacher
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.englishteacher.databinding.ActivityMainBinding
@@ -22,8 +22,11 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+                    as NavHostFragment
+        val navController = navHostFragment.navController
 
-        val navController = findNavController(R.id.fragmentContainerView)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
