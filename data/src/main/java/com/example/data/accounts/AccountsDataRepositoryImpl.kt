@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -79,5 +80,11 @@ class AccountsDataRepositoryImpl @Inject constructor(
     override suspend fun logOut() {
         sourceAccounts.logout()
         sourceSettings.setToken(null)
+    }
+
+    override fun isSign(): Flow<Boolean> {
+        return sourceSettings.listenToken().mapLatest {
+            it != null
+        }
     }
 }

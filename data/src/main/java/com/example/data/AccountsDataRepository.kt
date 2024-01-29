@@ -17,4 +17,6 @@ interface AccountsDataRepository {
 
     suspend fun logOut()
 
+    fun isSign() : Flow<Boolean>
+
 }

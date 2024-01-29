@@ -53,4 +53,8 @@ class InMemoryGameDataSource() : GameDataSource {
     override fun getWords(idLesson: Long): List<WordDataEntity> {
         return words.filter { it.idLesson == idLesson }
     }
+
+    override fun getResults(): List<ResultGameEntity> {
+        return results
+    }
 }

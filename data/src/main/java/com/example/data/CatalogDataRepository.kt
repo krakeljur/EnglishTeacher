@@ -21,6 +21,8 @@ interface CatalogDataRepository {
 
     suspend fun updateFavorite()
 
-    suspend fun updateWords(id: Long)
+    suspend fun updateWords(idLesson: Long)
+
+    fun getLesson(idLesson: Long) : Flow<Container<LessonDataEntity>>
 
 }

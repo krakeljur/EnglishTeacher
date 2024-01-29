@@ -28,5 +28,9 @@ class GameDataRepositoryImpl @Inject constructor(
         return wordsFlow.asStateFlow()
     }
 
+    override fun getResults(): Flow<Container<List<ResultGameEntity>>> {
+        return MutableStateFlow(Container.Success(gameDataSource.getResults()))
+    }
+
 
 }

@@ -11,4 +11,6 @@ interface GameDataRepository {
 
     fun getWords(idLesson: Long) : Flow<Container<List<WordDataEntity>>>
 
+    fun getResults() : Flow<Container<List<ResultGameEntity>>>
+
 }

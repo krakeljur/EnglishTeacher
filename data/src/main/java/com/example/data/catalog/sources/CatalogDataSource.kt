@@ -16,5 +16,7 @@ interface CatalogDataSource {
 
     fun getWords(idLesson: Long): List<WordDataEntity>
 
+    fun getLesson(lessonId : Long) : LessonDataEntity
+
 
 }

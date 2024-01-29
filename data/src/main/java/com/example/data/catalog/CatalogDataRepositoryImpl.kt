@@ -60,5 +60,9 @@ class CatalogDataRepositoryImpl @Inject constructor(
         words.value = Container.Success(catalogDataSource.getWords(idLesson))
     }
 
+    override fun getLesson(idLesson: Long): Flow<Container<LessonDataEntity>> {
+        return MutableStateFlow(Container.Success(catalogDataSource.getLesson(idLesson))).asStateFlow()
+    }
+
 
 }

@@ -10,4 +10,5 @@ interface GameDataSource {
 
     fun getWords(idLesson: Long) : List<WordDataEntity>
 
+    fun getResults() : List<ResultGameEntity>
 }

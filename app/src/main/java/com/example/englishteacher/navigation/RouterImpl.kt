@@ -2,11 +2,11 @@ package com.example.englishteacher.navigation
 
 import androidx.navigation.NavController
 import com.example.englishteacher.R
-import javax.inject.Inject
 
-class RouterImpl @Inject constructor(): Router {
+class RouterImpl : Router {
 
     override var navController: NavController? = null
+
     //WILL BE REFACTOR IN FUTURE IT IMPLEMENTATION FOR TESTS
     override fun returnToCardFromGame() {
         navController?.popBackStack()

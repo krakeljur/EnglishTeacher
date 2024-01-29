@@ -93,4 +93,8 @@ class InMemoryCatalogSource() : CatalogDataSource {
     override fun getWords(idLesson: Long): List<WordDataEntity> {
         return words.filter { it.idLesson == idLesson }
     }
+
+    override fun getLesson(lessonId: Long): LessonDataEntity {
+        return catalogList.firstOrNull { it.id == lessonId } ?: LessonDataEntity("UNKNOWN", "UNKNOWN", 1000L)
+    }
 }
