@@ -8,7 +8,6 @@ import com.example.catalog.presentation.CatalogRouter
 import com.example.common.Container
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
@@ -21,23 +20,25 @@ class CardViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private var lesson: MutableStateFlow<Container<LessonData>> = MutableStateFlow(Container.Pending)
+    private lateinit var lesson: Flow<Container<LessonData>>
 
     fun init(id: Long) {
-        lesson = getLessonUseCase.getLesson(id) as MutableStateFlow<Container<LessonData>>
+        lesson = getLessonUseCase.getLesson(id)
     }
 
-    val stateCard: Flow<StateCard> = lesson.mapLatest {
-        when (it) {
-            is Container.Success -> StateCard(false, false, it.data)
-            is Container.Pending -> StateCard(true, false, null)
-            is Container.Error -> StateCard(false, true, null)
-        }
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000),
-        StateCard(true, false, null)
-    )
+    val stateCard: Flow<StateCard> by lazy {
+        lesson.mapLatest {
+            when (it) {
+                is Container.Success -> StateCard(false, false, it.data)
+                is Container.Pending -> StateCard(true, false, null)
+                is Container.Error -> StateCard(false, true, null)
+            }
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            StateCard(true, false, null)
+        )
+    }
 
 
     fun startGame() {
