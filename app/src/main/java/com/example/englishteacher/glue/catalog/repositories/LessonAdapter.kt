@@ -1,6 +1,5 @@
 package com.example.englishteacher.glue.catalog.repositories
 
-import android.util.Log
 import com.example.catalog.domain.entities.LessonData
 import com.example.catalog.domain.entities.WordData
 import com.example.catalog.domain.repositories.LessonRepository
@@ -52,7 +51,6 @@ class LessonAdapter @Inject constructor(
     override fun getFavorite(): Flow<Container<List<LessonData>>> {
         return catalogDataRepository.getFavorite().map {
             it.map { list ->
-                Log.d("nasha", "ФЛОУ В АДАПТЕРЕ В АПП ОБНОВИЛСЯ, ТЕПЕРЬ ЕГО ЗНАЧЕНИЕ РАВНО: " + list.joinToString("\n"))
                 list.map { dataEntity ->
                     LessonData(
                         dataEntity.name,

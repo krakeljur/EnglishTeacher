@@ -66,11 +66,11 @@ class InMemoryCatalogSource @Inject constructor() : CatalogDataSource {
         )
 
     override fun getCatalog(): List<LessonDataEntity> {
-        return catalogList
+        return catalogList.toList()
     }
 
     override fun getFavorite(): List<LessonDataEntity> {
-        return favoriteList
+        return favoriteList.toList()
     }
 
     override suspend fun addFavorite(idLesson: Long) {
