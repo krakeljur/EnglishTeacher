@@ -14,11 +14,11 @@ class ContainerView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
 
-    private val binding: PartLoadingBinding
+    private var binding: PartLoadingBinding
 
     init {
         val inflater = LayoutInflater.from(context)
-        binding = PartLoadingBinding.inflate(inflater, this)
+        binding = PartLoadingBinding.inflate(inflater, this, false)
         addView(binding.root)
     }
 
