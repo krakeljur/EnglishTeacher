@@ -42,10 +42,13 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
             }
 
             override fun changeStatus(id: Long) {
-                if (binding.switchFavorite.isActivated)
+                if (binding.switchFavorite.isChecked) {
                     viewModel.deleteFavorite(id)
-                else
+
+                }
+                else {
                     viewModel.addFavorite(id)
+                    }
             }
         }
         )

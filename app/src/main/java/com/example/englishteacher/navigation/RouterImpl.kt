@@ -1,6 +1,7 @@
 package com.example.englishteacher.navigation
 
 import androidx.navigation.NavController
+import androidx.navigation.navOptions
 import com.example.englishteacher.R
 import javax.inject.Inject
 
@@ -34,7 +35,11 @@ class RouterImpl @Inject constructor() : Router {
     }
 
     override fun launchSignInFromProfile() {
-        navController?.popBackStack(R.id.profileFragment, true)
+        navController?.navigate(R.id.signInFragment, null, navOptions {
+            popUpTo(R.id.profileFragment) {
+                inclusive = true
+            }
+        })
     }
 
     override fun launchSignUp() {

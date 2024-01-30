@@ -8,7 +8,6 @@ import com.example.data.catalog.sources.CatalogDataSource
 import com.example.data.settings.SettingsDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class CatalogDataRepositoryImpl @Inject constructor(
@@ -27,7 +26,7 @@ class CatalogDataRepositoryImpl @Inject constructor(
 
     override fun getCatalog(): Flow<Container<List<LessonDataEntity>>> {
         catalog.value = Container.Success(catalogDataSource.getCatalog())
-        return catalog.asStateFlow()
+        return catalog
     }
 
     override fun getFavorite(): Flow<Container<List<LessonDataEntity>>> {
@@ -37,10 +36,14 @@ class CatalogDataRepositoryImpl @Inject constructor(
 
     override suspend fun addFavorite(idLesson: Long) {
         catalogDataSource.addFavorite(idLesson)
+        updateFavorite()
+
     }
 
     override suspend fun deleteFavorite(idLesson: Long) {
         catalogDataSource.deleteFavorite(idLesson)
+        updateFavorite()
+
     }
 
     override fun getWords(idLesson: Long): Flow<Container<List<WordDataEntity>>> {
@@ -61,7 +64,7 @@ class CatalogDataRepositoryImpl @Inject constructor(
     }
 
     override fun getLesson(idLesson: Long): Flow<Container<LessonDataEntity>> {
-        return MutableStateFlow(Container.Success(catalogDataSource.getLesson(idLesson))).asStateFlow()
+        return MutableStateFlow(Container.Success(catalogDataSource.getLesson(idLesson)))
     }
 
 

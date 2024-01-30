@@ -1,5 +1,6 @@
 package com.example.game.presentation.game
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.Container
@@ -33,6 +34,7 @@ class GameViewModel @Inject constructor(
 
     val gameStateFlow by lazy {
         combine(correctAnswers, wrongAnswers, words) { correct, wrong, words ->
+            Log.d("nasha", "ЗАШЛО В КОМБАЙН В ИГРЕ")
             when (words) {
                 is Container.Pending -> GameState(
                     word = null,
@@ -85,8 +87,12 @@ class GameViewModel @Inject constructor(
     }
 
     fun addCorrect() {
-        correctAnswers.value += 1
+        viewModelScope.launch {
+            correctAnswers.value += 1
+        }
+
     }
+
     fun addWrong() {
         wrongAnswers.value += 1
     }

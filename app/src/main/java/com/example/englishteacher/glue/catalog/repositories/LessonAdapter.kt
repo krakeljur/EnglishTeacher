@@ -1,5 +1,6 @@
 package com.example.englishteacher.glue.catalog.repositories
 
+import android.util.Log
 import com.example.catalog.domain.entities.LessonData
 import com.example.catalog.domain.entities.WordData
 import com.example.catalog.domain.repositories.LessonRepository
@@ -7,7 +8,7 @@ import com.example.common.Container
 import com.example.data.CatalogDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LessonAdapter @Inject constructor(
@@ -34,7 +35,7 @@ class LessonAdapter @Inject constructor(
     }
 
     override fun getCatalog(): Flow<Container<List<LessonData>>> {
-        return catalogDataRepository.getCatalog().mapLatest {
+        return catalogDataRepository.getCatalog().map {
             it.map { list ->
                 list.map { dataEntity ->
                     LessonData(
@@ -49,8 +50,9 @@ class LessonAdapter @Inject constructor(
     }
 
     override fun getFavorite(): Flow<Container<List<LessonData>>> {
-        return catalogDataRepository.getFavorite().mapLatest {
+        return catalogDataRepository.getFavorite().map {
             it.map { list ->
+                Log.d("nasha", "ФЛОУ В АДАПТЕРЕ В АПП ОБНОВИЛСЯ, ТЕПЕРЬ ЕГО ЗНАЧЕНИЕ РАВНО: " + list.joinToString("\n"))
                 list.map { dataEntity ->
                     LessonData(
                         dataEntity.name,
