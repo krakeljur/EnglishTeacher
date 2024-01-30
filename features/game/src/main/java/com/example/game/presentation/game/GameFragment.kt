@@ -77,8 +77,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                         "first letter is ${currentWord.eng.first().uppercase()}"
             }
             nextButton.setOnClickListener {
-                val answer = (editText.text).toString().lowercase()
-                if (answer == currentWord.eng)
+                val answer = (editText.text).toString().lowercase().trim()
+                if (answer == currentWord.eng.lowercase())
                     viewModel.addCorrect()
                 else
                     viewModel.addWrong()
