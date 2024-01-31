@@ -69,9 +69,6 @@ class CardFragment : Fragment(R.layout.fragment_card) {
 
 
     private fun setupListeners() {
-        binding.backButton.setOnClickListener {
-            viewModel.goBack()
-        }
         binding.startButton.setOnClickListener {
             viewModel.startGame()
         }

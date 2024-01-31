@@ -35,9 +35,6 @@ class StatisticFragment : Fragment(R.layout.fragment_statistic) {
 
 
 
-        binding.backButton.setOnClickListener {
-            viewModel.launchProfile()
-        }
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

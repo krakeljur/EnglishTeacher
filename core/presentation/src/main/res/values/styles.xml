@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- MY THEME -->
     <style name="CoreTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-        <!-- HERE YOU CAN REDACT THEME FOR ALL APPLICATION -->
-
+        <!-- Other style attributes -->
+        <item name="actionBarTheme">@style/MyActionBarTheme</item>
 
     </style>
 
+    <!-- MY STYLES -->
+    <style name="MyActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:buttonStyle">@style/MyToolbarButtonStyle</item>
+        <item name ="colorControlNormal">#FFFFFFFF</item>
+    </style>
+
+    <style name="MyToolbarButtonStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:tint">#FFFFFFFF</item>
+    </style>
 
 </resources>

@@ -33,9 +33,6 @@ class StatisticViewModel @Inject constructor(
         StatisticState(true, false, emptyList())
     )
 
-    fun launchProfile() {
-        router.goBackToProfileFromStatistic()
-    }
 
 }
 

@@ -54,7 +54,6 @@ override fun onCreate(savedInstanceState: Bundle?) {
     val navController = navHostFragment.navController
 
     val appBarConfiguration = AppBarConfiguration(setOf(R.id.profileFragment, R.id.catalogFragment))
-
     binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     binding.bottomNavigationView.setupWithNavController(navController)
 

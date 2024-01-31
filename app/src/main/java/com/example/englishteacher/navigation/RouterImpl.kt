@@ -44,9 +44,6 @@ class RouterImpl @Inject constructor() : Router {
         navController?.navigate(R.id.action_profileFragment_to_statisticFragment)
     }
 
-    override fun goBackToProfileFromStatistic() {
-        navController?.popBackStack()
-    }
 
     override fun launchSignInFromProfile() {
         navController?.navigate(R.id.signInFragment, null, navOptions {

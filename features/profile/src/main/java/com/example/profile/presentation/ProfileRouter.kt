@@ -4,7 +4,6 @@ interface ProfileRouter {
 
     fun launchStatisticFromProfile()
 
-    fun goBackToProfileFromStatistic()
 
     fun launchSignInFromProfile()
 
