@@ -1,5 +1,6 @@
 package com.example.catalog.presentation.card
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.catalog.domain.GetLessonUseCase
@@ -21,9 +22,10 @@ class CardViewModel @Inject constructor(
 
 
     private lateinit var lesson: Flow<Container<LessonData>>
-
-    fun init(id: Long) {
-        lesson = getLessonUseCase.getLesson(id)
+    private var currentLessonId = 0L
+    fun init(arguments: Bundle) {
+        currentLessonId = catalogRouter.getCardArgs(arguments)
+        lesson = getLessonUseCase.getLesson(currentLessonId)
     }
 
     val stateCard: Flow<StateCard> by lazy {
@@ -42,7 +44,7 @@ class CardViewModel @Inject constructor(
 
 
     fun startGame() {
-        catalogRouter.launchGameFromCard()
+        catalogRouter.launchGameFromCard(currentLessonId)
     }
 
     fun goBack() {

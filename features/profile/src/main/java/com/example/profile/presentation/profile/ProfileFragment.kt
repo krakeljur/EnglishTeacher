@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
-    val viewModel by viewModels<ProfileViewModel>()
+    private val viewModel by viewModels<ProfileViewModel>()
     private lateinit var binding: FragmentProfileBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

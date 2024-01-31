@@ -11,15 +11,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catalog.R
 import com.example.catalog.databinding.FragmentCardBinding
 import com.example.catalog.presentation.card.adapters.WordAdapter
+import com.example.common.Keys.KEY_CORRECT
+import com.example.common.Keys.KEY_TIME
+import com.example.common.Keys.KEY_WRONG
+import com.example.common.Keys.REQUEST_KEY
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CardFragment : Fragment(R.layout.fragment_card) {
 
-    val viewModel by viewModels<CardViewModel>()
+    private val viewModel by viewModels<CardViewModel>()
     private lateinit var binding: FragmentCardBinding
     private val adapter = WordAdapter()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,9 +38,7 @@ class CardFragment : Fragment(R.layout.fragment_card) {
         binding.wordsRecyclerView.adapter = adapter
 
 
-        //HARDCODE FOR TEST
-        viewModel.init(1)
-
+        viewModel.init(requireArguments())
 
         setupObserve()
         setupListeners()
@@ -64,12 +68,31 @@ class CardFragment : Fragment(R.layout.fragment_card) {
     }
 
 
-private fun setupListeners() {
-    binding.backButton.setOnClickListener {
-        viewModel.goBack()
+    private fun setupListeners() {
+        binding.backButton.setOnClickListener {
+            viewModel.goBack()
+        }
+        binding.startButton.setOnClickListener {
+            viewModel.startGame()
+        }
+        parentFragmentManager.setFragmentResultListener(
+            REQUEST_KEY,
+            viewLifecycleOwner
+        ) { _, data ->
+            val correctResult = data.getInt(KEY_CORRECT)
+            val wrongResult = data.getInt(KEY_WRONG)
+            val time = data.getLong(KEY_TIME)
+            val finalString =
+                getString(com.example.presentation.R.string.correct) + " - $correctResult; " +
+                        getString(com.example.presentation.R.string.wrong) + " - $wrongResult; " +
+                        getString(com.example.presentation.R.string.time) + " - $time"
+
+            val snackBar = Snackbar.make(binding.root, finalString, Snackbar.LENGTH_LONG)
+
+            snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
+                snackBar.dismiss()
+            }
+            snackBar.show()
+        }
     }
-    binding.startButton.setOnClickListener {
-        viewModel.startGame()
-    }
-}
 }

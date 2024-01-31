@@ -2,14 +2,18 @@ package com.example.game.presentation.game
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.common.Keys.KEY_CORRECT
+import com.example.common.Keys.KEY_TIME
+import com.example.common.Keys.KEY_WRONG
+import com.example.common.Keys.REQUEST_KEY
 import com.example.game.R
 import com.example.game.databinding.FragmentGameBinding
-import com.example.game.domain.entities.ResultGame
 import com.example.game.domain.entities.WordEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -18,7 +22,7 @@ import kotlinx.coroutines.launch
 class GameFragment : Fragment(R.layout.fragment_game) {
 
 
-    val viewModel by viewModels<GameViewModel>()
+    private val viewModel by viewModels<GameViewModel>()
     private lateinit var binding: FragmentGameBinding
     private lateinit var currentWord: WordEntity
 
@@ -26,8 +30,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGameBinding.bind(view)
 
-        //hardcode for test
-        viewModel.init(1)
+        viewModel.init(requireArguments())
 
         setupObserve()
         setupListeners()
@@ -47,15 +50,16 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                         } else {
                             constraintLayout.visibility = View.VISIBLE
                             containerView.showSuccess()
-                            if (it.word == null)
+                            if (it.word == null) {
                                 viewModel.setResult(
-                                    ResultGame(
-                                        idLesson = 1L,  //hardcode for test
-                                        correctCount = it.countCorrect,
-                                        wrongCount = it.countWrong,
-                                        time = 16000L   //hardcode for test
-                                    )
+                                    time = 16000L   //hardcode for test
                                 )
+                                parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(
+                                    KEY_CORRECT to it.countCorrect,
+                                    KEY_WRONG to it.countWrong,
+                                    KEY_TIME to 16000L  //HARDCODE FOR TEST
+                                ))
+                            }
                             else {
                                 currentWord = it.word
                                 questionTextView.text = currentWord.rus
@@ -88,4 +92,5 @@ class GameFragment : Fragment(R.layout.fragment_game) {
             }
         }
     }
+
 }

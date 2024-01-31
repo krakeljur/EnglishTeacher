@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class CatalogFragment : Fragment(R.layout.fragment_catalog) {
 
 
-    val viewModel by viewModels<CatalogViewModel>()
+    private val viewModel by viewModels<CatalogViewModel>()
     private lateinit var binding: FragmentCatalogBinding
     private lateinit var adapter: CatalogAdapter
     private var lastCatalog = emptyList<LessonData>()
@@ -38,7 +38,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
 
         adapter = CatalogAdapter(object : CatalogActionListener {
             override fun launchLesson(id: Long) {
-                viewModel.launchLesson()
+                viewModel.launchLesson(id)
             }
 
             override fun changeStatus(id: Long) {

@@ -70,8 +70,8 @@ class CatalogViewModel @Inject constructor(
         }
     }
 
-    fun launchLesson() {
-        catalogRouter.launchCardFromCatalog()
+    fun launchLesson(idLesson: Long) {
+        catalogRouter.launchCardFromCatalog(idLesson)
     }
 
     fun update() {

@@ -1,5 +1,6 @@
 package com.example.game.presentation.game
 
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,8 +29,11 @@ class GameViewModel @Inject constructor(
     private val correctAnswers = MutableStateFlow(0)
     private val wrongAnswers = MutableStateFlow(0)
     private lateinit var words: Flow<Container<List<WordEntity>>>
-    fun init(idLesson: Long) {
-        words = getWordsUseCase.getWords(idLesson)
+    private var currentIdLesson = 0L
+
+    fun init(args: Bundle) {
+        currentIdLesson = gameRouter.getGameArgs(args)
+        words = getWordsUseCase.getWords(currentIdLesson)
     }
 
     val gameStateFlow by lazy {
@@ -73,11 +77,18 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    fun setResult(resultGame: ResultGame) {
+    fun setResult(time: Long) {
         viewModelScope.launch {
-            setResultUseCase.setResult(resultGame)
+            setResultUseCase.setResult(
+                ResultGame(
+                    currentIdLesson,
+                    correctAnswers.value,
+                    wrongAnswers.value,
+                    time
+                )
+            )
+            clear()
         }
-        clear()
         gameRouter.returnToCardFromGame()
     }
 

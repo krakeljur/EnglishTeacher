@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_cardFragment_to_gameFragment"
             app:destination="@id/gameFragment" />
+        <argument
+            android:name="idLesson"
+            app:argType="long" />
     </fragment>
 
     <fragment
@@ -62,7 +65,11 @@
         android:name="com.example.game.presentation.game.GameFragment"
         android:label="@string/game"
         tools:layout="@layout/fragment_game"
-        />
+        >
+        <argument
+            android:name="idLesson"
+            app:argType="long" />
+    </fragment>
 
     <fragment
         android:id="@+id/statisticFragment"

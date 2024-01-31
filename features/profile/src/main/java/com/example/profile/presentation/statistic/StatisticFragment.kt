@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class StatisticFragment : Fragment(R.layout.fragment_statistic) {
 
 
-    val viewModel by viewModels<StatisticViewModel>()
+    private val viewModel by viewModels<StatisticViewModel>()
     private lateinit var binding: FragmentStatisticBinding
     private val adapter = StatisticAdapter()
 
