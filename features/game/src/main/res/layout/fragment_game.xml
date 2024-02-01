@@ -11,6 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Chronometer
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toTopOf="@+id/helpButton"
+            app:layout_constraintEnd_toEndOf="@+id/helpButton"
+            app:layout_constraintStart_toStartOf="@+id/helpButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </Chronometer>
+
         <Button
             android:id="@+id/nextButton"
             android:layout_width="0dp"

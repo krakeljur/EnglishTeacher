@@ -29,6 +29,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGameBinding.bind(view)
+        binding.timer.start()
 
         viewModel.init(requireArguments())
 
@@ -51,13 +52,16 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                             constraintLayout.visibility = View.VISIBLE
                             containerView.showSuccess()
                             if (it.word == null) {
+                                val time =
+                                    (binding.timer.text.substring(0..1).toLong() * 60L +
+                                    binding.timer.text.substring(3..4).toLong()) * 1000L
                                 viewModel.setResult(
-                                    time = 16000L   //hardcode for test
+                                    time = time
                                 )
                                 parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(
                                     KEY_CORRECT to it.countCorrect,
                                     KEY_WRONG to it.countWrong,
-                                    KEY_TIME to 16000L  //HARDCODE FOR TEST
+                                    KEY_TIME to time
                                 ))
                             }
                             else {
