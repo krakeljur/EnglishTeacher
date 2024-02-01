@@ -54,17 +54,18 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                             if (it.word == null) {
                                 val time =
                                     (binding.timer.text.substring(0..1).toLong() * 60L +
-                                    binding.timer.text.substring(3..4).toLong()) * 1000L
+                                            binding.timer.text.substring(3..4).toLong()) * 1000L
                                 viewModel.setResult(
                                     time = time
                                 )
-                                parentFragmentManager.setFragmentResult(REQUEST_KEY, bundleOf(
-                                    KEY_CORRECT to it.countCorrect,
-                                    KEY_WRONG to it.countWrong,
-                                    KEY_TIME to time
-                                ))
-                            }
-                            else {
+                                parentFragmentManager.setFragmentResult(
+                                    REQUEST_KEY, bundleOf(
+                                        KEY_CORRECT to it.countCorrect,
+                                        KEY_WRONG to it.countWrong,
+                                        KEY_TIME to time
+                                    )
+                                )
+                            } else {
                                 currentWord = it.word
                                 questionTextView.text = currentWord.rus
                             }
@@ -78,11 +79,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private fun setupListeners() {
         with(binding) {
             helpButton.setOnClickListener {
-                if (firstHintTextView.text == "Hint")
-                    firstHintTextView.text = "${currentWord.eng.length} letters"
+                if (firstHintTextView.text == getString(com.example.presentation.R.string.hint))
+                    firstHintTextView.text =
+                        currentWord.eng.length.toString() + " " + getString(com.example.presentation.R.string.letters)
                 else
                     secondHintTextView.text =
-                        "first letter is ${currentWord.eng.first().uppercase()}"
+                        getString(com.example.presentation.R.string.first_letter) + " " + currentWord.eng.first()
+                            .uppercase()
             }
             nextButton.setOnClickListener {
                 val answer = (editText.text).toString().lowercase().trim()
@@ -90,8 +93,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                     viewModel.addCorrect()
                 else
                     viewModel.addWrong()
-                firstHintTextView.text = "Hint"
-                secondHintTextView.text = "Hint"
+                firstHintTextView.text = getString(com.example.presentation.R.string.hint)
+                secondHintTextView.text = getString(com.example.presentation.R.string.hint)
                 editText.setText("")
             }
         }

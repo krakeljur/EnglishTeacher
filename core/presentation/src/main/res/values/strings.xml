@@ -37,5 +37,8 @@
     <string name="profile">Profile</string>
     <string name="card">Card</string>
     <string name="game">Game</string>
+    <string name="letters">letters</string>
+    <string name="first_letter">First letter is</string>
+
 
 </resources>
