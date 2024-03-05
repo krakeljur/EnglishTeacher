@@ -1,6 +1,7 @@
 package com.example.sign_in.presentation.sign_in
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,7 +16,6 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     private lateinit var binding: FragmentSignInBinding
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -26,6 +26,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     }
 
     private fun setupListeners() {
+        Log.i("MYTAG", viewModel.toString())
         binding.signInButton.setOnClickListener {
             if (binding.loginEditText.text.isBlank())
                 binding.loginEditText.error = "NOT EMPTY"

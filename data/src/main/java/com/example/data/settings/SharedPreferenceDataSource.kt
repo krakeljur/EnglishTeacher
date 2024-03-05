@@ -7,6 +7,7 @@ import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class SharedPreferenceDataSource @Inject constructor(
@@ -20,6 +21,8 @@ class SharedPreferenceDataSource @Inject constructor(
 
     init {
         preferences.registerOnSharedPreferenceChangeListener(this)
+        tokenFlow.value = getToken()
+
     }
 
     override fun getToken(): String? {
@@ -35,7 +38,7 @@ class SharedPreferenceDataSource @Inject constructor(
         }
     }
 
-    override fun listenToken(): Flow<String?> = tokenFlow
+    override fun listenToken(): Flow<String?> = tokenFlow.asStateFlow()
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         tokenFlow.value = getToken()

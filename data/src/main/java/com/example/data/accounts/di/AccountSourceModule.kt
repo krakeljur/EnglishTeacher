@@ -1,7 +1,7 @@
 package com.example.data.accounts.di
 
 import com.example.data.accounts.sources.AccountsDataSource
-import com.example.data.accounts.sources.InMemoryDataSourceImpl
+import com.example.data.accounts.sources.RetrofitAccountsDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ interface AccountSourceModule {
     @Binds
     @Singleton
     fun bindAccountSource(
-        accountDataSource: InMemoryDataSourceImpl
+        accountDataSource: RetrofitAccountsDataSource
     ) : AccountsDataSource
 }

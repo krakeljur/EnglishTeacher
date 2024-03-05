@@ -24,7 +24,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
     private val accountFlow: MutableStateFlow<Container<AccountDataEntity>> =
         MutableStateFlow(Container.Error("AuthException"))
 
-    private var token: String? = null
+    private var token: String? = sourceSettings.getToken()
 
     init {
         coroutineScope.launch {
@@ -53,7 +53,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
             oldAccount.data.login
         )
         try {
-            sourceAccounts.setAccountUsername(newAccount)
+            sourceAccounts.setAccountUsername(token!!, newName)
             accountFlow.emit(Container.Success(newAccount))
         } catch (_: Exception) {
             accountFlow.emit(Container.Error("Bad account"))
@@ -64,8 +64,8 @@ class AccountsDataRepositoryImpl @Inject constructor(
         accountFlow.emit(Container.Pending)
 
         try {
-            val (token, account) = sourceAccounts.signIn(login, password)
-            accountFlow.emit(Container.Success(account))
+            val token = sourceAccounts.signIn(login, password)
+            accountFlow.emit(Container.Success(AccountDataEntity(0, "TEST", "TEST"))) //TODO("ДЛЯ ТЕСТА, ИСПРАВИТЬ ПОСЛЕ")
             sourceSettings.setToken(token)
         } catch (_: Exception) {
             accountFlow.emit(Container.Error("sign-in error"))
@@ -78,7 +78,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logOut() {
-        sourceAccounts.logout()
+        sourceAccounts.logout(token!!)
         sourceSettings.setToken(null)
     }
 
