@@ -20,7 +20,7 @@ class ProfileAdapter @Inject constructor(
     }
 
     override fun getAccount(): Flow<Container<Profile>> {
-        return accountsDataRepository.getAccount().mapLatest { it ->
+        return accountsDataRepository.getAccount().mapLatest {
             it.map { acc ->
                 Profile(
                     acc.id,

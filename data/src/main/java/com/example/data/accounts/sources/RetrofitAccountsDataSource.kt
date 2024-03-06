@@ -1,6 +1,8 @@
 package com.example.data.accounts.sources
 
+import com.example.data.accounts.entities.AccountDataEntity
 import com.example.data.accounts.entities.SignUpDataEntity
+import com.example.data.accounts.entities.api.GetAccountRequestBody
 import com.example.data.accounts.entities.api.LogoutRequestBody
 import com.example.data.accounts.entities.api.RenameUserRequestBody
 import com.example.data.accounts.entities.api.SignInRequestBody
@@ -37,6 +39,10 @@ class RetrofitAccountsDataSource @Inject constructor(
     override suspend fun logout(token: String) {
         val logoutRequestBody = LogoutRequestBody(token)
         accountsApi.logout(logoutRequestBody)
+    }
+
+    override suspend fun getAccount(token: String): AccountDataEntity {
+        return accountsApi.getAccount(GetAccountRequestBody(token)).toAccountDataEntity()
     }
 
 }

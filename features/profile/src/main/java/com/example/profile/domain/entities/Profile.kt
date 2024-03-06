@@ -1,7 +1,7 @@
 package com.example.profile.domain.entities
 
 data class Profile(
-    val id: Long,
+    val id: String,
     var name: String,
     val login: String
 )

@@ -96,6 +96,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     dialogBinding.nameEditText.error =
                         getString(com.example.presentation.R.string.error)
                     return@setOnClickListener
+                } else if (enteredText.length > 18) {
+                    dialogBinding.nameEditText.error =
+                        getString(com.example.presentation.R.string.very_long_name)
+                    return@setOnClickListener
                 }
 
                 viewModel.editName(enteredText)

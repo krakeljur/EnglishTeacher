@@ -28,17 +28,29 @@ class AccountsDataRepositoryImpl @Inject constructor(
 
     init {
         coroutineScope.launch {
+            if (token != null) {
+                sourceSettings.setAccount(sourceAccounts.getAccount(token!!))
+            }
             sourceSettings.listenToken().collect {
                 if (it == null)
-                    accountFlow.emit(Container.Error("AuthException"))
+                    sourceSettings.setAccount(null)
+                else
+                    sourceSettings.setAccount(sourceAccounts.getAccount(it))
+
                 token = it
+            }
+        }
+        coroutineScope.launch {
+            sourceSettings.listenAccount().collect {
+                if (it == null)
+                    accountFlow.emit(Container.Error("AuthException"))
+                else
+                    accountFlow.emit(Container.Success(it))
             }
         }
     }
 
-    override fun getAccount(): Flow<Container<AccountDataEntity>> {
-        return accountFlow.asStateFlow()
-    }
+    override fun getAccount(): Flow<Container<AccountDataEntity>> = accountFlow.asStateFlow()
 
     override suspend fun setAccountUsername(newName: String) {
 
@@ -54,8 +66,8 @@ class AccountsDataRepositoryImpl @Inject constructor(
         )
         try {
             sourceAccounts.setAccountUsername(token!!, newName)
-            accountFlow.emit(Container.Success(newAccount))
-        } catch (_: Exception) {
+            sourceSettings.setAccount(newAccount)
+        } catch (e: Exception) {
             accountFlow.emit(Container.Error("Bad account"))
         }
     }
@@ -65,7 +77,6 @@ class AccountsDataRepositoryImpl @Inject constructor(
 
         try {
             val token = sourceAccounts.signIn(login, password)
-            accountFlow.emit(Container.Success(AccountDataEntity(0, "TEST", "TEST"))) //TODO("ДЛЯ ТЕСТА, ИСПРАВИТЬ ПОСЛЕ")
             sourceSettings.setToken(token)
         } catch (_: Exception) {
             accountFlow.emit(Container.Error("sign-in error"))

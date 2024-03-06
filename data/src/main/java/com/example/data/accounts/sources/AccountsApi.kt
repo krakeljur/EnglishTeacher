@@ -1,5 +1,7 @@
 package com.example.data.accounts.sources
 
+import com.example.data.accounts.entities.api.GetAccountRequestBody
+import com.example.data.accounts.entities.api.GetAccountResponseBody
 import com.example.data.accounts.entities.api.LogoutRequestBody
 import com.example.data.accounts.entities.api.RenameUserRequestBody
 import com.example.data.accounts.entities.api.SignInRequestBody
@@ -22,4 +24,7 @@ interface AccountsApi {
 
     @POST("logout")
     suspend fun logout(@Body body: LogoutRequestBody)
+
+    @POST("user")
+    suspend fun getAccount(@Body body: GetAccountRequestBody) : GetAccountResponseBody
 }
