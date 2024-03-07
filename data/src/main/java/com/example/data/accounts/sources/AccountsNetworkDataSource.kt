@@ -3,7 +3,7 @@ package com.example.data.accounts.sources
 import com.example.data.accounts.entities.AccountDataEntity
 import com.example.data.accounts.entities.SignUpDataEntity
 
-interface AccountsDataSource {
+interface AccountsNetworkDataSource {
 
     suspend fun signIn(login : String, password: String) : String
 

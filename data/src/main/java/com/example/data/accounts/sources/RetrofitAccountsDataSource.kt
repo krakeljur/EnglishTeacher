@@ -7,14 +7,12 @@ import com.example.data.accounts.entities.api.LogoutRequestBody
 import com.example.data.accounts.entities.api.RenameUserRequestBody
 import com.example.data.accounts.entities.api.SignInRequestBody
 import com.example.data.accounts.entities.api.SignUpRequestBody
-import com.example.data.base.RetrofitConfig
+import com.example.data.accounts.sources.api.AccountsApi
 import javax.inject.Inject
 
 class RetrofitAccountsDataSource @Inject constructor(
-    retrofitConfig: RetrofitConfig
-) : AccountsDataSource {
-
-    private val accountsApi = retrofitConfig.retrofit.create(AccountsApi::class.java)
+    private val accountsApi: AccountsApi
+) : AccountsNetworkDataSource {
 
     override suspend fun signIn(login: String, password: String): String {
         val signInRequestBody = SignInRequestBody(login, password)

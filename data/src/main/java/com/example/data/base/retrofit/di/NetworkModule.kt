@@ -1,0 +1,31 @@
+package com.example.data.base.retrofit.di
+
+import com.example.common.Const
+import com.example.data.accounts.sources.api.AccountsApi
+import com.squareup.moshi.Moshi
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Singleton
+
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface NetworkModule {
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
+        .baseUrl(Const.BASE_URL)
+        .client(OkHttpClient())
+        .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideAccountApi(retrofit: Retrofit): AccountsApi = retrofit.create(AccountsApi::class.java)
+}

@@ -1,4 +1,4 @@
-package com.example.data.accounts.sources
+package com.example.data.accounts.sources.api
 
 import com.example.data.accounts.entities.api.GetAccountRequestBody
 import com.example.data.accounts.entities.api.GetAccountResponseBody

@@ -1,28 +1,21 @@
 package com.example.data
 
-import com.example.common.Container
+import androidx.paging.PagingData
 import com.example.data.catalog.entities.LessonDataEntity
 import com.example.data.catalog.entities.WordDataEntity
 import kotlinx.coroutines.flow.Flow
 
 interface CatalogDataRepository {
 
-    fun getCatalog(): Flow<Container<List<LessonDataEntity>>>
+    fun getCatalog(): Flow<PagingData<LessonDataEntity>>
 
-    fun getFavorite(): Flow<Container<List<LessonDataEntity>>>
+    fun getFavorite(): Flow<PagingData<LessonDataEntity>>
 
-    suspend fun addFavorite(idLesson: Long)
+    suspend fun addFavorite(idLesson: String)
 
-    suspend fun deleteFavorite(idLesson: Long)
+    suspend fun deleteFavorite(idLesson: String)
 
-    fun getWords(idLesson: Long): Flow<Container<List<WordDataEntity>>>
+    fun getWords(idLesson: Long): Flow<PagingData<WordDataEntity>>
 
-    suspend fun updateCatalog()
-
-    suspend fun updateFavorite()
-
-    suspend fun updateWords(idLesson: Long)
-
-    fun getLesson(idLesson: Long) : Flow<Container<LessonDataEntity>>
 
 }
