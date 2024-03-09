@@ -4,7 +4,12 @@ import com.example.common.Container
 import com.example.data.AccountsDataRepository
 import com.example.data.accounts.entities.AccountDataEntity
 import com.example.data.accounts.entities.SignUpDataEntity
-import com.example.data.accounts.sources.AccountsNetworkDataSource
+import com.example.data.accounts.entities.api.GetAccountRequestBody
+import com.example.data.accounts.entities.api.LogoutRequestBody
+import com.example.data.accounts.entities.api.RenameUserRequestBody
+import com.example.data.accounts.entities.api.SignInRequestBody
+import com.example.data.accounts.entities.api.SignUpRequestBody
+import com.example.data.accounts.sources.api.AccountsApi
 import com.example.data.settings.SettingsDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AccountsDataRepositoryImpl @Inject constructor(
-    private val sourceAccounts: AccountsNetworkDataSource,
+    private val accountsApi: AccountsApi,
     private val sourceSettings: SettingsDataSource,
     coroutineScope: CoroutineScope
 ) : AccountsDataRepository {
@@ -29,14 +34,28 @@ class AccountsDataRepositoryImpl @Inject constructor(
     init {
         coroutineScope.launch {
             if (token != null) {
-                sourceSettings.setAccount(sourceAccounts.getAccount(token!!))
+                val account = accountsApi.getAccount(GetAccountRequestBody(token!!))
+                sourceSettings.setAccount(
+                    AccountDataEntity(
+                        account.id,
+                        account.name,
+                        account.login
+                    )
+                )
             }
             sourceSettings.listenToken().collect {
                 if (it == null)
                     sourceSettings.setAccount(null)
-                else
-                    sourceSettings.setAccount(sourceAccounts.getAccount(it))
-
+                else {
+                    val account = accountsApi.getAccount(GetAccountRequestBody(token!!))
+                    sourceSettings.setAccount(
+                        AccountDataEntity(
+                            account.id,
+                            account.name,
+                            account.login
+                        )
+                    )
+                }
                 token = it
             }
         }
@@ -65,7 +84,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
             oldAccount.data.login
         )
         try {
-            sourceAccounts.setAccountUsername(token!!, newName)
+            accountsApi.renameUser(RenameUserRequestBody(token!!, newName))
             sourceSettings.setAccount(newAccount)
         } catch (e: Exception) {
             accountFlow.emit(Container.Error("Bad account"))
@@ -76,7 +95,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
         accountFlow.emit(Container.Pending)
 
         try {
-            val token = sourceAccounts.signIn(login, password)
+            val token = accountsApi.singIn(SignInRequestBody(login, password)).token
             sourceSettings.setToken(token)
         } catch (_: Exception) {
             accountFlow.emit(Container.Error("sign-in error"))
@@ -85,11 +104,17 @@ class AccountsDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signUp(signUpData: SignUpDataEntity) {
-        sourceAccounts.signUp(signUpData)
+        accountsApi.signUp(
+            SignUpRequestBody(
+                signUpData.name,
+                signUpData.login,
+                signUpData.pass
+            )
+        )
     }
 
     override suspend fun logOut() {
-        sourceAccounts.logout(token!!)
+        accountsApi.logout(LogoutRequestBody(token!!))
         sourceSettings.setToken(null)
     }
 

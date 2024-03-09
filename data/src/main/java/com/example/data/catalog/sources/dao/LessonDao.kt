@@ -13,7 +13,10 @@ import com.example.data.catalog.entities.room.LessonDbEntity
 interface LessonDao {
 
     @Query("SELECT * FROM lesson")
-    suspend fun getPagingSource(): PagingSource<Int, LessonDbEntity>
+    fun getPagingSourceAll(): PagingSource<Int, LessonDbEntity>
+
+    @Query("SELECT * FROM lesson WHERE is_favorite = 1")
+    fun getPagingSourceFavorite(): PagingSource<Int, LessonDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(lessons: List<LessonDbEntity>)

@@ -1,4 +1,4 @@
-package com.example.data.accounts.di
+package com.example.data.base.di
 
 import dagger.Module
 import dagger.Provides
