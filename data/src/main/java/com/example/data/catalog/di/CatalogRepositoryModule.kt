@@ -1,5 +1,6 @@
 package com.example.data.catalog.di
 
+import androidx.paging.ExperimentalPagingApi
 import com.example.data.CatalogDataRepository
 import com.example.data.catalog.CatalogDataRepositoryImpl
 import dagger.Binds
@@ -14,6 +15,7 @@ import javax.inject.Singleton
 interface CatalogRepositoryModule {
 
 
+    @OptIn(ExperimentalPagingApi::class)
     @Binds
     @Singleton
     fun bindCatalogRepository(

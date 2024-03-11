@@ -1,5 +1,6 @@
 package com.example.data.game.di
 
+import androidx.paging.ExperimentalPagingApi
 import com.example.data.GameDataRepository
 import com.example.data.game.GameDataRepositoryImpl
 import dagger.Binds
@@ -14,6 +15,7 @@ import javax.inject.Singleton
 interface GameRepositoryModule {
 
 
+    @OptIn(ExperimentalPagingApi::class)
     @Binds
     @Singleton
     fun bindGameRepository(

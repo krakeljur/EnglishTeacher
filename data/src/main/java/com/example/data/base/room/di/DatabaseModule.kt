@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.common.Const.DB_NAME
 import com.example.data.base.room.AppDatabase
 import com.example.data.catalog.sources.dao.LessonDao
+import com.example.data.game.sources.dao.ResultDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,4 +35,8 @@ interface DatabaseModule {
     @Singleton
     @Provides
     fun provideLessonDao(database: AppDatabase): LessonDao = database.getLessonDao()
+
+    @Singleton
+    @Provides
+    fun provideResultDao(database: AppDatabase) : ResultDao = database.getResultDao()
 }

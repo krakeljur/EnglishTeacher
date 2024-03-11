@@ -1,35 +1,72 @@
 package com.example.data.game
 
-import com.example.common.Container
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import com.example.common.Const
 import com.example.data.GameDataRepository
-import com.example.data.catalog.entities.WordDataEntity
 import com.example.data.game.etities.ResultGameEntity
-import com.example.data.game.sources.GameDataSource
+import com.example.data.game.etities.api.PutResultRequestBody
+import com.example.data.game.sources.ResultRemoteMediator
+import com.example.data.game.sources.api.ResultApi
+import com.example.data.game.sources.dao.ResultDao
 import com.example.data.settings.SettingsDataSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalPagingApi
 class GameDataRepositoryImpl @Inject constructor(
-    private val gameDataSource: GameDataSource,
-    private val settingsDataSource: SettingsDataSource
+    private val resultDao: ResultDao,
+    private val resultApi: ResultApi,
+    private val remoteMediatorFactory: ResultRemoteMediator.Factory,
+    private val settingsDataSource: SettingsDataSource,
+    coroutineScope: CoroutineScope
 ) : GameDataRepository {
 
-    private val wordsFlow: MutableStateFlow<Container<List<WordDataEntity>>> =
-        MutableStateFlow(Container.Pending)
+    private var token = settingsDataSource.getToken()
+
+    init {
+        coroutineScope.launch {
+            settingsDataSource.listenToken().collect {
+                token = it
+            }
+        }
+    }
 
     override suspend fun setResult(resultGame: ResultGameEntity) {
-        gameDataSource.setResultGame(resultGame)
+
+        resultApi.setResult(
+            PutResultRequestBody(
+                token!!,
+                resultGame.idLesson,
+                resultGame.correctCount,
+                resultGame.wrongCount,
+                resultGame.time
+            )
+        )
+
+        resultDao.save(resultGame.toResultDbEntity())
     }
 
-    override fun getWords(idLesson: Long): Flow<Container<List<WordDataEntity>>> {
-        wordsFlow.value = Container.Success(gameDataSource.getWords(idLesson))
-        return wordsFlow.asStateFlow()
-    }
 
-    override fun getResults(): Flow<Container<List<ResultGameEntity>>> {
-        return MutableStateFlow(Container.Success(gameDataSource.getResults()))
+    override fun getResults(): Flow<PagingData<ResultGameEntity>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = Const.PAGE_SIZE
+            ),
+            pagingSourceFactory = { resultDao.getPagingSource() },
+            remoteMediator = remoteMediatorFactory.create(token!!)
+        ).flow
+            .map { pagingData ->
+                pagingData.map {
+                    it.toResultGameEntity()
+                }
+            }
     }
 
 

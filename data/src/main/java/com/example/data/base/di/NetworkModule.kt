@@ -3,6 +3,7 @@ package com.example.data.base.di
 import com.example.common.Const
 import com.example.data.accounts.sources.api.AccountsApi
 import com.example.data.catalog.sources.api.CatalogApi
+import com.example.data.game.sources.api.ResultApi
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -28,9 +29,14 @@ interface NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAccountApi(retrofit: Retrofit): AccountsApi = retrofit.create(AccountsApi::class.java)
+    fun provideAccountApi(retrofit: Retrofit): AccountsApi =
+        retrofit.create(AccountsApi::class.java)
 
     @Singleton
     @Provides
-    fun provideCatalogApi(retrofit: Retrofit) : CatalogApi = retrofit.create(CatalogApi::class.java)
+    fun provideCatalogApi(retrofit: Retrofit): CatalogApi = retrofit.create(CatalogApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideResultApi(retrofit: Retrofit): ResultApi = retrofit.create(ResultApi::class.java)
 }
