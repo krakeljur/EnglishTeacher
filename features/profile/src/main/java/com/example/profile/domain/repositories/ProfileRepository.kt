@@ -1,5 +1,6 @@
 package com.example.profile.domain.repositories
 
+import androidx.paging.PagingData
 import com.example.common.Container
 import com.example.profile.domain.entities.GameResult
 import com.example.profile.domain.entities.Profile
@@ -11,6 +12,6 @@ interface ProfileRepository {
 
     suspend fun setUsername(newName: String)
 
-    fun getStatistic() : Flow<Container<List<GameResult>>>
+    fun getStatistic() : Flow<PagingData<GameResult>>
 
 }

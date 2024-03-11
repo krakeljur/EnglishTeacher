@@ -1,5 +1,7 @@
 package com.example.englishteacher.glue.profile.repositories
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.common.Container
 import com.example.data.AccountsDataRepository
 import com.example.data.GameDataRepository
@@ -7,6 +9,7 @@ import com.example.profile.domain.entities.GameResult
 import com.example.profile.domain.entities.Profile
 import com.example.profile.domain.repositories.AuthRepository
 import com.example.profile.domain.repositories.ProfileRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
@@ -19,6 +22,7 @@ class ProfileAdapter @Inject constructor(
         accountsDataRepository.logOut()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getAccount(): Flow<Container<Profile>> {
         return accountsDataRepository.getAccount().mapLatest {
             it.map { acc ->
@@ -35,16 +39,16 @@ class ProfileAdapter @Inject constructor(
         accountsDataRepository.setAccountUsername(newName)
     }
 
-    override fun getStatistic(): Flow<Container<List<GameResult>>> {
-        return gameDataRepository.getResults().mapLatest {
-            it.map {list ->
-                list.map {result ->
-                    GameResult(
-                        result.idLesson,
-                        result.time,
-                        result.correctCount,
-                        result.wrongCount
-                    ) }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun getStatistic(): Flow<PagingData<GameResult>> {
+        return gameDataRepository.getResults().mapLatest { pagingData ->
+            pagingData.map {
+                GameResult(
+                    it.idLesson,
+                    it.time,
+                    it.correctCount,
+                    it.wrongCount
+                )
             }
         }
     }

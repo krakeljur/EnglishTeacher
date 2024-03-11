@@ -10,5 +10,7 @@ interface GameRepository {
 
     suspend fun setResult(resultGame: ResultGame)
 
-    fun getWords(idLesson: Long) : Flow<Container<List<WordEntity>>>
+    fun getWords(): Flow<Container<List<WordEntity>>>
+
+    suspend fun updateWords(idLesson: String)
 }

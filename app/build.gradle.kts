@@ -57,6 +57,7 @@ dependencies {
     implementation(Libs.Android.NavigationUI)
 
     implementation(Libs.Google.Material)
+    implementation(Libs.Google.Paging)
 
     implementation(Libs.Google.Hilt)
     kapt(Libs.Google.HiltCompiler)

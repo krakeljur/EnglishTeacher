@@ -12,7 +12,6 @@ class SignInAdapter @Inject constructor(
         accountsDataRepository.signIn(login, password)
     }
 
-    //HARDCODE FOR TEST IN FUTURE WILL BE REFACTOR
     override fun isSign(): Flow<Boolean> {
         return accountsDataRepository.isSign()
     }

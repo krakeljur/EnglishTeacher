@@ -9,6 +9,7 @@ import com.example.common.Const
 import com.example.data.GameDataRepository
 import com.example.data.game.etities.ResultGameEntity
 import com.example.data.game.etities.api.PutResultRequestBody
+import com.example.data.game.etities.room.ResultDbEntity
 import com.example.data.game.sources.ResultRemoteMediator
 import com.example.data.game.sources.api.ResultApi
 import com.example.data.game.sources.dao.ResultDao
@@ -40,7 +41,7 @@ class GameDataRepositoryImpl @Inject constructor(
 
     override suspend fun setResult(resultGame: ResultGameEntity) {
 
-        resultApi.setResult(
+        val result = resultApi.setResult(
             PutResultRequestBody(
                 token!!,
                 resultGame.idLesson,
@@ -50,7 +51,15 @@ class GameDataRepositoryImpl @Inject constructor(
             )
         )
 
-        resultDao.save(resultGame.toResultDbEntity())
+        resultDao.save(
+            ResultDbEntity(
+                result.id,
+                result.idLesson,
+                result.time,
+                result.countCorrect,
+                result.countWrong
+            )
+        )
     }
 
 
