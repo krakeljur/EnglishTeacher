@@ -44,6 +44,7 @@ class ProfileAdapter @Inject constructor(
         return gameDataRepository.getResults().mapLatest { pagingData ->
             pagingData.map {
                 GameResult(
+                    it.id,
                     it.idLesson,
                     it.time,
                     it.correctCount,

@@ -76,7 +76,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.example.presentation.ContainerView
+    <com.example.presentation.view.ContainerView
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -10,7 +10,7 @@ class GetWordsUseCase @Inject constructor(
     private val gameRepository: GameRepository
 ) {
 
-    fun getWords(idLesson: Long) : Flow<Container<List<WordEntity>>> {
-        return gameRepository.getWords(idLesson)
+    fun getWords() : Flow<Container<List<WordEntity>>> {
+        return gameRepository.getWords()
     }
 }

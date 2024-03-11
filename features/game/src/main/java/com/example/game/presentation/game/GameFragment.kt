@@ -1,5 +1,6 @@
 package com.example.game.presentation.game
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -76,6 +77,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupListeners() {
         with(binding) {
             helpButton.setOnClickListener {

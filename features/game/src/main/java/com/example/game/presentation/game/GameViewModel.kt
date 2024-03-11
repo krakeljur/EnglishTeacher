@@ -1,12 +1,12 @@
 package com.example.game.presentation.game
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.Container
 import com.example.game.domain.GetWordsUseCase
 import com.example.game.domain.SetResultUseCase
+import com.example.game.domain.UpdateWordsUseCase
 import com.example.game.domain.entities.ResultGame
 import com.example.game.domain.entities.WordEntity
 import com.example.game.presentation.GameRouter
@@ -23,22 +23,26 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(
     private val gameRouter: GameRouter,
     private val getWordsUseCase: GetWordsUseCase,
-    private val setResultUseCase: SetResultUseCase
+    private val setResultUseCase: SetResultUseCase,
+    private val updateWordsUseCase: UpdateWordsUseCase
 ) : ViewModel() {
 
     private val correctAnswers = MutableStateFlow(0)
     private val wrongAnswers = MutableStateFlow(0)
     private lateinit var words: Flow<Container<List<WordEntity>>>
-    private var currentIdLesson = 0L
+    private var currentIdLesson = ""
 
     fun init(args: Bundle) {
         currentIdLesson = gameRouter.getGameArgs(args)
-        words = getWordsUseCase.getWords(currentIdLesson)
+        words = getWordsUseCase.getWords()
+
+        viewModelScope.launch {
+         updateWordsUseCase.updateWords(currentIdLesson)
+        }
     }
 
     val gameStateFlow by lazy {
         combine(correctAnswers, wrongAnswers, words) { correct, wrong, words ->
-            Log.d("nasha", "ЗАШЛО В КОМБАЙН В ИГРЕ")
             when (words) {
                 is Container.Pending -> GameState(
                     word = null,

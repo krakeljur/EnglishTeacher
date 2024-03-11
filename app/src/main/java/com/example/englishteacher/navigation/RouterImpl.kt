@@ -18,7 +18,7 @@ class RouterImpl @Inject constructor() : Router {
         navController?.popBackStack()
     }
 
-    override fun getGameArgs(args: Bundle): Long {
+    override fun getGameArgs(args: Bundle): String {
         return GameFragmentArgs.fromBundle(args).idLesson
     }
 
@@ -26,17 +26,17 @@ class RouterImpl @Inject constructor() : Router {
         navController?.popBackStack()
     }
 
-    override fun launchGameFromCard(idLesson: Long) {
+    override fun launchGameFromCard(idLesson: String) {
         val direction = CardFragmentDirections.actionCardFragmentToGameFragment(idLesson)
         navController?.navigate(direction)
     }
 
-    override fun launchCardFromCatalog(idLesson: Long) {
+    override fun launchCardFromCatalog(idLesson: String) {
         val direction = CatalogFragmentDirections.actionCatalogFragmentToCardFragment(idLesson)
         navController?.navigate(direction)
     }
 
-    override fun getCardArgs(args: Bundle): Long {
+    override fun getCardArgs(args: Bundle): String {
         return CardFragmentArgs.fromBundle(args).idLesson
     }
 

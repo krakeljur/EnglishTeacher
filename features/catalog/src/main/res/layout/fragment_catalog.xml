@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/switchFavorite" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.example.presentation.ContainerView
+    <com.example.presentation.view.ContainerView
         android:id="@+id/containerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

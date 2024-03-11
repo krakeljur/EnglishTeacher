@@ -101,7 +101,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.example.presentation.ContainerView
+    <com.example.presentation.view.ContainerView
         android:id="@+id/container_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

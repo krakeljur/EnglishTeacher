@@ -43,6 +43,7 @@ dependencies {
     implementation(Libs.Android.LifecycleRuntimeKtx)
     implementation(Libs.Android.FragmentKtx)
 
+    implementation(Libs.Google.Paging)
     implementation(Libs.Google.Material)
 
     api(project(Mod.Core.Common))

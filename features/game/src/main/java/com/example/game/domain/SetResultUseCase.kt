@@ -8,7 +8,6 @@ class SetResultUseCase @Inject constructor(
     private val gameRepository: GameRepository
 ) {
 
-
     suspend fun setResult(resultGame: ResultGame) {
         gameRepository.setResult(resultGame)
     }

@@ -6,5 +6,5 @@ interface GameRouter {
 
     fun returnToCardFromGame()
 
-    fun getGameArgs(args: Bundle) : Long
+    fun getGameArgs(args: Bundle) : String
 }

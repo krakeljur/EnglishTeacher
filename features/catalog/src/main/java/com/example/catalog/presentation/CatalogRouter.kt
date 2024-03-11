@@ -6,10 +6,10 @@ interface CatalogRouter {
 
     fun launchBackFromCard()
 
-    fun launchGameFromCard(idLesson: Long)
+    fun launchGameFromCard(idLesson: String)
 
-    fun launchCardFromCatalog(idLesson: Long)
+    fun launchCardFromCatalog(idLesson: String)
 
-    fun getCardArgs(args: Bundle) : Long
+    fun getCardArgs(args: Bundle) : String
 
 }
