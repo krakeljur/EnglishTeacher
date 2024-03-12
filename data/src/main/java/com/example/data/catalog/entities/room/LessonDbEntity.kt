@@ -12,13 +12,14 @@ data class LessonDbEntity(
     val name: String,
     val description: String,
     @ColumnInfo(name = "creator_id") val idCreator: String,
-    @ColumnInfo(name = "is_favorite") val isFavorite : Int = 0
+    @ColumnInfo(name = "is_favorite") val isFavorite : Boolean
 ) {
 
     fun toLessonDataEntity(): LessonDataEntity = LessonDataEntity(
         name,
         description,
         id,
-        idCreator
+        idCreator,
+        isFavorite
     )
 }

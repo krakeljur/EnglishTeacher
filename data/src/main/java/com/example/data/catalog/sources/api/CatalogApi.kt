@@ -8,7 +8,7 @@ import com.example.data.catalog.entities.api.GetFavoriteResponseBody
 import com.example.data.catalog.entities.api.GetWordsRequestBody
 import com.example.data.catalog.entities.api.GetWordsResponseBody
 import retrofit2.http.Body
-import retrofit2.http.DELETE
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -17,7 +17,7 @@ interface CatalogApi {
     @POST("favorite")
     suspend fun addFavorite(@Body body: AddOrDeleteFavoriteRequestBody)
 
-    @DELETE("favorite")
+    @PATCH("favorite")
     suspend fun deleteFavorite(@Body body: AddOrDeleteFavoriteRequestBody)
 
     @PUT("favorite")

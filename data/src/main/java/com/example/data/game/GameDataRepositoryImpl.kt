@@ -45,8 +45,8 @@ class GameDataRepositoryImpl @Inject constructor(
             PutResultRequestBody(
                 token!!,
                 resultGame.idLesson,
-                resultGame.correctCount,
-                resultGame.wrongCount,
+                resultGame.countCorrect,
+                resultGame.countWrong,
                 resultGame.time
             )
         )
@@ -66,7 +66,8 @@ class GameDataRepositoryImpl @Inject constructor(
     override fun getResults(): Flow<PagingData<ResultGameEntity>> {
         return Pager(
             config = PagingConfig(
-                pageSize = Const.PAGE_SIZE
+                pageSize = Const.PAGE_SIZE,
+                initialLoadSize = Const.PAGE_SIZE
             ),
             pagingSourceFactory = { resultDao.getPagingSource() },
             remoteMediator = remoteMediatorFactory.create(token!!)

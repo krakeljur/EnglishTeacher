@@ -66,6 +66,9 @@
         <argument
             android:name="idCreator"
             app:argType="string" />
+        <argument
+            android:name="isFavorite"
+            app:argType="boolean" />
     </fragment>
 
     <fragment

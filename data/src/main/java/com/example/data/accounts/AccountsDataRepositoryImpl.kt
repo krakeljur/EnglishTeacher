@@ -12,6 +12,7 @@ import com.example.data.accounts.entities.api.SignUpRequestBody
 import com.example.data.accounts.sources.api.AccountsApi
 import com.example.data.settings.SettingsDataSource
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,7 +45,8 @@ class AccountsDataRepositoryImpl @Inject constructor(
                 )
             }
             sourceSettings.listenToken().collect {
-                if (it == null)
+                token = it
+                if (token == null)
                     sourceSettings.setAccount(null)
                 else {
                     val account = accountsApi.getAccount(GetAccountRequestBody(token!!))
@@ -56,7 +58,6 @@ class AccountsDataRepositoryImpl @Inject constructor(
                         )
                     )
                 }
-                token = it
             }
         }
         coroutineScope.launch {
@@ -118,6 +119,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
         sourceSettings.setToken(null)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun isSign(): Flow<Boolean> {
         return sourceSettings.listenToken().mapLatest {
             it != null

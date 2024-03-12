@@ -6,10 +6,10 @@ data class ResultGameEntity(
     val id: String,
     val idLesson: String,
     val time: Long,
-    val correctCount: Int,
-    val wrongCount: Int
+    val countCorrect: Int,
+    val countWrong: Int
 ) {
     fun toResultDbEntity(): ResultDbEntity = ResultDbEntity(
-        id, idLesson, time, correctCount, wrongCount
+        id, idLesson, time, countCorrect, countWrong
     )
 }

@@ -1,6 +1,7 @@
 package com.example.data.catalog.entities.api
 
 data class GetCatalogRequestBody(
+    val token: String,
     val limit: Int,
     val offset: Int
 )

@@ -3,6 +3,7 @@ package com.example.catalog.presentation.catalog.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catalog.R
@@ -18,65 +19,41 @@ interface CatalogActionListener {
 
 }
 
-class CatalogDiffCallback(
-    private val oldList: List<LessonData>,
-    private val newList: List<LessonData>
-) : DiffUtil.Callback() {
-    override fun getOldListSize(): Int = oldList.size
+class CatalogDiffCallback : DiffUtil.ItemCallback<LessonData>() {
+    override fun areItemsTheSame(oldItem: LessonData, newItem: LessonData): Boolean =
+        oldItem.id == newItem.id
 
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldLesson = oldList[oldItemPosition]
-        val newLesson = newList[newItemPosition]
-
-        return oldLesson.id == newLesson.id
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldLesson = oldList[oldItemPosition]
-        val newLesson = newList[newItemPosition]
-
-        return oldLesson.name == newLesson.name && oldLesson.description == newLesson.description
-    }
+    override fun areContentsTheSame(oldItem: LessonData, newItem: LessonData): Boolean =
+        oldItem == newItem
 }
 
 class CatalogAdapter(
     private val actionListener: CatalogActionListener
-) : RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder>(),
+) : PagingDataAdapter<LessonData, CatalogAdapter.CatalogViewHolder>(CatalogDiffCallback()),
     View.OnClickListener {
-
-    var catalog: List<LessonData> = emptyList()
-        set(value) {
-            val diffCallback = CatalogDiffCallback(field, value)
-            val diffResult = DiffUtil.calculateDiff(diffCallback)
-            field = value
-            diffResult.dispatchUpdatesTo(this)
-        }
 
     class CatalogViewHolder(val binding: ItemLessonBinding) : RecyclerView.ViewHolder(binding.root)
 
+    override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
+        val lesson = getItem(position) ?: return
+
+        with(holder.binding) {
+            nameTextView.text = lesson.name
+            descriptionLessonTextView.text = lesson.description
+            buttonChangeStatus.tag = lesson
+        }
+
+        holder.itemView.tag = lesson
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemLessonBinding.inflate(inflater)
+        val binding = ItemLessonBinding.inflate(inflater, parent, false)
 
         binding.root.setOnClickListener(this)
         binding.buttonChangeStatus.setOnClickListener(this)
 
         return CatalogViewHolder(binding)
-    }
-
-    override fun getItemCount(): Int = catalog.size
-
-    override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
-        val lesson = catalog[position]
-        with(holder.binding) {
-            holder.itemView.tag = lesson
-            buttonChangeStatus.tag = lesson
-
-            nameTextView.text = lesson.name
-            descriptionLessonTextView.text = lesson.description
-        }
     }
 
     override fun onClick(v: View) {
@@ -85,10 +62,14 @@ class CatalogAdapter(
         when (v.id) {
             R.id.buttonChangeStatus -> {
                 actionListener.changeStatus(lesson)
+                refresh()
             }
+
             else -> {
                 actionListener.launchLesson(lesson)
             }
         }
     }
+
+
 }

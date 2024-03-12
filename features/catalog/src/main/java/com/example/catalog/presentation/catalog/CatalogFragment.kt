@@ -7,13 +7,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catalog.R
 import com.example.catalog.databinding.FragmentCatalogBinding
 import com.example.catalog.domain.entities.LessonData
 import com.example.catalog.presentation.catalog.adapters.CatalogActionListener
 import com.example.catalog.presentation.catalog.adapters.CatalogAdapter
+import com.example.presentation.adapter.DefaultLoadStateAdapter
+import com.example.presentation.adapter.TryAgainAction
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -23,59 +28,84 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
 
     private val viewModel by viewModels<CatalogViewModel>()
     private lateinit var binding: FragmentCatalogBinding
-    private lateinit var adapter: CatalogAdapter
-    private var lastCatalog = emptyList<LessonData>()
-    private var lastFavorite = emptyList<LessonData>()
+    private var lastCatalog = PagingData.empty<LessonData>()
+    private var lastFavorite = PagingData.empty<LessonData>()
 
+    private val actionListener = object : CatalogActionListener {
+        override fun launchLesson(lessonData: LessonData) {
+            viewModel.launchLesson(lessonData)
+        }
+
+        override fun changeStatus(lessonData: LessonData) {
+            if (lessonData.isFavorite) {
+                viewModel.deleteFavorite(lessonData)
+            } else {
+                viewModel.addFavorite(lessonData)
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentCatalogBinding.bind(view)
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.catalogRecyclerView.layoutManager = layoutManager
 
-        adapter = CatalogAdapter(object : CatalogActionListener {
-            override fun launchLesson(lessonData: LessonData) {
-                viewModel.launchLesson(lessonData)
-            }
-
-            override fun changeStatus(lessonData: LessonData) {
-                if (binding.switchFavorite.isChecked) {
-                    viewModel.deleteFavorite(lessonData)
-
-                }
-                else {
-                    viewModel.addFavorite(lessonData)
-                    }
-            }
-        }
-        )
-        binding.catalogRecyclerView.adapter = adapter
+        val adapter = CatalogAdapter(actionListener)
+        val tryAgainAction: TryAgainAction = { adapter.retry() }
+        val footerAdapter = DefaultLoadStateAdapter(tryAgainAction)
+        val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
+        binding.catalogRecyclerView.adapter = adapterWithLoadState
 
 
-        setupListeners()
-        setupObserves()
+        setupObserveLessonData(adapter)
+        setupObserveLoadState(adapter, tryAgainAction)
+        setupListeners(adapter)
     }
 
-    private fun setupObserves() {
+
+    private fun setupObserveLessonData(adapter: CatalogAdapter) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
-                    if (it.isError) {
-                        error("oops")
-                    } else if (it.isLoading) {
-                        pending()
-                    } else {
-                        success()
-                        lastCatalog = it.catalog
-                        lastFavorite = it.favorites
+                viewModel.catalog.collectLatest {
+                    lastCatalog = it
+                    if (!binding.switchFavorite.isChecked)
+                        adapter.submitData(lifecycle, it)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.favorites.collectLatest {
+                    lastFavorite = it
+                    if (binding.switchFavorite.isChecked)
+                        adapter.submitData(lifecycle, it)
 
-                        if (binding.switchFavorite.isChecked) {
-                            adapter.catalog = it.favorites
-                        } else {
-                            adapter.catalog = it.catalog
+                }
+            }
+        }
+    }
+
+    private fun setupObserveLoadState(adapter: CatalogAdapter, tryAgainAction: TryAgainAction) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collectLatest { combinedLoadState ->
+                    when (combinedLoadState.refresh) {
+                        is LoadState.NotLoading -> {
+                            success()
+                        }
+
+                        is LoadState.Loading -> {
+                            pending()
+                        }
+
+                        is LoadState.Error -> {
+                            error(
+                                (combinedLoadState.refresh as LoadState.Error).error.message
+                                    ?: getString(com.example.presentation.R.string.error),
+                                tryAgainAction
+                            )
                         }
                     }
                 }
@@ -98,12 +128,13 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         binding.containerView.showSuccess()
     }
 
-    private fun setupListeners() {
+    private fun setupListeners(adapter: CatalogAdapter) {
         binding.switchFavorite.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked)
-                adapter.catalog = lastFavorite
-            else
-                adapter.catalog = lastCatalog
+            val newData = if (isChecked) lastFavorite else lastCatalog
+            viewLifecycleOwner.lifecycleScope.launch {
+                adapter.refresh()
+                adapter.submitData(lifecycle, newData)
+            }
         }
     }
 }

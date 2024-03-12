@@ -37,7 +37,8 @@ class RouterImpl @Inject constructor() : Router {
             lesson.id,
             lesson.name,
             lesson.description,
-            lesson.idCreator
+            lesson.idCreator,
+            lesson.isFavorite
         )
         navController?.navigate(direction)
     }
@@ -48,6 +49,7 @@ class RouterImpl @Inject constructor() : Router {
             CardFragmentArgs.fromBundle(args).description,
             CardFragmentArgs.fromBundle(args).idLesson,
             CardFragmentArgs.fromBundle(args).idCreator,
+            CardFragmentArgs.fromBundle(args).isFavorite
         )
     }
 

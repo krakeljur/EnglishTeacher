@@ -19,7 +19,7 @@ class CatalogRemoteMediator @AssistedInject constructor(
     private val lessonDao: LessonDao,
     private val catalogApi: CatalogApi,
     @Assisted private val token: String,
-    @Assisted private val isFavorite: Int
+    @Assisted private val isFavorite: Boolean
 ) : RemoteMediator<Int, LessonDbEntity>() {
 
     private var pageIndex = 0
@@ -48,9 +48,9 @@ class CatalogRemoteMediator @AssistedInject constructor(
     }
 
     private suspend fun fetchLessons(limit: Int, offset: Int): List<LessonDbEntity> =
-        if (isFavorite == 0) catalogApi.getCatalog(
+        if (!isFavorite) catalogApi.getCatalog(
             GetCatalogRequestBody(
-                limit, offset
+                token, limit, offset
             )
         ).lessons.map {
                 it.toLessonDBEntity()
@@ -59,7 +59,7 @@ class CatalogRemoteMediator @AssistedInject constructor(
             GetFavoriteRequestBody(
                 token, limit, offset
             )
-        ).favorites.map { it.toLessonDBEntity(1) }
+        ).favorites.map { it.toLessonDBEntity() }
 
 
     private fun getPageIndex(loadType: LoadType): Int? {
@@ -73,6 +73,6 @@ class CatalogRemoteMediator @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(token: String, isFavorite: Int = 0): CatalogRemoteMediator
+        fun create(token: String, isFavorite: Boolean = false): CatalogRemoteMediator
     }
 }

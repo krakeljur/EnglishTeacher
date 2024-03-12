@@ -12,8 +12,8 @@ import com.example.data.catalog.entities.room.LessonDbEntity
 @Dao
 interface LessonDao {
 
-    @Query("SELECT * FROM lesson")
-    fun getPagingSourceAll(): PagingSource<Int, LessonDbEntity>
+    @Query("SELECT * FROM lesson WHERE is_favorite = 0")
+    fun getPagingSourceCatalog(): PagingSource<Int, LessonDbEntity>
 
     @Query("SELECT * FROM lesson WHERE is_favorite = 1")
     fun getPagingSourceFavorite(): PagingSource<Int, LessonDbEntity>

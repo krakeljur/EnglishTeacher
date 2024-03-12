@@ -47,8 +47,8 @@ class ProfileAdapter @Inject constructor(
                     it.id,
                     it.idLesson,
                     it.time,
-                    it.correctCount,
-                    it.wrongCount
+                    it.countCorrect,
+                    it.countWrong
                 )
             }
         }
