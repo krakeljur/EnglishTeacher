@@ -37,17 +37,17 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         binding.catalogRecyclerView.layoutManager = layoutManager
 
         adapter = CatalogAdapter(object : CatalogActionListener {
-            override fun launchLesson(id: Long) {
-                viewModel.launchLesson(id)
+            override fun launchLesson(lessonData: LessonData) {
+                viewModel.launchLesson(lessonData)
             }
 
-            override fun changeStatus(id: Long) {
+            override fun changeStatus(lessonData: LessonData) {
                 if (binding.switchFavorite.isChecked) {
-                    viewModel.deleteFavorite(id)
+                    viewModel.deleteFavorite(lessonData)
 
                 }
                 else {
-                    viewModel.addFavorite(id)
+                    viewModel.addFavorite(lessonData)
                     }
             }
         }
@@ -64,7 +64,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect {
                     if (it.isError) {
-                        error("oops") { viewModel.update() }
+                        error("oops")
                     } else if (it.isLoading) {
                         pending()
                     } else {

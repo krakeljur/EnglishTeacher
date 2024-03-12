@@ -1,6 +1,7 @@
 package com.example.catalog.presentation
 
 import android.os.Bundle
+import com.example.catalog.domain.entities.LessonData
 
 interface CatalogRouter {
 
@@ -8,8 +9,8 @@ interface CatalogRouter {
 
     fun launchGameFromCard(idLesson: String)
 
-    fun launchCardFromCatalog(idLesson: String)
+    fun launchCardFromCatalog(lesson: LessonData)
 
-    fun getCardArgs(args: Bundle) : String
+    fun getCardArgs(args: Bundle) : LessonData
 
 }

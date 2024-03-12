@@ -3,7 +3,9 @@ package com.example.englishteacher.glue.catalog.repositories
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.catalog.domain.entities.LessonData
+import com.example.catalog.domain.entities.WordData
 import com.example.catalog.domain.repositories.LessonRepository
+import com.example.common.Container
 import com.example.data.CatalogDataRepository
 import com.example.data.catalog.entities.LessonDataEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -61,5 +63,24 @@ class LessonAdapter @Inject constructor(
             lesson.idCreator
         )
         catalogDataRepository.deleteFavorite(lessonDataEntity)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun getWords(): Flow<Container<List<WordData>>> = catalogDataRepository.getWords()
+        .mapLatest { container ->
+            container.map { list ->
+                list.map {
+                    WordData(
+                        it.russ,
+                        it.eng
+                    )
+                }
+
+            }
+
+        }
+
+    override suspend fun updateWords(idLesson: String) {
+        catalogDataRepository.updateWords(idLesson)
     }
 }

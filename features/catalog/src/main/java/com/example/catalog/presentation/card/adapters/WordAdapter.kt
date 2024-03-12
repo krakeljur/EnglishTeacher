@@ -49,7 +49,7 @@ class WordAdapter() : RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
         val word = words[position]
         with(holder.binding) {
             engTextView.text = word.eng
-            rusWordTextView.text = word.russ
+            rusWordTextView.text = word.rus
         }
     }
 

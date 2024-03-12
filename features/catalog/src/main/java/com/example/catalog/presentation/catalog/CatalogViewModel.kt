@@ -1,13 +1,11 @@
 package com.example.catalog.presentation.catalog
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.catalog.domain.AddFavoriteUseCase
 import com.example.catalog.domain.DeleteFavoriteUseCase
 import com.example.catalog.domain.GetCatalogUseCase
 import com.example.catalog.domain.GetFavoritesUseCase
-import com.example.catalog.domain.UpdateFlowsUseCase
 import com.example.catalog.domain.entities.LessonData
 import com.example.catalog.presentation.CatalogRouter
 import com.example.common.Container
@@ -24,9 +22,8 @@ class CatalogViewModel @Inject constructor(
     private val catalogRouter: CatalogRouter,
     private val addFavoriteUseCase: AddFavoriteUseCase,
     private val deleteFavoriteUseCase: DeleteFavoriteUseCase,
-    private val getCatalogUseCase: GetCatalogUseCase,
-    private val getFavoritesUseCase: GetFavoritesUseCase,
-    private val updateFlowsUseCase: UpdateFlowsUseCase
+    getCatalogUseCase: GetCatalogUseCase,
+    getFavoritesUseCase: GetFavoritesUseCase
 ) : ViewModel() {
 
     private val catalog = getCatalogUseCase.getCatalog()
@@ -36,7 +33,6 @@ class CatalogViewModel @Inject constructor(
     private val loading = MutableStateFlow(0)
 
     val state = combine(catalog, favorites, loading) { cat, fav, loading ->
-        Log.d("nasha", "зашло в комбайн =)")
         return@combine CatalogState(
             cat is Container.Error || fav is Container.Error,
             cat is Container.Pending || fav is Container.Pending || loading > 0,
@@ -54,33 +50,26 @@ class CatalogViewModel @Inject constructor(
         )
     )
 
-    fun addFavorite(id: Long) {
+    fun addFavorite(lesson: LessonData) {
         viewModelScope.launch {
             withLoading {
-                addFavoriteUseCase.addFavorite(id)
+                addFavoriteUseCase.addFavorite(lesson)
             }
         }
     }
 
-    fun deleteFavorite(id: Long) {
+    fun deleteFavorite(lesson: LessonData) {
         viewModelScope.launch {
             withLoading {
-                deleteFavoriteUseCase.deleteFavorite(id)
+                deleteFavoriteUseCase.deleteFavorite(lesson)
             }
         }
     }
 
-    fun launchLesson(idLesson: Long) {
-        catalogRouter.launchCardFromCatalog(idLesson)
+    fun launchLesson(lesson : LessonData) {
+        catalogRouter.launchCardFromCatalog(lesson)
     }
 
-    fun update() {
-        viewModelScope.launch {
-            withLoading {
-                updateFlowsUseCase.update()
-            }
-        }
-    }
 
 
     private suspend fun withLoading(block: suspend () -> Unit) {

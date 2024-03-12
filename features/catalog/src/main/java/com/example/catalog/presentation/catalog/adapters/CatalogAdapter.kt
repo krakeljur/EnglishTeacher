@@ -12,9 +12,9 @@ import com.example.catalog.domain.entities.LessonData
 
 interface CatalogActionListener {
 
-    fun launchLesson(id: Long)
+    fun launchLesson(lessonData: LessonData)
 
-    fun changeStatus(id: Long)
+    fun changeStatus(lessonData: LessonData)
 
 }
 
@@ -84,10 +84,10 @@ class CatalogAdapter(
 
         when (v.id) {
             R.id.buttonChangeStatus -> {
-                actionListener.changeStatus(lesson.id)
+                actionListener.changeStatus(lesson)
             }
             else -> {
-                actionListener.launchLesson(lesson.id)
+                actionListener.launchLesson(lesson)
             }
         }
     }

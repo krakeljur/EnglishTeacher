@@ -57,9 +57,9 @@ class CardFragment : Fragment(R.layout.fragment_card) {
                         binding.container.showError("it.message") { viewModel.goBack() }
                     } else {
                         binding.cardConstraintLayout.visibility = View.VISIBLE
-                        adapter.words = it.lesson.words
+                        adapter.words = it.words
                         binding.descriptionTextView.text = it.lesson.description
-                        binding.idLessonTextView.text = it.lesson.id.toString()
+                        binding.idLessonTextView.text = it.lesson.id
                         binding.nameLessonTextView.text = it.lesson.name
                     }
                 }

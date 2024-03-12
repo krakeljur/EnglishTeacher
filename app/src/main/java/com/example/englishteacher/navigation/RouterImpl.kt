@@ -3,6 +3,7 @@ package com.example.englishteacher.navigation
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.navOptions
+import com.example.catalog.domain.entities.LessonData
 import com.example.catalog.presentation.card.CardFragmentArgs
 import com.example.catalog.presentation.card.CardFragmentDirections
 import com.example.catalog.presentation.catalog.CatalogFragmentDirections
@@ -31,13 +32,23 @@ class RouterImpl @Inject constructor() : Router {
         navController?.navigate(direction)
     }
 
-    override fun launchCardFromCatalog(idLesson: String) {
-        val direction = CatalogFragmentDirections.actionCatalogFragmentToCardFragment(idLesson)
+    override fun launchCardFromCatalog(lesson: LessonData) {
+        val direction = CatalogFragmentDirections.actionCatalogFragmentToCardFragment(
+            lesson.id,
+            lesson.name,
+            lesson.description,
+            lesson.idCreator
+        )
         navController?.navigate(direction)
     }
 
-    override fun getCardArgs(args: Bundle): String {
-        return CardFragmentArgs.fromBundle(args).idLesson
+    override fun getCardArgs(args: Bundle): LessonData {
+        return LessonData(
+            CardFragmentArgs.fromBundle(args).name,
+            CardFragmentArgs.fromBundle(args).description,
+            CardFragmentArgs.fromBundle(args).idLesson,
+            CardFragmentArgs.fromBundle(args).idCreator,
+        )
     }
 
     override fun launchStatisticFromProfile() {

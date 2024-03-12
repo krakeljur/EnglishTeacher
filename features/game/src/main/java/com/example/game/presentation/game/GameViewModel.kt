@@ -22,22 +22,21 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val gameRouter: GameRouter,
-    private val getWordsUseCase: GetWordsUseCase,
     private val setResultUseCase: SetResultUseCase,
-    private val updateWordsUseCase: UpdateWordsUseCase
+    private val updateWordsUseCase: UpdateWordsUseCase,
+    getWordsUseCase: GetWordsUseCase,
 ) : ViewModel() {
 
     private val correctAnswers = MutableStateFlow(0)
     private val wrongAnswers = MutableStateFlow(0)
-    private lateinit var words: Flow<Container<List<WordEntity>>>
+    private val words: Flow<Container<List<WordEntity>>> = getWordsUseCase.getWords()
     private var currentIdLesson = ""
 
     fun init(args: Bundle) {
         currentIdLesson = gameRouter.getGameArgs(args)
-        words = getWordsUseCase.getWords()
 
         viewModelScope.launch {
-         updateWordsUseCase.updateWords(currentIdLesson)
+            updateWordsUseCase.updateWords(currentIdLesson)
         }
     }
 
