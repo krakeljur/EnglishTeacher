@@ -98,6 +98,13 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         }
     }
 
+    private fun setupListeners() {
+        binding.switchFavorite.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setNewFavorite(isChecked)
+        }
+    }
+
+
     private fun pending() {
         binding.constraintLayout.visibility = View.GONE
         binding.containerView.showPending()
@@ -113,9 +120,5 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         binding.containerView.showSuccess()
     }
 
-    private fun setupListeners() {
-        binding.switchFavorite.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.setNewFavorite(isChecked)
-        }
-    }
+
 }

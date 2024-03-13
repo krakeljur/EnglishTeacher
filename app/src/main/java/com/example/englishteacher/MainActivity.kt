@@ -2,6 +2,7 @@ package com.example.englishteacher
 
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -20,56 +21,70 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+
     private val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
         val withoutBottom = setOf(R.id.signUpFragment)
-        val withoutBottomAndTool = setOf(R.id.signInFragment, R.id.gameFragment )
+        val withoutBottomAndTool = setOf(R.id.signInFragment, R.id.gameFragment)
+
+        binding.toolbar.menu.clear()
 
         when (destination.id) {
             in withoutBottomAndTool -> {
                 binding.toolbar.visibility = View.GONE
                 binding.bottomNavigationView.visibility = View.GONE
             }
+
             in withoutBottom -> {
                 binding.bottomNavigationView.visibility = View.GONE
                 binding.toolbar.visibility = View.VISIBLE
             }
+
             else -> {
                 binding.bottomNavigationView.visibility = View.VISIBLE
                 binding.toolbar.visibility = View.VISIBLE
+
+                if (destination.id == R.id.catalogFragment) {
+                    binding.toolbar.inflateMenu(R.menu.toolbar_catalog_menu)
+                    val favoriteCheckBox = binding.toolbar.menu.findItem(R.id.switchFavoriteButton).actionView as CheckBox
+                    favoriteCheckBox.setButtonDrawable(R.drawable.ckeckbox_selector)
+                }
             }
         }
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+                    as NavHostFragment
+
+        val navController = navHostFragment.navController
+
+        val appBarConfiguration =
+            AppBarConfiguration(setOf(R.id.profileFragment, R.id.catalogFragment))
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.bottomNavigationView.setupWithNavController(navController)
+
+        router.navController = navController
+        setupScreensListener()
+
+        setContentView(binding.root)
+    }
+
+    override fun onDestroy() {
+        router.navController?.removeOnDestinationChangedListener(listener)
+        router.navController = null
+        super.onDestroy()
     }
 
 
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    private fun setupScreensListener() {
+        router.navController?.addOnDestinationChangedListener(listener)
+    }
 
-    binding = ActivityMainBinding.inflate(layoutInflater)
 
-    val navHostFragment =
-        supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
-                as NavHostFragment
-
-    val navController = navHostFragment.navController
-
-    val appBarConfiguration = AppBarConfiguration(setOf(R.id.profileFragment, R.id.catalogFragment))
-    binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-    binding.bottomNavigationView.setupWithNavController(navController)
-
-    router.navController = navController
-    setupScreensListener()
-
-    setContentView(binding.root)
-}
-
-private fun setupScreensListener() {
-
-    router.navController?.addOnDestinationChangedListener(listener)
-}
-
-override fun onDestroy() {
-    router.navController?.removeOnDestinationChangedListener(listener)
-    router.navController = null
-    super.onDestroy()
-}
 }

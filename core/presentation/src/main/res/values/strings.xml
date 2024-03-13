@@ -40,6 +40,7 @@
     <string name="letters">letters</string>
     <string name="first_letter">First letter is</string>
     <string name="very_long_name">Name must be shorter then 18 characters</string>
+    <string name="search">Search</string>
 
 
 </resources>
