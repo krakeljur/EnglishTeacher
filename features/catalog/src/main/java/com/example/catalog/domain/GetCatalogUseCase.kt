@@ -10,7 +10,7 @@ class GetCatalogUseCase @Inject constructor(
     private val lessonRepository: LessonRepository
 ) {
 
-    fun getCatalog(): Flow<PagingData<LessonData>> {
-        return lessonRepository.getCatalog()
+    fun getCatalog(isFavorite: Boolean, searchBy: String): Flow<PagingData<LessonData>> {
+        return lessonRepository.getCatalog(isFavorite, searchBy)
     }
 }

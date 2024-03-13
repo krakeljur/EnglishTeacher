@@ -8,7 +8,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catalog.R
 import com.example.catalog.databinding.FragmentCatalogBinding
@@ -28,8 +27,6 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
 
     private val viewModel by viewModels<CatalogViewModel>()
     private lateinit var binding: FragmentCatalogBinding
-    private var lastCatalog = PagingData.empty<LessonData>()
-    private var lastFavorite = PagingData.empty<LessonData>()
 
     private val actionListener = object : CatalogActionListener {
         override fun launchLesson(lessonData: LessonData) {
@@ -61,7 +58,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
 
         setupObserveLessonData(adapter)
         setupObserveLoadState(adapter, tryAgainAction)
-        setupListeners(adapter)
+        setupListeners()
     }
 
 
@@ -69,19 +66,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.catalog.collectLatest {
-                    lastCatalog = it
-                    if (!binding.switchFavorite.isChecked)
-                        adapter.submitData(lifecycle, it)
-                }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.favorites.collectLatest {
-                    lastFavorite = it
-                    if (binding.switchFavorite.isChecked)
-                        adapter.submitData(lifecycle, it)
-
+                    adapter.submitData(lifecycle, it)
                 }
             }
         }
@@ -128,13 +113,9 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         binding.containerView.showSuccess()
     }
 
-    private fun setupListeners(adapter: CatalogAdapter) {
+    private fun setupListeners() {
         binding.switchFavorite.setOnCheckedChangeListener { _, isChecked ->
-            val newData = if (isChecked) lastFavorite else lastCatalog
-            viewLifecycleOwner.lifecycleScope.launch {
-                adapter.refresh()
-                adapter.submitData(lifecycle, newData)
-            }
+            viewModel.setNewFavorite(isChecked)
         }
     }
 }

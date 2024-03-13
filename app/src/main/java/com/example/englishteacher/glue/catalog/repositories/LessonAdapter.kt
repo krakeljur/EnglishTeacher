@@ -18,8 +18,8 @@ class LessonAdapter @Inject constructor(
 ) : LessonRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getCatalog(): Flow<PagingData<LessonData>> {
-        return catalogDataRepository.getCatalog().mapLatest { pagingData ->
+    override fun getCatalog(isFavorite: Boolean, searchBy: String): Flow<PagingData<LessonData>> {
+        return catalogDataRepository.getCatalog(isFavorite, searchBy).mapLatest { pagingData ->
             pagingData.map {
                 LessonData(
                     it.name,
@@ -32,20 +32,6 @@ class LessonAdapter @Inject constructor(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getFavorite(): Flow<PagingData<LessonData>> {
-        return catalogDataRepository.getFavorite().mapLatest { pagingData ->
-            pagingData.map {
-                LessonData(
-                    it.name,
-                    it.description,
-                    it.id,
-                    it.idCreator,
-                    it.isFavorite
-                )
-            }
-        }
-    }
 
     override suspend fun addFavorite(lesson: LessonData) {
         val lessonDataEntity = LessonDataEntity(

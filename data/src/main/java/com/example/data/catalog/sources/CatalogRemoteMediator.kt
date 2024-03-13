@@ -19,7 +19,7 @@ class CatalogRemoteMediator @AssistedInject constructor(
     private val lessonDao: LessonDao,
     private val catalogApi: CatalogApi,
     @Assisted private val token: String,
-    @Assisted private val isFavorite: Boolean
+    @Assisted private val isFavorite: Boolean,
 ) : RemoteMediator<Int, LessonDbEntity>() {
 
     private var pageIndex = 0
