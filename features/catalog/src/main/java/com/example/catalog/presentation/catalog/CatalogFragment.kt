@@ -1,7 +1,12 @@
 package com.example.catalog.presentation.catalog
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.CheckBox
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -22,7 +27,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class CatalogFragment : Fragment(R.layout.fragment_catalog) {
+class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
 
 
     private val viewModel by viewModels<CatalogViewModel>()
@@ -46,6 +51,8 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCatalogBinding.bind(view)
 
+        requireActivity().addMenuProvider(this, viewLifecycleOwner)
+
         val layoutManager = LinearLayoutManager(requireContext())
         binding.catalogRecyclerView.layoutManager = layoutManager
 
@@ -58,9 +65,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
 
         setupObserveLessonData(adapter)
         setupObserveLoadState(adapter, tryAgainAction)
-        setupListeners()
     }
-
 
     private fun setupObserveLessonData(adapter: CatalogAdapter) {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -98,11 +103,6 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         }
     }
 
-    private fun setupListeners() {
-        binding.switchFavorite.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.setNewFavorite(isChecked)
-        }
-    }
 
 
     private fun pending() {
@@ -119,6 +119,20 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog) {
         binding.constraintLayout.visibility = View.VISIBLE
         binding.containerView.showSuccess()
     }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.toolbar_catalog_menu, menu)
+        val favoriteCheckBox = menu.findItem(R.id.switchFavoriteButton).actionView as CheckBox
+
+        favoriteCheckBox.setButtonDrawable(com.example.presentation.R.drawable.checkbox_selector)
+        favoriteCheckBox.setOnCheckedChangeListener{ _, isChecked ->
+            viewModel.setNewFavorite(isChecked)
+        }
+
+
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = true
 
 
 }

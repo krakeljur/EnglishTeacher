@@ -9,6 +9,7 @@ import com.example.catalog.presentation.card.CardFragmentDirections
 import com.example.catalog.presentation.catalog.CatalogFragmentDirections
 import com.example.englishteacher.R
 import com.example.game.presentation.game.GameFragmentArgs
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RouterImpl @Inject constructor() : Router {
@@ -22,6 +23,7 @@ class RouterImpl @Inject constructor() : Router {
     override fun getGameArgs(args: Bundle): String {
         return GameFragmentArgs.fromBundle(args).idLesson
     }
+
 
     override fun launchBackFromCard() {
         navController?.popBackStack()

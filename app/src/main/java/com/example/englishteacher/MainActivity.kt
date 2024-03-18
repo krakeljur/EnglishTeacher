@@ -2,7 +2,6 @@ package com.example.englishteacher
 
 import android.os.Bundle
 import android.view.View
-import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -42,12 +41,6 @@ class MainActivity : AppCompatActivity() {
             else -> {
                 binding.bottomNavigationView.visibility = View.VISIBLE
                 binding.toolbar.visibility = View.VISIBLE
-
-                if (destination.id == R.id.catalogFragment) {
-                    binding.toolbar.inflateMenu(R.menu.toolbar_catalog_menu)
-                    val favoriteCheckBox = binding.toolbar.menu.findItem(R.id.switchFavoriteButton).actionView as CheckBox
-                    favoriteCheckBox.setButtonDrawable(R.drawable.ckeckbox_selector)
-                }
             }
         }
 
@@ -66,6 +59,8 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration =
             AppBarConfiguration(setOf(R.id.profileFragment, R.id.catalogFragment))
+
+        setSupportActionBar(binding.toolbar)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.bottomNavigationView.setupWithNavController(navController)
 
