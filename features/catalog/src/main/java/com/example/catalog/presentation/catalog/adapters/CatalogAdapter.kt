@@ -62,7 +62,6 @@ class CatalogAdapter(
         when (v.id) {
             R.id.buttonChangeStatus -> {
                 actionListener.changeStatus(lesson)
-                refresh()
             }
 
             else -> {

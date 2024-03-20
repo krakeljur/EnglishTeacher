@@ -53,7 +53,7 @@ class CatalogDataRepositoryImpl @Inject constructor(
                 initialLoadSize = Const.PAGE_SIZE
             ),
             remoteMediator = remoteMediatorFactory.create(token!!, isFavorite),
-            pagingSourceFactory = { lessonDao.getPagingSourceCatalog(isFavorite) }
+            pagingSourceFactory = { lessonDao.getPagingSourceCatalog(isFavorite, searchBy) }
         ).flow
             .map { pagingData ->
                 pagingData.map { lessonDbEntity ->
@@ -65,12 +65,12 @@ class CatalogDataRepositoryImpl @Inject constructor(
 
     override suspend fun addFavorite(lesson: LessonDataEntity) {
         catalogApi.addFavorite(AddOrDeleteFavoriteRequestBody(token!!, lesson.id))
-        lessonDao.save(lesson.toLessonDBEntity())
+        lessonDao.save(lesson.toLessonDBEntity(true))
     }
 
     override suspend fun deleteFavorite(lesson: LessonDataEntity) {
         catalogApi.deleteFavorite(AddOrDeleteFavoriteRequestBody(token!!, lesson.id))
-        lessonDao.save(lesson.toLessonDBEntity())
+        lessonDao.save(lesson.toLessonDBEntity(false))
     }
 
     override fun getWords(): Flow<Container<List<WordDataEntity>>> = wordsFlow.asStateFlow()

@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -104,7 +105,6 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
     }
 
 
-
     private fun pending() {
         binding.constraintLayout.visibility = View.GONE
         binding.containerView.showPending()
@@ -125,10 +125,26 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
         val favoriteCheckBox = menu.findItem(R.id.switchFavoriteButton).actionView as CheckBox
 
         favoriteCheckBox.setButtonDrawable(com.example.presentation.R.drawable.checkbox_selector)
-        favoriteCheckBox.setOnCheckedChangeListener{ _, isChecked ->
+        favoriteCheckBox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setNewFavorite(isChecked)
         }
 
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.setNewSearch(query ?: "")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText == "" || newText == null)
+                    viewModel.setNewSearch("")
+                return true
+            }
+
+        })
 
     }
 

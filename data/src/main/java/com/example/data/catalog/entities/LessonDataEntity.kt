@@ -9,6 +9,7 @@ data class LessonDataEntity(
     val idCreator: String,
     val isFavorite: Boolean
 ) {
-    fun toLessonDBEntity() = LessonDbEntity(id, name, description, idCreator, isFavorite)
+    fun toLessonDBEntity(newFavoriteStatus: Boolean? = null) =
+        LessonDbEntity(id, name, description, idCreator, newFavoriteStatus ?: isFavorite)
 
 }
