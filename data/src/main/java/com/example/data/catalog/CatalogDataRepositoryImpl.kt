@@ -33,27 +33,52 @@ class CatalogDataRepositoryImpl @Inject constructor(
     coroutineScope: CoroutineScope
 ) : CatalogDataRepository {
 
-    private var token: String? = settingsDataSource.getToken()
+    private var token = settingsDataSource.getToken()
+    private var account = settingsDataSource.getAccount()
 
     private val wordsFlow: MutableStateFlow<Container<List<WordDataEntity>>> =
         MutableStateFlow(Container.Pending)
 
     init {
+
         coroutineScope.launch {
             settingsDataSource.listenToken().collect {
                 token = it
             }
         }
+
+        coroutineScope.launch {
+            settingsDataSource.listenAccount().collect {
+                account = it
+            }
+        }
+
+
     }
 
-    override fun getCatalog(isFavorite: Boolean, searchBy: String): Flow<PagingData<LessonDataEntity>> {
+    override fun getCatalog(
+        isFavorite: Boolean,
+        searchBy: String,
+        isOnlyMy: Boolean,
+        idCreator: String?
+    ): Flow<PagingData<LessonDataEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = Const.PAGE_SIZE,
                 initialLoadSize = Const.PAGE_SIZE
             ),
-            remoteMediator = remoteMediatorFactory.create(token!!, isFavorite),
-            pagingSourceFactory = { lessonDao.getPagingSourceCatalog(isFavorite, searchBy) }
+            remoteMediator = remoteMediatorFactory.create(
+                token!!,
+                isFavorite,
+                if (isOnlyMy) account!!.id else idCreator
+            ),
+            pagingSourceFactory = {
+                lessonDao.getPagingSourceCatalog(
+                    isFavorite,
+                    searchBy,
+                    if (isOnlyMy) account!!.id else idCreator
+                )
+            }
         ).flow
             .map { pagingData ->
                 pagingData.map { lessonDbEntity ->

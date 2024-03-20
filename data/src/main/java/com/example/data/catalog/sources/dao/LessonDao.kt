@@ -13,8 +13,12 @@ import com.example.data.catalog.entities.room.LessonDbEntity
 interface LessonDao {
 
     @Query("SELECT * FROM lesson WHERE is_favorite = :isFavorite" +
-            " AND (:searchBy = '' OR name LIKE '%' || :searchBy || '%' OR id LIKE '%' || :searchBy || '%' OR description LIKE '%' || :searchBy || '%')")
-    fun getPagingSourceCatalog(isFavorite: Boolean, searchBy : String = ""): PagingSource<Int, LessonDbEntity>
+            " AND (:searchBy = '' OR name LIKE '%' || :searchBy || '%' " +
+            "OR id LIKE '%' || :searchBy || '%' " +
+            "OR description LIKE '%' || :searchBy || '%'" +
+            "OR creator_id LIKE '%' || :searchBy || '%') " +
+            "AND (:idCreator IS NULL OR creator_id = :idCreator)")
+    fun getPagingSourceCatalog(isFavorite: Boolean, searchBy : String, idCreator : String?): PagingSource<Int, LessonDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(lessons: List<LessonDbEntity>)

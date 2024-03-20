@@ -8,7 +8,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface CatalogDataRepository {
 
-    fun getCatalog(isFavorite : Boolean, searchBy: String): Flow<PagingData<LessonDataEntity>>
+    fun getCatalog(
+        isFavorite: Boolean,
+        searchBy: String,
+        isOnlyMy : Boolean = false,
+        idCreator: String? = null
+    ): Flow<PagingData<LessonDataEntity>>
 
     suspend fun addFavorite(lesson: LessonDataEntity)
 

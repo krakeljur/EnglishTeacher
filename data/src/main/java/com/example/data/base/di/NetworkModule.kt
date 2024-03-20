@@ -4,6 +4,7 @@ import com.example.common.Const
 import com.example.data.accounts.sources.api.AccountsApi
 import com.example.data.catalog.sources.api.CatalogApi
 import com.example.data.game.sources.api.ResultApi
+import com.example.data.lesson.sources.api.RedactorApi
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -39,4 +40,8 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideResultApi(retrofit: Retrofit): ResultApi = retrofit.create(ResultApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideRedactorApi(retrofit: Retrofit) : RedactorApi = retrofit.create(RedactorApi::class.java)
 }

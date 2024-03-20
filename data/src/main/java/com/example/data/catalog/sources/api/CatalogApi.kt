@@ -5,6 +5,7 @@ import com.example.data.catalog.entities.api.GetCatalogRequestBody
 import com.example.data.catalog.entities.api.GetCatalogResponseBody
 import com.example.data.catalog.entities.api.GetFavoriteRequestBody
 import com.example.data.catalog.entities.api.GetFavoriteResponseBody
+import com.example.data.catalog.entities.api.GetLessonsFromUserIdRequestBody
 import com.example.data.catalog.entities.api.GetWordsRequestBody
 import com.example.data.catalog.entities.api.GetWordsResponseBody
 import retrofit2.http.Body
@@ -28,5 +29,9 @@ interface CatalogApi {
 
     @POST("catalog")
     suspend fun getCatalog(@Body body: GetCatalogRequestBody): GetCatalogResponseBody
+
+    @POST("subLesson")
+    suspend fun getLessonFromUserId(@Body body : GetLessonsFromUserIdRequestBody) : GetCatalogResponseBody
+
 
 }

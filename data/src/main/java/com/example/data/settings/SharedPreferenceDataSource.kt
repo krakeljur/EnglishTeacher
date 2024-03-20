@@ -36,7 +36,7 @@ class SharedPreferenceDataSource @Inject constructor(
         preferences.edit {
             if (token == null)
                 remove(KEY_TOKEN)
-             else
+            else
                 putString(KEY_TOKEN, token)
         }
     }
@@ -58,7 +58,7 @@ class SharedPreferenceDataSource @Inject constructor(
 
     override fun listenAccount(): Flow<AccountDataEntity?> = accountFlow.asStateFlow()
 
-    private fun getAccount(): AccountDataEntity? {
+    override fun getAccount(): AccountDataEntity? {
         val name = preferences.getString(KEY_NAME, null)
         val login = preferences.getString(KEY_LOGIN, null)
         val id = preferences.getString(KEY_ID, null)
