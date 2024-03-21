@@ -66,7 +66,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun setupListeners() {
         binding.logout.setOnClickListener {
-            viewModel.logout()
+            viewModel.logout(requireActivity())
         }
         binding.viewStatisticButton.setOnClickListener {
             viewModel.getStatistic()

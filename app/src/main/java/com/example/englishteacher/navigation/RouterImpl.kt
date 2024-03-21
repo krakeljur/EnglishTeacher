@@ -1,7 +1,9 @@
 package com.example.englishteacher.navigation
 
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import com.example.catalog.domain.entities.LessonData
 import com.example.catalog.presentation.card.CardFragmentArgs
@@ -9,7 +11,6 @@ import com.example.catalog.presentation.card.CardFragmentDirections
 import com.example.catalog.presentation.catalog.CatalogFragmentDirections
 import com.example.englishteacher.R
 import com.example.game.presentation.game.GameFragmentArgs
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RouterImpl @Inject constructor() : Router {
@@ -60,9 +61,10 @@ class RouterImpl @Inject constructor() : Router {
     }
 
 
-    override fun launchSignInFromProfile() {
-        navController?.navigate(R.id.signInFragment, null, navOptions {
-            popUpTo(R.id.profileFragment) {
+    override fun launchSignInFromProfile(activity: FragmentActivity) {
+        val navHost = activity.supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navHost.navController.navigate(R.id.signInFragment, null, navOptions {
+            popUpTo(R.id.tabsFragment) {
                 inclusive = true
             }
         })
@@ -72,8 +74,8 @@ class RouterImpl @Inject constructor() : Router {
         navController?.navigate(R.id.action_signInFragment_to_signUpFragment)
     }
 
-    override fun launchCatalog() {
-        navController?.navigate(R.id.action_signInFragment_to_catalogFragment)
+    override fun launchTabs() {
+        navController?.navigate(R.id.action_signInFragment_to_tabsFragment)
     }
 
     override fun goBackToSignInFromSignUp() {

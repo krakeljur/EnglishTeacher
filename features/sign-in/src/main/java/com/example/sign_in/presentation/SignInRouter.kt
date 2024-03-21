@@ -4,5 +4,5 @@ interface SignInRouter {
 
     fun launchSignUp()
 
-    fun launchCatalog()
+    fun launchTabs()
 }

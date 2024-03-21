@@ -50,10 +50,6 @@ class CatalogViewModel @Inject constructor(
         }
     }
 
-    fun launchLesson(lesson: LessonData) {
-        catalogRouter.launchCardFromCatalog(lesson)
-    }
-
     fun setNewFavorite(flag: Boolean) {
         isFavoriteFlow.value = flag
     }
@@ -61,5 +57,12 @@ class CatalogViewModel @Inject constructor(
     fun setNewSearch(query : String) {
         searchByFlow.value = query
     }
+
+    fun getCurrentFavorite() : Boolean = isFavoriteFlow.value
+    fun launchLesson(lesson: LessonData) {
+        catalogRouter.launchCardFromCatalog(lesson)
+    }
+
+
 
 }

@@ -15,8 +15,8 @@
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/action_signInFragment_to_catalogFragment"
-            app:destination="@id/catalogFragment"
+            android:id="@+id/action_signInFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment"
             app:popUpTo="@id/signInFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -26,67 +26,11 @@
         android:name="com.example.sign_up.presentation.sign_up.SignUpFragment"
         android:label="@string/signUp"
         tools:layout="@layout/fragment_sign_up" />
-
     <fragment
-        android:id="@+id/catalogFragment"
-        android:name="com.example.catalog.presentation.catalog.CatalogFragment"
-        android:label="@string/catalog"
-        tools:layout="@layout/fragment_catalog">
-        <action
-            android:id="@+id/action_catalogFragment_to_cardFragment"
-            app:destination="@id/cardFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.profile.presentation.profile.ProfileFragment"
-        android:label="@string/profile"
-        tools:layout="@layout/fragment_profile">
-        <action
-            android:id="@+id/action_profileFragment_to_statisticFragment"
-            app:destination="@id/statisticFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/cardFragment"
-        android:name="com.example.catalog.presentation.card.CardFragment"
-        android:label="@string/card"
-        tools:layout="@layout/fragment_card">
-        <action
-            android:id="@+id/action_cardFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
-        <argument
-            android:name="idLesson"
-            app:argType="string" />
-        <argument
-            android:name="name"
-            app:argType="string" />
-        <argument android:name="description"
-            app:argType="string" />
-        <argument
-            android:name="idCreator"
-            app:argType="string" />
-        <argument
-            android:name="isFavorite"
-            app:argType="boolean" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/gameFragment"
-        android:name="com.example.game.presentation.game.GameFragment"
-        android:label="@string/game"
-        tools:layout="@layout/fragment_game"
-        >
-        <argument
-            android:name="idLesson"
-            app:argType="string" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/statisticFragment"
-        android:name="com.example.profile.presentation.statistic.StatisticFragment"
-        android:label="@string/statistic"
-        tools:layout="@layout/fragment_statistic"/>
+        android:id="@+id/tabsFragment"
+        android:name="com.example.englishteacher.TabsFragment"
+        android:label="fragment_tabs"
+        tools:layout="@layout/fragment_tabs" />
 
 
 </navigation>

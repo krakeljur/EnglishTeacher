@@ -1,5 +1,6 @@
 package com.example.profile.presentation.profile
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.profile.domain.EditNameUseCase
@@ -20,10 +21,10 @@ class ProfileViewModel @Inject constructor(
 
     val profile = getProfileUseCase.getAccount()
 
-    fun logout() {
+    fun logout(activity: FragmentActivity) {
         viewModelScope.launch {
             logoutUseCase.logout()
-            router.launchSignInFromProfile()
+            router.launchSignInFromProfile(activity)
         }
     }
 

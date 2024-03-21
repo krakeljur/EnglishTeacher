@@ -3,8 +3,11 @@ package com.example.englishteacher
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.englishteacher.databinding.ActivityMainBinding
@@ -19,37 +22,46 @@ class MainActivity : AppCompatActivity() {
     lateinit var router: Router
 
     private lateinit var binding: ActivityMainBinding
+    private val appBarConfiguration =
+        AppBarConfiguration(setOf(R.id.profileFragment, R.id.catalogFragment))
 
+    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
 
-    private val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-        val withoutBottom = setOf(R.id.signUpFragment)
-        val withoutBottomAndTool = setOf(R.id.signInFragment, R.id.gameFragment)
-
-        binding.toolbar.menu.clear()
-
-        when (destination.id) {
-            in withoutBottomAndTool -> {
-                binding.toolbar.visibility = View.GONE
-                binding.bottomNavigationView.visibility = View.GONE
-            }
-
-            in withoutBottom -> {
-                binding.bottomNavigationView.visibility = View.GONE
-                binding.toolbar.visibility = View.VISIBLE
-            }
-
-            else -> {
-                binding.bottomNavigationView.visibility = View.VISIBLE
-                binding.toolbar.visibility = View.VISIBLE
-            }
+        override fun onFragmentViewCreated(
+            fm: FragmentManager,
+            f: Fragment,
+            v: View,
+            savedInstanceState: Bundle?
+        ) {
+            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+            if (f is TabsFragment || f is NavHostFragment) return
+            activateNewNavController(f.findNavController())
         }
-
     }
+
+
+    private val destinationListener =
+        NavController.OnDestinationChangedListener { _, destination, _ ->
+            supportActionBar?.title = destination.label
+            val withoutTool = setOf(R.id.signInFragment, R.id.gameFragment)
+
+            when (destination.id) {
+                in withoutTool -> {
+                    binding.toolbar.visibility = View.GONE
+                }
+
+                else -> {
+                    binding.toolbar.visibility = View.VISIBLE
+                }
+            }
+
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
@@ -57,28 +69,27 @@ class MainActivity : AppCompatActivity() {
 
         val navController = navHostFragment.navController
 
-        val appBarConfiguration =
-            AppBarConfiguration(setOf(R.id.profileFragment, R.id.catalogFragment))
-
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-        binding.bottomNavigationView.setupWithNavController(navController)
+        activateNewNavController(navController)
 
-        router.navController = navController
-        setupScreensListener()
 
         setContentView(binding.root)
     }
 
     override fun onDestroy() {
-        router.navController?.removeOnDestinationChangedListener(listener)
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
+        router.navController?.removeOnDestinationChangedListener(destinationListener)
         router.navController = null
         super.onDestroy()
     }
 
 
-    private fun setupScreensListener() {
-        router.navController?.addOnDestinationChangedListener(listener)
+    private fun activateNewNavController(navController: NavController) {
+        if (router.navController == navController) return
+        router.navController?.removeOnDestinationChangedListener(destinationListener)
+        navController.addOnDestinationChangedListener(destinationListener)
+        router.navController = navController
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
 
