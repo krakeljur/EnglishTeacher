@@ -1,112 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.profile.ProfileFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/success_group"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="240dp"
+        android:fitsSystemWindows="false"
+        android:theme="@style/CoreTheme"
+        >
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false"
+            app:collapsedTitleTextColor="@color/white"
+            app:expandedTitleTextColor="@color/white"
+            app:titleEnabled="false"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/success_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_collapseMode="parallax"
+                android:keepScreenOn="false"
+                >
+
+                <TextView
+                    android:id="@+id/nameTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/loginTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nameTV" />
+
+                <TextView
+                    android:id="@+id/idTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/loginTV"
+                    app:layout_constraintTop_toBottomOf="@+id/loginTV" />
+
+                <Button
+                    android:id="@+id/redactNameButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="8sp"
+                    android:text="@string/change_name"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:drawableTop="@drawable/outline_redact_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/copyButton"
+                    app:layout_constraintEnd_toStartOf="@+id/copyButton"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/copyButton"
+                    tools:ignore="SmallSp" />
+
+                <Button
+                    android:id="@+id/copyButton"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:textSize="8sp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:drawableTop="@drawable/round_copy_24"
+                    android:text="@string/copy"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/redactNameButton"
+                    app:layout_constraintTop_toBottomOf="@+id/idTV"
+                    tools:ignore="SmallSp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.example.presentation.view.ContainerView
+                android:id="@+id/container_error"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"
+                app:subtitleTextColor="@color/white"
+                app:titleTextColor="@color/white" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
-        <TextView
-            android:id="@+id/nameHeadTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="128dp"
-            android:layout_marginTop="128dp"
-            android:text="@string/name"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:id="@+id/nameTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="128dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="TextView"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/nameHeadTV"
-            app:layout_constraintTop_toBottomOf="@+id/nameHeadTV" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/loginHeadTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/login"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/nameTV"
-            app:layout_constraintTop_toBottomOf="@+id/nameTV" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewProfileLessons"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
 
-        <TextView
-            android:id="@+id/loginTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="128dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="TextView"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/loginHeadTV"
-            app:layout_constraintTop_toBottomOf="@+id/loginHeadTV" />
-
-        <Button
-            android:id="@+id/changeNameButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/change"
-            app:layout_constraintBottom_toBottomOf="@+id/nameHeadTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/nameHeadTV"
-            app:layout_constraintTop_toTopOf="@+id/nameHeadTV" />
-
-        <Button
-            android:id="@+id/viewStatisticButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:text="@string/statistic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginTV" />
-
-        <Button
-            android:id="@+id/logout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/logout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/viewStatisticButton"
-            app:layout_constraintStart_toStartOf="@+id/viewStatisticButton"
-            app:layout_constraintTop_toBottomOf="@+id/viewStatisticButton" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.example.presentation.view.ContainerView
-        android:id="@+id/container_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        tools:ignore="MissingConstraints" />
+    </androidx.core.widget.NestedScrollView>
 
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

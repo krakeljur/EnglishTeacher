@@ -1,16 +1,27 @@
 package com.example.profile.presentation.profile
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.example.common.Container
 import com.example.profile.R
 import com.example.profile.databinding.AlertdialogRenameBinding
@@ -19,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment(R.layout.fragment_profile) {
+class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
 
     private val viewModel by viewModels<ProfileViewModel>()
     private lateinit var binding: FragmentProfileBinding
@@ -29,8 +40,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         binding = FragmentProfileBinding.bind(view)
 
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        val navController = findNavController()
+        binding.toolbar.setupWithNavController(
+            navController,
+            AppBarConfiguration(setOf(navController.currentDestination!!.id))
+        )
+
+        requireActivity().addMenuProvider(this, viewLifecycleOwner)
+
         observeProfile()
         setupListeners()
+
     }
 
     private fun observeProfile() {
@@ -65,14 +86,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun setupListeners() {
-        binding.logout.setOnClickListener {
-            viewModel.logout(requireActivity())
-        }
-        binding.viewStatisticButton.setOnClickListener {
-            viewModel.getStatistic()
-        }
-        binding.changeNameButton.setOnClickListener {
+        binding.redactNameButton.setOnClickListener {
             showNameDialog(binding.nameTV.text.toString())
+        }
+        binding.copyButton.setOnClickListener {
+            val clipboard = getSystemService(requireContext(), ClipboardManager::class.java)
+            val clip = ClipData.newPlainText(
+                getString(com.example.presentation.R.string.user_id),
+                binding.idTV.text
+            )
+            clipboard!!.setPrimaryClip(clip)
         }
     }
 
@@ -112,5 +135,24 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
         }
         dialog.show()
+    }
+
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
+        menuInflater.inflate(R.menu.profile_toolbar_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.logoutMenuItem -> {
+                viewModel.logout(requireActivity())
+            }
+
+            R.id.statisticMenuItem -> {
+                viewModel.getStatistic()
+            }
+        }
+        return true
     }
 }

@@ -42,8 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private val destinationListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
-            supportActionBar?.title = destination.label
-            val withoutTool = setOf(R.id.signInFragment, R.id.gameFragment)
+            val withoutTool = setOf(R.id.signInFragment, R.id.gameFragment, R.id.profileFragment)
 
             when (destination.id) {
                 in withoutTool -> {
@@ -51,9 +50,15 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
+                    setSupportActionBar(binding.toolbar)
+                    binding.toolbar.setupWithNavController(
+                        router.navController!!,
+                        appBarConfiguration
+                    )
                     binding.toolbar.visibility = View.VISIBLE
                 }
             }
+            supportActionBar?.title = destination.label
 
         }
 

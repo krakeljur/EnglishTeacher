@@ -121,6 +121,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
         menuInflater.inflate(R.menu.toolbar_catalog_menu, menu)
         val favoriteCheckBox = menu.findItem(R.id.switchFavoriteButton).actionView as CheckBox
 

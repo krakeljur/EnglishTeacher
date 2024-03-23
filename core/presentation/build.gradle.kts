@@ -46,5 +46,8 @@ dependencies {
     implementation(Libs.Google.Paging)
     implementation(Libs.Google.Material)
 
+    api(Libs.Android.NavigationFragment)
+    api(Libs.Android.NavigationUI)
+
     api(project(Mod.Core.Common))
 }

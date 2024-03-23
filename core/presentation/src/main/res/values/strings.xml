@@ -5,6 +5,8 @@
     <string name="name">Name</string>
     <string name="login">Login</string>
     <string name="change">Change</string>
+    <string name="change_name">Rename</string>
+    <string name="copy">Copy</string>
     <string name="statistic">Check statistic</string>
     <string name="logout">Logout</string>
     <string name="rename_hint">Your new name</string>
@@ -41,6 +43,8 @@
     <string name="first_letter">First letter is</string>
     <string name="very_long_name">Name must be shorter then 18 characters</string>
     <string name="search">Search</string>
+    <string name="create_lesson">Create new lesson</string>
+    <string name="user_id">ID User</string>
 
 
 </resources>

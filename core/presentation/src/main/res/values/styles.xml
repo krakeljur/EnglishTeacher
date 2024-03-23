@@ -7,16 +7,18 @@
         <!-- Other style attributes -->
         <item name="actionBarTheme">@style/MyActionBarTheme</item>
 
+
     </style>
 
     <!-- MY STYLES -->
     <style name="MyActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:buttonStyle">@style/MyToolbarButtonStyle</item>
-        <item name ="colorControlNormal">#FFFFFFFF</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="MyToolbarButtonStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:tint">#FFFFFFFF</item>
     </style>
+
 
 </resources>
