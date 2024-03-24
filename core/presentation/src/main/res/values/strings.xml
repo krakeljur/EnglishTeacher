@@ -22,6 +22,8 @@
     <string name="back">Back</string>
     <string name="add_favorite">Add to favorites</string>
     <string name="delete_favorite">Delete from favorites</string>
+    <string name="delete">Delete</string>
+    <string name="delete_lesson_sure">Are you sure you want delete</string>
     <string name="description">Description</string>
     <string name="eng">English word</string>
     <string name="rus">Russian word</string>
@@ -42,9 +44,11 @@
     <string name="letters">letters</string>
     <string name="first_letter">First letter is</string>
     <string name="very_long_name">Name must be shorter then 18 characters</string>
+    <string name="very_long_description">Description must be shorter then 50 characters</string>
     <string name="search">Search</string>
     <string name="create_lesson">Create new lesson</string>
     <string name="user_id">ID User</string>
+    <string name="copy_notification">Your ID has been copied to the clipboard</string>
 
 
 </resources>

@@ -24,8 +24,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.common.Container
 import com.example.profile.R
+import com.example.profile.databinding.AlertdialogAddLessonBinding
 import com.example.profile.databinding.AlertdialogRenameBinding
 import com.example.profile.databinding.FragmentProfileBinding
+import com.example.profile.domain.entities.Lesson
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -63,7 +66,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                             is Container.Pending -> {
                                 containerError.showPending()
                                 successGroup.visibility = GONE
-
                             }
 
                             is Container.Error -> {
@@ -77,6 +79,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
 
                                 loginTV.text = it.data.login
                                 nameTV.text = it.data.name
+                                idTV.text = it.data.id
                             }
                         }
                     }
@@ -96,7 +99,36 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                 binding.idTV.text
             )
             clipboard!!.setPrimaryClip(clip)
+            val snackBar = Snackbar.make(binding.root, getString(com.example.presentation.R.string.copy_notification), Snackbar.LENGTH_SHORT)
+
+            snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
+                snackBar.dismiss()
+            }
+
+            snackBar.show()
         }
+    }
+
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
+        menuInflater.inflate(R.menu.profile_toolbar_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.logoutMenuItem -> {
+                viewModel.logout(requireActivity())
+            }
+
+            R.id.statisticMenuItem -> {
+                viewModel.getStatistic()
+            }
+            R.id.addLessonMenuItem -> {
+                showAddLessonDialog()
+            }
+        }
+        return true
     }
 
     private fun showNameDialog(oldName: String) {
@@ -136,23 +168,64 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
         }
         dialog.show()
     }
+    private fun showAddLessonDialog() {
+        val dialogBinding = AlertdialogAddLessonBinding.inflate(layoutInflater)
 
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle(getString(com.example.presentation.R.string.create_lesson))
+            .setView(dialogBinding.root)
+            .setPositiveButton(getString(com.example.presentation.R.string.save), null)
+            .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
+            .create()
 
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menu.clear()
-        menuInflater.inflate(R.menu.profile_toolbar_menu, menu)
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            val enteredName = dialogBinding.nameLessonEditText.text.toString()
+            val enteredDescription = dialogBinding.descriptionLessonEditText.text.toString()
+
+            if (enteredName.isBlank()) {
+                dialogBinding.nameLessonEditText.error = getString(com.example.presentation.R.string.error)
+                return@setOnClickListener
+            } else if (enteredName.length > 18) {
+                dialogBinding.nameLessonEditText.error = getString(com.example.presentation.R.string.very_long_name)
+                return@setOnClickListener
+            }
+
+            if (enteredDescription.isBlank()) {
+                dialogBinding.descriptionLessonEditText.error = getString(com.example.presentation.R.string.error)
+                return@setOnClickListener
+            } else if (enteredDescription.length > 50) {
+                dialogBinding.descriptionLessonEditText.error = getString(com.example.presentation.R.string.very_long_name)
+                return@setOnClickListener
+            }
+
+            viewModel.createLesson(enteredName, enteredDescription)
+
+            dialog.dismiss()
+        }
+
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        when (menuItem.itemId) {
-            R.id.logoutMenuItem -> {
-                viewModel.logout(requireActivity())
-            }
+    fun showDeleteDialog(lesson: Lesson) {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle(getString(com.example.presentation.R.string.delete_lesson_sure) + " ${lesson.name}?")
+            .setPositiveButton(getString(com.example.presentation.R.string.delete), null)
+            .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
+            .create()
 
-            R.id.statisticMenuItem -> {
-                viewModel.getStatistic()
-            }
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            viewModel.deleteLesson(lesson.id)
+            dialog.dismiss()
         }
-        return true
+
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

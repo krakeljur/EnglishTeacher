@@ -4,10 +4,14 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.common.Container
 import com.example.data.AccountsDataRepository
+import com.example.data.CatalogDataRepository
 import com.example.data.GameDataRepository
+import com.example.data.LessonDataRepository
 import com.example.profile.domain.entities.GameResult
+import com.example.profile.domain.entities.Lesson
 import com.example.profile.domain.entities.Profile
 import com.example.profile.domain.repositories.AuthRepository
+import com.example.profile.domain.repositories.LessonRepository
 import com.example.profile.domain.repositories.ProfileRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +20,10 @@ import javax.inject.Inject
 
 class ProfileAdapter @Inject constructor(
     private val accountsDataRepository: AccountsDataRepository,
-    private val gameDataRepository: GameDataRepository
-) : AuthRepository, ProfileRepository {
+    private val gameDataRepository: GameDataRepository,
+    private val lessonDataRepository: LessonDataRepository,
+    private val catalogDataRepository: CatalogDataRepository,
+) : AuthRepository, ProfileRepository, LessonRepository {
     override suspend fun logout() {
         accountsDataRepository.logOut()
     }
@@ -53,4 +59,26 @@ class ProfileAdapter @Inject constructor(
             }
         }
     }
+
+    override suspend fun createLesson(name: String, description: String) {
+        lessonDataRepository.createLesson(name, description)
+    }
+
+    override suspend fun deleteLesson(idLesson: String) {
+        lessonDataRepository.deleteLesson(idLesson)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun getMyLessons(): Flow<PagingData<Lesson>> =
+        catalogDataRepository.getCatalog(isOnlyMy = true).mapLatest { pagingData ->
+            pagingData.map {
+                Lesson(
+                    it.name,
+                    it.description,
+                    it.id,
+                    it.idCreator,
+                    it.isFavorite
+                )
+            }
+        }
 }
