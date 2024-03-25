@@ -3,13 +3,18 @@ package com.example.profile.presentation.profile
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.example.profile.domain.CreateOrDeleteLessonUseCase
 import com.example.profile.domain.EditNameUseCase
 import com.example.profile.domain.GetLessonsFromUserUseCase
 import com.example.profile.domain.GetProfileUseCase
 import com.example.profile.domain.LogoutUseCase
+import com.example.profile.domain.entities.Lesson
 import com.example.profile.presentation.ProfileRouter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,6 +29,15 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
     val profile = getProfileUseCase.getAccount()
+    private val updateLessonFlow = MutableStateFlow(false)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val myLessons = updateLessonFlow.flatMapLatest {
+        getLessonsFromUserUseCase.getMyLessons()
+    }.cachedIn(viewModelScope)
+
+
+
 
     fun logout(activity: FragmentActivity) {
         viewModelScope.launch {
@@ -38,7 +52,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getStatistic(){
+    fun getStatistic() {
         router.launchStatisticFromProfile()
     }
 
@@ -53,4 +67,13 @@ class ProfileViewModel @Inject constructor(
             createOrDeleteLessonUseCase.deleteLesson(lessonId)
         }
     }
+
+    fun launchLessonRedactor(lesson: Lesson) {
+        router.launchLessonRedactorFromProfile(lesson)
+    }
+
+    fun updateFlow() {
+        updateLessonFlow.value = !updateLessonFlow.value
+    }
+
 }

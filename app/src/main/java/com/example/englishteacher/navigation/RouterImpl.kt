@@ -11,6 +11,7 @@ import com.example.catalog.presentation.card.CardFragmentDirections
 import com.example.catalog.presentation.catalog.CatalogFragmentDirections
 import com.example.englishteacher.R
 import com.example.game.presentation.game.GameFragmentArgs
+import com.example.profile.domain.entities.Lesson
 import javax.inject.Inject
 
 class RouterImpl @Inject constructor() : Router {
@@ -62,12 +63,17 @@ class RouterImpl @Inject constructor() : Router {
 
 
     override fun launchSignInFromProfile(activity: FragmentActivity) {
-        val navHost = activity.supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHost =
+            activity.supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navHost.navController.navigate(R.id.signInFragment, null, navOptions {
             popUpTo(R.id.tabsFragment) {
                 inclusive = true
             }
         })
+    }
+
+    override fun launchLessonRedactorFromProfile(lesson: Lesson) {
+        //TODO
     }
 
     override fun launchSignUp() {

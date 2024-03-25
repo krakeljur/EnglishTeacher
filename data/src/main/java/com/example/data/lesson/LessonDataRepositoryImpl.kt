@@ -38,7 +38,6 @@ class LessonDataRepositoryImpl @Inject constructor(
 
     override suspend fun createLesson(name: String, description: String) {
         redactorApi.createLesson(CreateLessonRequestBody(token!!, name, description))
-        lessonDao.clear()
     }
 
     override suspend fun addWord(word: WordDataEntity, idLesson: String) {
@@ -51,7 +50,7 @@ class LessonDataRepositoryImpl @Inject constructor(
 
     override suspend fun deleteLesson(idLesson: String) {
         redactorApi.deleteLesson(DeleteLessonRequestBody(token!!, idLesson))
-        lessonDao.clear()
+        lessonDao.clear(idLesson)
     }
 
     override suspend fun patchLesson(patchedLesson: LessonDataEntity) {

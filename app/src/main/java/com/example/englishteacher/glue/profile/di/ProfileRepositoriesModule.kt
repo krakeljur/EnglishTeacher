@@ -2,6 +2,7 @@ package com.example.englishteacher.glue.profile.di
 
 import com.example.englishteacher.glue.profile.repositories.ProfileAdapter
 import com.example.profile.domain.repositories.AuthRepository
+import com.example.profile.domain.repositories.LessonRepository
 import com.example.profile.domain.repositories.ProfileRepository
 import dagger.Binds
 import dagger.Module
@@ -25,5 +26,11 @@ interface ProfileRepositoriesModule {
     fun bindProfileRepository(
         profileAdapter: ProfileAdapter
     ) : ProfileRepository
+
+    @Binds
+    @Singleton
+    fun bindLessonsRepository(
+        profileAdapter: ProfileAdapter
+    ) : LessonRepository
 
 }

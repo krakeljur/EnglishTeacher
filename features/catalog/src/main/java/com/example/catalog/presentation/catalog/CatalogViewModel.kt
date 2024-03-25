@@ -27,9 +27,10 @@ class CatalogViewModel @Inject constructor(
 
     private val isFavoriteFlow = MutableStateFlow(false)
     private val searchByFlow = MutableStateFlow("")
+    private val updateDataFlow = MutableStateFlow(false)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val catalog = combine(isFavoriteFlow, searchByFlow) { isFavorite, searchBy ->
+    val catalog = combine(isFavoriteFlow, searchByFlow, updateDataFlow) { isFavorite, searchBy, _ ->
         Pair(isFavorite, searchBy)
     }
         .flatMapLatest { (isFavorite, searchBy) ->
@@ -61,6 +62,10 @@ class CatalogViewModel @Inject constructor(
     fun getCurrentFavorite() : Boolean = isFavoriteFlow.value
     fun launchLesson(lesson: LessonData) {
         catalogRouter.launchCardFromCatalog(lesson)
+    }
+
+    fun updateDataSource() {
+        updateDataFlow.value = !updateDataFlow.value
     }
 
 

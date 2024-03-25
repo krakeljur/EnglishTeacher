@@ -47,28 +47,30 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
             }
         }
     }
+    private val adapter = CatalogAdapter(actionListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCatalogBinding.bind(view)
+
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner)
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.catalogRecyclerView.layoutManager = layoutManager
 
-        val adapter = CatalogAdapter(actionListener)
         val tryAgainAction: TryAgainAction = { adapter.retry() }
         val footerAdapter = DefaultLoadStateAdapter(tryAgainAction)
         val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
         binding.catalogRecyclerView.adapter = adapterWithLoadState
 
 
-        setupObserveLessonData(adapter)
-        setupObserveLoadState(adapter, tryAgainAction)
+        setupObserveLessonData()
+        setupObserveLoadState(tryAgainAction)
     }
 
-    private fun setupObserveLessonData(adapter: CatalogAdapter) {
+
+    private fun setupObserveLessonData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.catalog.collectLatest {
@@ -78,7 +80,12 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
         }
     }
 
-    private fun setupObserveLoadState(adapter: CatalogAdapter, tryAgainAction: TryAgainAction) {
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        viewModel.updateDataSource()
+        super.onViewStateRestored(savedInstanceState)
+    }
+
+    private fun setupObserveLoadState(tryAgainAction: TryAgainAction) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest { combinedLoadState ->
@@ -137,12 +144,15 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.setNewSearch(query ?: "")
+                binding.catalogRecyclerView.scrollToPosition(0)
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText == "" || newText == null)
+                if (newText == "" || newText == null) {
                     viewModel.setNewSearch("")
+                    binding.catalogRecyclerView.scrollToPosition(0)
+                }
                 return true
             }
 

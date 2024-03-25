@@ -38,8 +38,10 @@ class CatalogRemoteMediator @AssistedInject constructor(
         return try {
             val lessons = fetchLessons(limit, offset)
 
-            if (loadType == LoadType.REFRESH) lessonDao.refresh(lessons)
-            else lessonDao.save(lessons)
+            if (loadType == LoadType.REFRESH)
+                lessonDao.refresh(lessons)
+            else
+                lessonDao.save(lessons)
 
             MediatorResult.Success(
                 endOfPaginationReached = lessons.size < limit

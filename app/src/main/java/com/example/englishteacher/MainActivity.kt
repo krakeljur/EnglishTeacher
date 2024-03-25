@@ -84,7 +84,6 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
         router.navController?.removeOnDestinationChangedListener(destinationListener)
-        router.navController = null
         super.onDestroy()
     }
 

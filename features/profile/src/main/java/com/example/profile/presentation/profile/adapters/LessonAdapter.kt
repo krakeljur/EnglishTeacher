@@ -7,7 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.profile.R
-import com.example.profile.databinding.ItemLessonBinding
+import com.example.profile.databinding.ItemLessonInProfileBinding
 import com.example.profile.domain.entities.Lesson
 
 
@@ -25,7 +25,7 @@ class LessonAdapter(
 ) :
     PagingDataAdapter<Lesson, LessonAdapter.LessonViewHolder>(LessonDiffCallBack()),
     View.OnClickListener {
-    class LessonViewHolder(val binding: ItemLessonBinding) : RecyclerView.ViewHolder(binding.root)
+    class LessonViewHolder(val binding: ItemLessonInProfileBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onBindViewHolder(holder: LessonViewHolder, position: Int) {
         val lesson = getItem(position) ?: return
@@ -41,7 +41,7 @@ class LessonAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LessonViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemLessonBinding.inflate(inflater, parent, false)
+        val binding = ItemLessonInProfileBinding.inflate(inflater, parent, false)
 
         binding.root.setOnClickListener(this)
         binding.buttonDelete.setOnClickListener(this)
