@@ -241,7 +241,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                 }
 
                 viewModel.createLesson(enteredName, enteredDescription)
-                adapter.refresh()
 
                 dialog.dismiss()
             }

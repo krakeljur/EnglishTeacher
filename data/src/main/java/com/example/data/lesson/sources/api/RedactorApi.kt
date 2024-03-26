@@ -2,6 +2,7 @@ package com.example.data.lesson.sources.api
 
 import com.example.data.lesson.entites.api.AddOrDeleteWordsRequestBody
 import com.example.data.lesson.entites.api.CreateLessonRequestBody
+import com.example.data.lesson.entites.api.CreateLessonResponseBody
 import com.example.data.lesson.entites.api.DeleteLessonRequestBody
 import com.example.data.lesson.entites.api.PatchLessonRequestBody
 import retrofit2.http.Body
@@ -12,7 +13,7 @@ import retrofit2.http.PUT
 interface RedactorApi {
 
     @PUT("lesson")
-    suspend fun createLesson(@Body body: CreateLessonRequestBody)
+    suspend fun createLesson(@Body body: CreateLessonRequestBody) : CreateLessonResponseBody
 
     @PATCH("lesson")
     suspend fun patchLesson(@Body body: PatchLessonRequestBody)

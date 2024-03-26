@@ -3,6 +3,7 @@ package com.example.data.lesson
 import com.example.data.LessonDataRepository
 import com.example.data.catalog.entities.LessonDataEntity
 import com.example.data.catalog.entities.WordDataEntity
+import com.example.data.catalog.entities.room.LessonDbEntity
 import com.example.data.catalog.sources.dao.LessonDao
 import com.example.data.lesson.entites.api.AddOrDeleteWordsRequestBody
 import com.example.data.lesson.entites.api.CreateLessonRequestBody
@@ -30,6 +31,8 @@ class LessonDataRepositoryImpl @Inject constructor(
             settings.listenAccount().collectLatest {
                 account = it
             }
+        }
+        coroutineScope.launch {
             settings.listenToken().collectLatest {
                 token = it
             }
@@ -37,7 +40,8 @@ class LessonDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createLesson(name: String, description: String) {
-        redactorApi.createLesson(CreateLessonRequestBody(token!!, name, description))
+        val id = redactorApi.createLesson(CreateLessonRequestBody(token!!, name, description)).idLesson
+        lessonDao.save(LessonDbEntity(id, name, description, account!!.id, false))
     }
 
     override suspend fun addWord(word: WordDataEntity, idLesson: String) {
