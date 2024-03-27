@@ -26,7 +26,8 @@ class LessonAdapter @Inject constructor(
                     it.description,
                     it.id,
                     it.idCreator,
-                    it.isFavorite
+                    it.isFavorite,
+                    it.countWord
                 )
             }
         }
@@ -39,7 +40,8 @@ class LessonAdapter @Inject constructor(
             lesson.description,
             lesson.id,
             lesson.idCreator,
-            lesson.isFavorite
+            lesson.isFavorite,
+            lesson.countWord
         )
         catalogDataRepository.addFavorite(lessonDataEntity)
     }
@@ -50,7 +52,8 @@ class LessonAdapter @Inject constructor(
             lesson.description,
             lesson.id,
             lesson.idCreator,
-            lesson.isFavorite
+            lesson.isFavorite,
+            lesson.countWord
         )
         catalogDataRepository.deleteFavorite(lessonDataEntity)
     }

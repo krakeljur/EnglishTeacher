@@ -76,8 +76,7 @@ class ProfileAdapter @Inject constructor(
                     it.name,
                     it.description,
                     it.id,
-                    it.idCreator,
-                    it.isFavorite
+                    it.idCreator
                 )
             }
         }

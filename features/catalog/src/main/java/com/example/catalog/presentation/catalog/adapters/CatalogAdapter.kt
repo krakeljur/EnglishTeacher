@@ -40,6 +40,7 @@ class CatalogAdapter(
         with(holder.binding) {
             nameTextView.text = lesson.name
             descriptionLessonTextView.text = lesson.description
+            countWordText.text = lesson.countWord.toString()
             buttonChangeStatus.tag = lesson
         }
 

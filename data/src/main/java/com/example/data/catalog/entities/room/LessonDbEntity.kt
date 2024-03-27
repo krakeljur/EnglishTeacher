@@ -12,7 +12,8 @@ data class LessonDbEntity(
     val name: String,
     val description: String,
     @ColumnInfo(name = "creator_id") val idCreator: String,
-    @ColumnInfo(name = "is_favorite") val isFavorite : Boolean
+    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean,
+    @ColumnInfo(name = "count_word") val countWord: Int?
 ) {
 
     fun toLessonDataEntity(): LessonDataEntity = LessonDataEntity(
@@ -20,6 +21,7 @@ data class LessonDbEntity(
         description,
         id,
         idCreator,
-        isFavorite
+        isFavorite,
+        countWord
     )
 }

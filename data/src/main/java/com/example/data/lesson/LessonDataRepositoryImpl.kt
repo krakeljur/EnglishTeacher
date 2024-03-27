@@ -40,8 +40,9 @@ class LessonDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createLesson(name: String, description: String) {
-        val id = redactorApi.createLesson(CreateLessonRequestBody(token!!, name, description)).idLesson
-        lessonDao.save(LessonDbEntity(id, name, description, account!!.id, false))
+        val id =
+            redactorApi.createLesson(CreateLessonRequestBody(token!!, name, description)).idLesson
+        lessonDao.save(LessonDbEntity(id, name, description, account!!.id, false, 0))
     }
 
     override suspend fun addWord(word: WordDataEntity, idLesson: String) {

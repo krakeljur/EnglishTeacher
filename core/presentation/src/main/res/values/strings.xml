@@ -43,8 +43,8 @@
     <string name="game">Game</string>
     <string name="letters">letters</string>
     <string name="first_letter">First letter is</string>
-    <string name="very_long_name">Name must be shorter then 18 characters</string>
-    <string name="very_long_description">Description must be shorter then 50 characters</string>
+    <string name="very_long_name">Name must be shorter then 50 characters</string>
+    <string name="very_long_description">Description must be shorter then 150 characters</string>
     <string name="search">Search</string>
     <string name="create_lesson">Create new lesson</string>
     <string name="user_id">ID User</string>

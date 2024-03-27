@@ -5,5 +5,6 @@ data class LessonData(
     val description: String,
     val id: String,
     val idCreator: String,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    val countWord: Int? = null
 )

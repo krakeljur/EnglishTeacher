@@ -183,7 +183,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                         getString(com.example.presentation.R.string.error)
                     return@setOnClickListener
                 }
-                if (enteredText.length > 18) {
+                if (enteredText.length > 50) {
                     dialogBinding.nameEditText.error =
                         getString(com.example.presentation.R.string.very_long_name)
                     return@setOnClickListener
@@ -223,7 +223,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                         getString(com.example.presentation.R.string.error)
                     return@setOnClickListener
                 }
-                if (enteredName.length > 18) {
+                if (enteredName.length > 50) {
                     dialogBinding.nameLessonEditText.error =
                         getString(com.example.presentation.R.string.very_long_name)
                     return@setOnClickListener
@@ -234,9 +234,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                         getString(com.example.presentation.R.string.error)
                     return@setOnClickListener
                 }
-                if (enteredDescription.length > 50) {
+                if (enteredDescription.length > 150) {
                     dialogBinding.descriptionLessonEditText.error =
-                        getString(com.example.presentation.R.string.very_long_name)
+                        getString(com.example.presentation.R.string.very_long_description)
                     return@setOnClickListener
                 }
 
