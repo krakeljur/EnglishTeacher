@@ -12,6 +12,9 @@ import com.example.catalog.presentation.catalog.CatalogFragmentDirections
 import com.example.englishteacher.R
 import com.example.game.presentation.game.GameFragmentArgs
 import com.example.profile.domain.entities.Lesson
+import com.example.profile.presentation.profile.ProfileFragmentDirections
+import com.example.redactor.domain.entities.LessonEntity
+import com.example.redactor.presentation.LessonRedactorFragmentArgs
 import javax.inject.Inject
 
 class RouterImpl @Inject constructor() : Router {
@@ -19,7 +22,7 @@ class RouterImpl @Inject constructor() : Router {
     override var navController: NavController? = null
 
     override fun returnToCardFromGame() {
-        navController?.popBackStack()
+        navController?.navigateUp()
     }
 
     override fun getGameArgs(args: Bundle): String {
@@ -28,7 +31,7 @@ class RouterImpl @Inject constructor() : Router {
 
 
     override fun launchBackFromCard() {
-        navController?.popBackStack()
+        navController?.navigateUp()
     }
 
     override fun launchGameFromCard(idLesson: String) {
@@ -73,7 +76,13 @@ class RouterImpl @Inject constructor() : Router {
     }
 
     override fun launchLessonRedactorFromProfile(lesson: Lesson) {
-        //TODO
+        val direction = ProfileFragmentDirections.actionProfileFragmentToLessonRedactorFragment(
+            lesson.id,
+            lesson.name,
+            lesson.description,
+            lesson.idCreator
+        )
+        navController?.navigate(direction)
     }
 
     override fun launchSignUp() {
@@ -85,7 +94,17 @@ class RouterImpl @Inject constructor() : Router {
     }
 
     override fun goBackToSignInFromSignUp() {
-        navController?.popBackStack()
+        navController?.navigateUp()
+    }
+
+    override fun getRedactorArgs(args: Bundle): LessonEntity {
+        val lessonBundle = LessonRedactorFragmentArgs.fromBundle(args)
+        return LessonEntity(
+            lessonBundle.id,
+            lessonBundle.name,
+            lessonBundle.description,
+            lessonBundle.idCreator
+        )
     }
 
 }

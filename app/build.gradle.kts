@@ -67,5 +67,6 @@ dependencies {
     implementation(project(Mod.Features.Profile))
     implementation(project(Mod.Features.SignIn))
     implementation(project(Mod.Features.SignUp))
+    implementation(project(Mod.Features.Redactor))
 
 }

@@ -49,6 +49,7 @@
     <string name="create_lesson">Create new lesson</string>
     <string name="user_id">ID User</string>
     <string name="copy_notification">Your ID has been copied to the clipboard</string>
+    <string name="redactor">Redactor</string>
 
 
 </resources>

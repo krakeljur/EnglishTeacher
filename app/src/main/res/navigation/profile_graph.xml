@@ -13,10 +13,31 @@
         <action
             android:id="@+id/action_profileFragment_to_statisticFragment"
             app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_lessonRedactorFragment"
+            app:destination="@id/lessonRedactorFragment" />
     </fragment>
     <fragment
         android:id="@+id/statisticFragment"
         android:name="com.example.profile.presentation.statistic.StatisticFragment"
         android:label="@string/statistic"
         tools:layout="@layout/fragment_statistic" />
+    <fragment
+        android:id="@+id/lessonRedactorFragment"
+        android:name="com.example.redactor.presentation.LessonRedactorFragment"
+        android:label="@string/redactor"
+        tools:layout="@layout/fragment_lesson_redactor">
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="idCreator"
+            app:argType="string" />
+    </fragment>
 </navigation>

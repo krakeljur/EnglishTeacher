@@ -21,7 +21,8 @@ object Libs {
         const val NavigationFragment = "androidx.navigation:navigation-fragment:$navVersion"
         const val NavigationUI = "androidx.navigation:navigation-ui:$navVersion"
     }
-    object Google{
+
+    object Google {
         const val Material = "com.google.android.material:material:1.11.0"
 
         const val Hilt = "com.google.dagger:hilt-android:$hiltVersion"
@@ -34,28 +35,33 @@ object Libs {
 
         const val Paging = "androidx.paging:paging-runtime:$pagingVersion"
     }
+
     object SquareUp {
         const val Moshi = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
         const val Retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
     }
-    object JetBrains  {
+
+    object JetBrains {
         const val CoroutineScope = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     }
-    object Testing  {
+
+    object Testing {
         const val Junit = "junit:junit:4.13.2"
     }
 }
 
 object Mod {
     const val Data = ":data"
+
     object Features {
         const val SignUp = ":features:sign-up"
         const val SignIn = ":features:sign-in"
         const val Catalog = ":features:catalog"
         const val Game = ":features:game"
-        const val Peoples = ":features:peoples"
+        const val Redactor = ":features:redactor"
         const val Profile = ":features:profile"
     }
+
     object Core {
         const val Presentation = ":core:presentation"
         const val Common = ":core:common"

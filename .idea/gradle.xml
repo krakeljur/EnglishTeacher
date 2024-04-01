@@ -30,6 +30,7 @@
             <option value="$PROJECT_DIR$/features/catalog" />
             <option value="$PROJECT_DIR$/features/game" />
             <option value="$PROJECT_DIR$/features/profile" />
+            <option value="$PROJECT_DIR$/features/redactor" />
             <option value="$PROJECT_DIR$/features/sign-in" />
             <option value="$PROJECT_DIR$/features/sign-up" />
           </set>
