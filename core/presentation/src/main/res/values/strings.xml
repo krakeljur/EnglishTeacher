@@ -44,12 +44,17 @@
     <string name="letters">letters</string>
     <string name="first_letter">First letter is</string>
     <string name="very_long_name">Name must be shorter then 50 characters</string>
+    <string name="very_long_word">Word must be shorter then 60 characters</string>
     <string name="very_long_description">Description must be shorter then 150 characters</string>
     <string name="search">Search</string>
     <string name="create_lesson">Create new lesson</string>
+    <string name="create_word">Create new word</string>
     <string name="user_id">ID User</string>
-    <string name="copy_notification">Your ID has been copied to the clipboard</string>
+    <string name="lesson_id">ID Lesson</string>
+    <string name="copy_notification_user">Your ID has been copied to the clipboard</string>
+    <string name="copy_notification_lesson">Lesson ID has been copied to the clipboard</string>
     <string name="redactor">Redactor</string>
+    <string name="redactor_lesson">Redact your lesson</string>
 
 
 </resources>

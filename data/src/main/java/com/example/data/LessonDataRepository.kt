@@ -1,6 +1,5 @@
 package com.example.data
 
-import com.example.data.catalog.entities.LessonDataEntity
 import com.example.data.catalog.entities.WordDataEntity
 
 interface LessonDataRepository {
@@ -13,6 +12,7 @@ interface LessonDataRepository {
 
     suspend fun deleteLesson(idLesson: String)
 
-    suspend fun patchLesson(patchedLesson: LessonDataEntity)
+    suspend fun patchLesson(newName: String, newDescription: String, idLesson: String)
+
 
 }

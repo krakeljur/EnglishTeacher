@@ -132,7 +132,7 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
         menuInflater.inflate(R.menu.toolbar_catalog_menu, menu)
         val favoriteCheckBox = menu.findItem(R.id.switchFavoriteButton).actionView as CheckBox
 
-        favoriteCheckBox.setButtonDrawable(com.example.presentation.R.drawable.checkbox_selector)
+        favoriteCheckBox.setButtonDrawable(com.example.presentation.R.drawable.checkbox_selector_favorite)
         favoriteCheckBox.isChecked = viewModel.getCurrentFavorite()
         favoriteCheckBox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setNewFavorite(isChecked)

@@ -13,7 +13,7 @@ import retrofit2.http.PUT
 interface RedactorApi {
 
     @PUT("lesson")
-    suspend fun createLesson(@Body body: CreateLessonRequestBody) : CreateLessonResponseBody
+    suspend fun createLesson(@Body body: CreateLessonRequestBody): CreateLessonResponseBody
 
     @PATCH("lesson")
     suspend fun patchLesson(@Body body: PatchLessonRequestBody)

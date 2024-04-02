@@ -25,7 +25,8 @@ class LessonAdapter(
 ) :
     PagingDataAdapter<Lesson, LessonAdapter.LessonViewHolder>(LessonDiffCallBack()),
     View.OnClickListener {
-    class LessonViewHolder(val binding: ItemLessonInProfileBinding) : RecyclerView.ViewHolder(binding.root)
+    class LessonViewHolder(val binding: ItemLessonInProfileBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onBindViewHolder(holder: LessonViewHolder, position: Int) {
         val lesson = getItem(position) ?: return

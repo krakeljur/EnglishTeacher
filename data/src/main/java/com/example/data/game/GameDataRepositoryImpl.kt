@@ -54,29 +54,28 @@ class GameDataRepositoryImpl @Inject constructor(
         resultDao.save(
             ResultDbEntity(
                 result.id,
+                settingsDataSource.getAccount()!!.name,
                 result.idLesson,
                 result.time,
                 result.countCorrect,
-                result.countWrong
+                result.countWrong,
             )
         )
     }
 
 
-    override fun getResults(): Flow<PagingData<ResultGameEntity>> {
+    override fun getResults(idLesson: String): Flow<PagingData<ResultGameEntity>> {
         return Pager(
             config = PagingConfig(
-                pageSize = Const.PAGE_SIZE,
-                initialLoadSize = Const.PAGE_SIZE
+                pageSize = Const.PAGE_SIZE, initialLoadSize = Const.PAGE_SIZE
             ),
-            pagingSourceFactory = { resultDao.getPagingSource() },
-            remoteMediator = remoteMediatorFactory.create(token!!)
-        ).flow
-            .map { pagingData ->
-                pagingData.map {
-                    it.toResultGameEntity()
-                }
+            pagingSourceFactory = { resultDao.getPagingSource(if (idLesson.isBlank()) null else idLesson) },
+            remoteMediator = remoteMediatorFactory.create(token!!, idLesson)
+        ).flow.map { pagingData ->
+            pagingData.map {
+                it.toResultGameEntity()
             }
+        }
     }
 
 

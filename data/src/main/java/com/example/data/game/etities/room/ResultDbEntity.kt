@@ -9,12 +9,13 @@ import com.example.data.game.etities.ResultGameEntity
 @Entity(tableName = "result")
 data class ResultDbEntity(
     @PrimaryKey val id: String,
+    @ColumnInfo(name = "name_user") val nameUser: String,
     @ColumnInfo(name = "id_lesson") val idLesson: String,
     val time: Long,
     @ColumnInfo(name = "count_correct") val correctCount: Int,
     @ColumnInfo(name = "count_wrong") val wrongCount: Int
 ) {
-    fun toResultGameEntity() : ResultGameEntity = ResultGameEntity(
-        id, idLesson, time, correctCount, wrongCount
+    fun toResultGameEntity(): ResultGameEntity = ResultGameEntity(
+        id, nameUser, idLesson, time, correctCount, wrongCount
     )
 }

@@ -4,6 +4,7 @@ import com.example.catalog.presentation.CatalogRouter
 import com.example.englishteacher.navigation.Router
 import com.example.game.presentation.GameRouter
 import com.example.profile.presentation.ProfileRouter
+import com.example.redactor.presentation.LessonRedactorRouter
 import com.example.sign_in.presentation.SignInRouter
 import com.example.sign_up.presentation.SignUpRouter
 import dagger.Binds
@@ -31,4 +32,7 @@ interface ViewModelRouterModule {
 
     @Binds
     fun bindSignIn(router: Router): SignInRouter
+
+    @Binds
+    fun bindRedactor(router: Router): LessonRedactorRouter
 }

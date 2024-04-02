@@ -14,7 +14,7 @@ import com.example.game.presentation.game.GameFragmentArgs
 import com.example.profile.domain.entities.Lesson
 import com.example.profile.presentation.profile.ProfileFragmentDirections
 import com.example.redactor.domain.entities.LessonEntity
-import com.example.redactor.presentation.LessonRedactorFragmentArgs
+import com.example.redactor.presentation.redactor.LessonRedactorFragmentArgs
 import javax.inject.Inject
 
 class RouterImpl @Inject constructor() : Router {
@@ -41,11 +41,7 @@ class RouterImpl @Inject constructor() : Router {
 
     override fun launchCardFromCatalog(lesson: LessonData) {
         val direction = CatalogFragmentDirections.actionCatalogFragmentToCardFragment(
-            lesson.id,
-            lesson.name,
-            lesson.description,
-            lesson.idCreator,
-            lesson.isFavorite
+            lesson.id, lesson.name, lesson.description, lesson.idCreator, lesson.isFavorite
         )
         navController?.navigate(direction)
     }
@@ -77,10 +73,7 @@ class RouterImpl @Inject constructor() : Router {
 
     override fun launchLessonRedactorFromProfile(lesson: Lesson) {
         val direction = ProfileFragmentDirections.actionProfileFragmentToLessonRedactorFragment(
-            lesson.id,
-            lesson.name,
-            lesson.description,
-            lesson.idCreator
+            lesson.id, lesson.name, lesson.description
         )
         navController?.navigate(direction)
     }
@@ -98,12 +91,9 @@ class RouterImpl @Inject constructor() : Router {
     }
 
     override fun getRedactorArgs(args: Bundle): LessonEntity {
-        val lessonBundle = LessonRedactorFragmentArgs.fromBundle(args)
+        val lesson = LessonRedactorFragmentArgs.fromBundle(args)
         return LessonEntity(
-            lessonBundle.id,
-            lessonBundle.name,
-            lessonBundle.description,
-            lessonBundle.idCreator
+            lesson.id, lesson.name, lesson.description
         )
     }
 

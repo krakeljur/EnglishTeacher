@@ -9,6 +9,6 @@ interface ProfileRouter {
 
     fun launchSignInFromProfile(activity: FragmentActivity)
 
-    fun launchLessonRedactorFromProfile(lesson : Lesson)
+    fun launchLessonRedactorFromProfile(lesson: Lesson)
 
 }

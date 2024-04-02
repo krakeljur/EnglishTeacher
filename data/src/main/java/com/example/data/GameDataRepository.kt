@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface GameDataRepository {
 
     suspend fun setResult(resultGame: ResultGameEntity)
-    fun getResults(): Flow<PagingData<ResultGameEntity>>
+    fun getResults(idLesson: String = ""): Flow<PagingData<ResultGameEntity>>
 
 }

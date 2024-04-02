@@ -19,7 +19,7 @@ class GameAdapter @Inject constructor(
     override suspend fun setResult(resultGame: ResultGame) {
         gameDataRepository.setResult(
             ResultGameEntity(
-                "",
+                "", "",
                 resultGame.idLesson,
                 resultGame.time,
                 resultGame.correctCount,

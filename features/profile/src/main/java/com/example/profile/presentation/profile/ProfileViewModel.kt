@@ -37,8 +37,6 @@ class ProfileViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
 
-
-
     fun logout(activity: FragmentActivity) {
         viewModelScope.launch {
             logoutUseCase.logout()

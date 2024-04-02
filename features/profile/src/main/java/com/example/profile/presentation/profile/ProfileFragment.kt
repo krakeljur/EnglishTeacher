@@ -149,7 +149,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
             clipboard!!.setPrimaryClip(clip)
             val snackBar = Snackbar.make(
                 binding.root,
-                getString(com.example.presentation.R.string.copy_notification),
+                getString(com.example.presentation.R.string.copy_notification_user),
                 Snackbar.LENGTH_SHORT
             )
 

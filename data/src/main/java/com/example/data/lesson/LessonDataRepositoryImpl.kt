@@ -1,7 +1,6 @@
 package com.example.data.lesson
 
 import com.example.data.LessonDataRepository
-import com.example.data.catalog.entities.LessonDataEntity
 import com.example.data.catalog.entities.WordDataEntity
 import com.example.data.catalog.entities.room.LessonDbEntity
 import com.example.data.catalog.sources.dao.LessonDao
@@ -47,10 +46,12 @@ class LessonDataRepositoryImpl @Inject constructor(
 
     override suspend fun addWord(word: WordDataEntity, idLesson: String) {
         redactorApi.addWords(AddOrDeleteWordsRequestBody(token!!, listOf(word), idLesson))
+        lessonDao.clear(idLesson)
     }
 
     override suspend fun deleteWord(word: WordDataEntity, idLesson: String) {
         redactorApi.deleteWords(AddOrDeleteWordsRequestBody(token!!, listOf(word), idLesson))
+        lessonDao.clear(idLesson)
     }
 
     override suspend fun deleteLesson(idLesson: String) {
@@ -58,16 +59,16 @@ class LessonDataRepositoryImpl @Inject constructor(
         lessonDao.clear(idLesson)
     }
 
-    override suspend fun patchLesson(patchedLesson: LessonDataEntity) {
+    override suspend fun patchLesson(newName: String, newDescription: String, idLesson: String) {
         redactorApi.patchLesson(
             PatchLessonRequestBody(
                 token!!,
-                patchedLesson.id,
-                patchedLesson.name,
-                patchedLesson.description
+                idLesson,
+                newName,
+                newDescription
             )
         )
-        lessonDao.save(patchedLesson.toLessonDBEntity())
+        lessonDao.clear(idLesson)
     }
 
 }

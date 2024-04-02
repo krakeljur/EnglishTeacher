@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_statistic" />
     <fragment
         android:id="@+id/lessonRedactorFragment"
-        android:name="com.example.redactor.presentation.LessonRedactorFragment"
+        android:name="com.example.redactor.presentation.redactor.LessonRedactorFragment"
         android:label="@string/redactor"
         tools:layout="@layout/fragment_lesson_redactor">
         <argument
@@ -35,9 +35,6 @@
             app:argType="string" />
         <argument
             android:name="description"
-            app:argType="string" />
-        <argument
-            android:name="idCreator"
             app:argType="string" />
     </fragment>
 </navigation>

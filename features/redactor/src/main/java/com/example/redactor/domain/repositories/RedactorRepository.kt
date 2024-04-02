@@ -10,13 +10,13 @@ interface RedactorRepository {
 
     fun getWords(): Flow<Container<List<WordEntity>>>
 
-    suspend fun addWord(wordEntity: WordEntity)
+    suspend fun addWord(rus: String, eng: String, idLesson: String)
 
-    suspend fun deleteWord(idWord: String)
+    suspend fun deleteWord(wordEntity: WordEntity, idLesson: String)
 
     suspend fun updateWords(idLesson: String)
 
-    suspend fun patchLesson(newName: String, newDescription: String)
+    suspend fun patchLesson(newName: String, newDescription: String, idLesson: String)
 
-    suspend fun getStatistic(idLesson: String): Flow<PagingData<ResultEntity>>
+    fun getStatistic(idLesson: String): Flow<PagingData<ResultEntity>>
 }

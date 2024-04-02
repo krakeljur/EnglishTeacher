@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.example.data.game.etities.api.GetResultFromLessonRequestBody
 import com.example.data.game.etities.api.GetResultsRequestBody
 import com.example.data.game.etities.room.ResultDbEntity
 import com.example.data.game.sources.api.ResultApi
@@ -16,13 +17,13 @@ import dagger.assisted.AssistedInject
 class ResultRemoteMediator @AssistedInject constructor(
     private val resultDao: ResultDao,
     private val resultApi: ResultApi,
-    @Assisted private val token: String
+    @Assisted("token") private val token: String,
+    @Assisted("idLesson") private val idLesson: String,
 ) : RemoteMediator<Int, ResultDbEntity>() {
 
     private var pageIndex = 0
     override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, ResultDbEntity>
+        loadType: LoadType, state: PagingState<Int, ResultDbEntity>
     ): MediatorResult {
 
         pageIndex =
@@ -34,10 +35,8 @@ class ResultRemoteMediator @AssistedInject constructor(
         return try {
             val results = fetchResults(limit, offset)
 
-            if (loadType == LoadType.REFRESH)
-                resultDao.refresh(results)
-            else
-                resultDao.save(results)
+            if (loadType == LoadType.REFRESH) resultDao.refresh(results)
+            else resultDao.save(results)
 
             MediatorResult.Success(
                 endOfPaginationReached = results.size < limit
@@ -50,10 +49,21 @@ class ResultRemoteMediator @AssistedInject constructor(
     }
 
     private suspend fun fetchResults(limit: Int, offset: Int): List<ResultDbEntity> =
-        resultApi.getResults(GetResultsRequestBody(token, limit, offset)).results
-            .map {
+        if (idLesson.isBlank())
+            resultApi.getMyResults(GetResultsRequestBody(token, limit, offset)).results.map {
                 it.toResultDbEntity()
             }
+        else {
+            resultApi.getResultsFromLesson(
+                GetResultFromLessonRequestBody(
+                    idLesson,
+                    limit,
+                    offset
+                )
+            ).results.map {
+                it.toResultDbEntity()
+            }
+        }
 
 
     private fun getPageIndex(loadType: LoadType): Int? {
@@ -67,7 +77,9 @@ class ResultRemoteMediator @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(token: String): ResultRemoteMediator
+        fun create(
+            @Assisted("token") token: String, @Assisted("idLesson") idLesson: String = ""
+        ): ResultRemoteMediator
     }
 
 
