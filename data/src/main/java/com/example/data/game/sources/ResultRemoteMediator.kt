@@ -1,6 +1,5 @@
 package com.example.data.game.sources
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -35,8 +34,6 @@ class ResultRemoteMediator @AssistedInject constructor(
 
         return try {
             val results = fetchResults(limit, offset)
-
-            Log.i("MYTAG", results.joinToString("\n"))
 
             if (loadType == LoadType.REFRESH) resultDao.refresh(results)
             else resultDao.save(results)
