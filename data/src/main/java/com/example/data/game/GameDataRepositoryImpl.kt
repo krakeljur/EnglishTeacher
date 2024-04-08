@@ -69,7 +69,7 @@ class GameDataRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = Const.PAGE_SIZE, initialLoadSize = Const.PAGE_SIZE
             ),
-            pagingSourceFactory = { resultDao.getPagingSource(if (idLesson.isBlank()) null else idLesson) },
+            pagingSourceFactory = { resultDao.getPagingSource(idLesson.ifBlank { null }) },
             remoteMediator = remoteMediatorFactory.create(token!!, idLesson)
         ).flow.map { pagingData ->
             pagingData.map {

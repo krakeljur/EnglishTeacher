@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.common.Container
 import com.example.redactor.domain.GetStatisticUseCase
 import com.example.redactor.domain.GetWordsUseCase
@@ -50,7 +51,7 @@ class LessonRedactorViewModel @Inject constructor(
                 MutableStateFlow(PagingData.empty())
             }
         }
-    }
+    }.cachedIn(viewModelScope)
 
     val stateRedactor: Flow<StateRedactor> = combine(wordsFlow, lessonFlow) { words, lesson ->
         return@combine StateRedactor(

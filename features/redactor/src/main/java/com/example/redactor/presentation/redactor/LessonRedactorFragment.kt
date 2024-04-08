@@ -17,13 +17,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.presentation.adapter.DefaultLoadStateAdapter
+import com.example.presentation.adapter.TryAgainAction
 import com.example.redactor.R
 import com.example.redactor.databinding.AlertdialogCreateWordBinding
 import com.example.redactor.databinding.AlertdialogRenameLessonBinding
 import com.example.redactor.databinding.FragmentLessonRedactorBinding
 import com.example.redactor.domain.entities.WordEntity
 import com.example.redactor.presentation.redactor.adapters.ActionListener
+import com.example.redactor.presentation.redactor.adapters.GradeAdapter
 import com.example.redactor.presentation.redactor.adapters.WordAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +46,9 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
         }
     })
 
+    private val gradesAdapter = GradeAdapter()
+    private lateinit var adapterWithLoadState: ConcatAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLessonRedactorBinding.bind(view)
@@ -51,7 +58,9 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
         viewModel.init(requireArguments())
 
         binding.recyclerViewRedactor.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewRedactor.adapter = wordAdapter
+        val tryAgainAction: TryAgainAction = { gradesAdapter.retry() }
+        val footerAdapter = DefaultLoadStateAdapter(tryAgainAction)
+        adapterWithLoadState = gradesAdapter.withLoadStateFooter(footerAdapter)
 
         setupObserve()
         setupListeners()
@@ -63,8 +72,7 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
             val clipboard =
                 ContextCompat.getSystemService(requireContext(), ClipboardManager::class.java)
             val clip = ClipData.newPlainText(
-                getString(com.example.presentation.R.string.lesson_id),
-                binding.idTV.text
+                getString(com.example.presentation.R.string.lesson_id), binding.idTV.text
             )
             clipboard!!.setPrimaryClip(clip)
             val snackBar = Snackbar.make(
@@ -93,8 +101,7 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
             .setTitle(getString(com.example.presentation.R.string.redactor_lesson))
             .setView(dialogBinding.root)
             .setPositiveButton(getString(com.example.presentation.R.string.save), null)
-            .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
-            .create()
+            .setNegativeButton(getString(com.example.presentation.R.string.cancel), null).create()
 
         dialog.setOnShowListener {
             dialogBinding.nameLessonEditText.setText(name)
@@ -163,7 +170,7 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.statisticFlow.collectLatest {
-
+                    gradesAdapter.submitData(it)
                 }
             }
         }
@@ -171,9 +178,11 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getGradeFlow().collectLatest {
-                    if (!it)
-                        binding.recyclerViewRedactor.adapter = wordAdapter
-                    //todo
+                    binding.recyclerViewRedactor.adapter = if (it)
+                        adapterWithLoadState
+                    else
+                        wordAdapter
+                    
                 }
             }
         }
@@ -223,8 +232,7 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
             .setTitle(getString(com.example.presentation.R.string.create_word))
             .setView(dialogBinding.root)
             .setPositiveButton(getString(com.example.presentation.R.string.save), null)
-            .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
-            .create()
+            .setNegativeButton(getString(com.example.presentation.R.string.cancel), null).create()
 
         dialog.setOnShowListener {
             dialogBinding.rusEditText.requestFocus()
@@ -233,13 +241,23 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
                 val rusWord = dialogBinding.rusEditText.text.toString()
                 val engWord = dialogBinding.engWordEditText.text.toString()
 
-                if (rusWord.isBlank() || engWord.isBlank()) {
+                if (rusWord.isBlank()) {
                     dialogBinding.rusEditText.error =
                         getString(com.example.presentation.R.string.error)
                     return@setOnClickListener
                 }
-                if (rusWord.length > 60 || engWord.length > 60) {
+                if (engWord.isBlank()) {
+                    dialogBinding.engWordEditText.error =
+                        getString(com.example.presentation.R.string.error)
+                    return@setOnClickListener
+                }
+                if (rusWord.length > 60) {
                     dialogBinding.rusEditText.error =
+                        getString(com.example.presentation.R.string.very_long_word)
+                    return@setOnClickListener
+                }
+                if (engWord.length > 60) {
+                    dialogBinding.engWordEditText.error =
                         getString(com.example.presentation.R.string.very_long_word)
                     return@setOnClickListener
                 }
