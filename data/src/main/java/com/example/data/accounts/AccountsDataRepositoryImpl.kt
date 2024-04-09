@@ -35,20 +35,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
     init {
         coroutineScope.launch {
             if (token != null) {
-                val account = accountsApi.getAccount(GetAccountRequestBody(token!!))
-                sourceSettings.setAccount(
-                    AccountDataEntity(
-                        account.id,
-                        account.name,
-                        account.login
-                    )
-                )
-            }
-            sourceSettings.listenToken().collect {
-                token = it
-                if (token == null)
-                    sourceSettings.setAccount(null)
-                else {
+                try {
                     val account = accountsApi.getAccount(GetAccountRequestBody(token!!))
                     sourceSettings.setAccount(
                         AccountDataEntity(
@@ -57,14 +44,35 @@ class AccountsDataRepositoryImpl @Inject constructor(
                             account.login
                         )
                     )
+                } catch (_: Exception) {
+                    accountFlow.value = Container.Success(sourceSettings.getAccount()!!)
+                }
+            }
+            sourceSettings.listenToken().collect {
+                token = it
+                if (token == null)
+                    sourceSettings.setAccount(null)
+                else {
+                    try {
+                        val account = accountsApi.getAccount(GetAccountRequestBody(token!!))
+                        sourceSettings.setAccount(
+                            AccountDataEntity(
+                                account.id,
+                                account.name,
+                                account.login
+                            )
+                        )
+                    } catch (_: Exception) {
+                        accountFlow.value = Container.Error("ConnectionException")
+                    }
                 }
             }
         }
         coroutineScope.launch {
             sourceSettings.listenAccount().collect {
-                if (it == null)
+                if (it == null) {
                     accountFlow.emit(Container.Error("AuthException"))
-                else
+                } else
                     accountFlow.emit(Container.Success(it))
             }
         }
@@ -93,15 +101,8 @@ class AccountsDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signIn(login: String, password: String) {
-        accountFlow.emit(Container.Pending)
-
-        try {
-            val token = accountsApi.singIn(SignInRequestBody(login, password)).token
-            sourceSettings.setToken(token)
-        } catch (_: Exception) {
-            accountFlow.emit(Container.Error("sign-in error"))
-        }
-
+        val token = accountsApi.singIn(SignInRequestBody(login, password)).token
+        sourceSettings.setToken(token)
     }
 
     override suspend fun signUp(signUpData: SignUpDataEntity) {

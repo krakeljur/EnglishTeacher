@@ -1,7 +1,6 @@
 <resources>
     <string name="try_again">Try again</string>
     <string name="ok">OK</string>
-    <string name="error">Error</string>
     <string name="name">Name</string>
     <string name="login">Login</string>
     <string name="change">Change</string>
@@ -15,8 +14,13 @@
     <string name="signUp">Sign Up</string>
     <string name="signIn">Sign In</string>
     <string name="password">Password</string>
+
+    <string name="error">Error</string>
     <string name="error_password_login">Bad login or password</string>
     <string name="error_signup">User with this login already exist</string>
+    <string name="error_oops">Oops, error :c</string>
+
+
     <string name="id">id</string>
     <string name="start">Start</string>
     <string name="back">Back</string>

@@ -7,7 +7,7 @@ import com.example.sign_up.domain.repositories.SignUpRepository
 import javax.inject.Inject
 
 class SignUpAdapter @Inject constructor(
-   private val accountsDataRepository: AccountsDataRepository
+    private val accountsDataRepository: AccountsDataRepository
 ) : SignUpRepository {
     override suspend fun signUp(signUpData: SignUpData) {
         accountsDataRepository.signUp(

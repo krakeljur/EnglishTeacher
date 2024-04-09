@@ -5,9 +5,15 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.example.common.Const
 import com.example.sign_in.R
 import com.example.sign_in.databinding.FragmentSignInBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
@@ -23,25 +29,31 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
 
         setupListeners()
+        setupObserves()
+    }
+
+    private fun setupObserves() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isErrorFlow.collectLatest {
+                    binding.errorTV.visibility = if (it) View.VISIBLE else View.GONE
+                }
+            }
+        }
     }
 
     private fun setupListeners() {
-        Log.i("MYTAG", viewModel.toString())
+        Log.i(Const.LOG_TAG, viewModel.toString())
         binding.signInButton.setOnClickListener {
             if (binding.loginEditText.text.isBlank())
-                binding.loginEditText.error = "NOT EMPTY"
+                binding.loginEditText.error = getString(com.example.presentation.R.string.error)
             else if (binding.passwordEditText.text.isBlank())
-                binding.passwordEditText.error = "NOT EMPTY"
+                binding.passwordEditText.error = getString(com.example.presentation.R.string.error)
             else {
-                try {
-                    binding.errorTV.visibility = View.GONE
-                    viewModel.signIn(
-                        binding.loginEditText.text.toString(),
-                        binding.passwordEditText.text.toString()
-                    )
-                } catch (e: Exception) {
-                    binding.errorTV.visibility = View.VISIBLE
-                }
+                viewModel.signIn(
+                    binding.loginEditText.text.toString(),
+                    binding.passwordEditText.text.toString()
+                )
             }
         }
 

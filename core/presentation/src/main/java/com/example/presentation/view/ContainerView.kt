@@ -15,11 +15,16 @@ class ContainerView @JvmOverloads constructor(
 
 
     private var binding: PartLoadingBinding
+    private var tryAgainAction: (() -> Unit)? = null
 
     init {
         val inflater = LayoutInflater.from(context)
         binding = PartLoadingBinding.inflate(inflater, this, false)
         addView(binding.root)
+
+        binding.againButton.setOnClickListener {
+            tryAgainAction?.invoke()
+        }
     }
 
 
@@ -32,12 +37,9 @@ class ContainerView @JvmOverloads constructor(
         hideAll()
         binding.errorContainer.visibility = VISIBLE
         binding.errorTextView.text = errorText
-        if (tryAgain == null)
-            binding.againButton.visibility = GONE
-        else {
-            binding.againButton.visibility = VISIBLE
-            binding.againButton.setOnClickListener { tryAgain }
-        }
+        tryAgainAction = tryAgain
+        binding.againButton.visibility = if (tryAgain == null) GONE else VISIBLE
+
     }
 
     fun showSuccess() {

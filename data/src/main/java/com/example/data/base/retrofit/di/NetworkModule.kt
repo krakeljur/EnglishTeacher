@@ -1,7 +1,8 @@
-package com.example.data.base.di
+package com.example.data.base.retrofit.di
 
 import com.example.common.Const
 import com.example.data.accounts.sources.api.AccountsApi
+import com.example.data.base.retrofit.NetworkErrorInterceptor
 import com.example.data.catalog.sources.api.CatalogApi
 import com.example.data.game.sources.api.ResultApi
 import com.example.data.lesson.sources.api.RedactorApi
@@ -24,7 +25,11 @@ class NetworkModule {
     @Provides
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(Const.BASE_URL)
-        .client(OkHttpClient())
+        .client(
+            OkHttpClient().newBuilder()
+                .addInterceptor(NetworkErrorInterceptor())
+                .build()
+        )
         .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
         .build()
 
@@ -43,5 +48,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRedactorApi(retrofit: Retrofit) : RedactorApi = retrofit.create(RedactorApi::class.java)
+    fun provideRedactorApi(retrofit: Retrofit): RedactorApi =
+        retrofit.create(RedactorApi::class.java)
 }
