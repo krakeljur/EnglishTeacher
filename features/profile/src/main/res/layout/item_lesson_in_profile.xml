@@ -2,7 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_element"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:elevation="8dp">
 
     <TextView
         android:id="@+id/nameTextView"
@@ -12,6 +18,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ellipsize="end"
+        android:textColor="@color/white"
         android:maxLines="1"
         android:text="@string/name"
         android:textSize="20sp"
@@ -26,6 +33,7 @@
         android:id="@+id/descriptionLessonTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:layout_marginTop="16dp"
         android:ellipsize="end"
         android:maxLines="3"

@@ -2,7 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_element"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:elevation="8dp">
 
     <TextView
         android:id="@+id/nameTextView"
@@ -14,10 +20,10 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/name"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/buttonChangeStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -28,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ellipsize="end"
+        android:textColor="@color/white"
         android:maxLines="3"
         android:text="@string/description"
         app:layout_constraintEnd_toEndOf="@+id/nameTextView"
@@ -35,29 +42,32 @@
         app:layout_constraintStart_toStartOf="@+id/nameTextView"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
-    <Button
+    <CheckBox
         android:id="@+id/buttonChangeStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/change_status"
+        android:button="@drawable/checkbox_selector_favorite"
+        android:buttonTint="@color/white"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/descriptionLessonTextView"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/descriptionLessonTextView"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionLessonTextView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/countWordText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonChangeStatus"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/descriptionLessonTextView"
-        app:layout_constraintTop_toTopOf="@+id/buttonChangeStatus" />
+        app:layout_constraintTop_toBottomOf="@+id/descriptionLessonTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

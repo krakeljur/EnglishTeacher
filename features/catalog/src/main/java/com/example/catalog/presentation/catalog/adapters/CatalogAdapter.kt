@@ -42,6 +42,7 @@ class CatalogAdapter(
             descriptionLessonTextView.text = lesson.description
             countWordText.text = lesson.countWord.toString()
             buttonChangeStatus.tag = lesson
+            buttonChangeStatus.isChecked = lesson.isFavorite
         }
 
         holder.itemView.tag = lesson

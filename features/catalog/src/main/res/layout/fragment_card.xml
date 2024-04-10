@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.card.CardFragment">
+    tools:context=".presentation.card.CardFragment"
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardConstraintLayout"
@@ -17,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
+            android:textColor="@color/white"
             android:text="@string/name"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textColor="@color/white"
             android:text="@string/id"
             app:layout_constraintEnd_toEndOf="@+id/nameLessonTextView"
             app:layout_constraintStart_toStartOf="@+id/nameLessonTextView"
@@ -38,6 +41,7 @@
         <TextView
             android:id="@+id/descriptionTextView"
             android:layout_width="0dp"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
@@ -60,7 +64,9 @@
             android:text="@string/start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:backgroundTint="@color/hud"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/wordsRecyclerView"

@@ -4,5 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="myPrimaryColor">#FFF00FFF</color>
     <color name="deleteRedColor">#F83A3A</color>
+    <color name="list_element_background">#7D71D8</color>
+    <color name="list_element_background_select">#998EEF</color>
+    <color name="background">#392E85</color>
+    <color name="hud">#5D4BD8</color>
 
 </resources>

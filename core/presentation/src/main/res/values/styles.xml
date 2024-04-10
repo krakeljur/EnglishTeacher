@@ -6,6 +6,7 @@
 
         <!-- Other style attributes -->
         <item name="actionBarTheme">@style/MyActionBarTheme</item>
+        <item name="android:statusBarColor">@color/hud</item>
 
 
     </style>
