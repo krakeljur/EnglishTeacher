@@ -44,7 +44,11 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.gameStateFlow.collect {
                         if (it.isError) {
-                            containerView.showError("")
+                            containerView.showError(getString(com.example.presentation.R.string.error_oops)) {
+                                viewModel.init(
+                                    requireArguments()
+                                )
+                            }
                             constraintLayout.visibility = View.GONE
                         } else if (it.isLoading) {
                             containerView.showPending()

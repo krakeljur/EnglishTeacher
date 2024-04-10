@@ -107,17 +107,20 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.example.presentation.view.ContainerView
-                android:id="@+id/errorContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center" />
+
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.example.presentation.view.ContainerView
+        android:id="@+id/errorContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/successGroupBottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">

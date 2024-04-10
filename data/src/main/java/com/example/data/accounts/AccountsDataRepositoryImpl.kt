@@ -63,7 +63,7 @@ class AccountsDataRepositoryImpl @Inject constructor(
                             )
                         )
                     } catch (_: Exception) {
-                        accountFlow.value = Container.Error("ConnectionException")
+                        accountFlow.value = Container.Success(sourceSettings.getAccount()!!)
                     }
                 }
             }

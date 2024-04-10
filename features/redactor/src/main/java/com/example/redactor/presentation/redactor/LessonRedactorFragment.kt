@@ -182,7 +182,7 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
                         adapterWithLoadState
                     else
                         wordAdapter
-                    
+
                 }
             }
         }
@@ -191,16 +191,19 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
     private fun showSuccess() {
         binding.errorContainer.showSuccess()
         binding.successGroup.visibility = View.VISIBLE
+        binding.successGroupBottom.visibility = View.VISIBLE
     }
 
     private fun showLoading() {
         binding.errorContainer.showPending()
         binding.successGroup.visibility = View.GONE
+        binding.successGroupBottom.visibility = View.GONE
     }
 
     private fun showError() {
-        binding.errorContainer.showError(getString(com.example.presentation.R.string.error))
+        binding.errorContainer.showError(getString(com.example.presentation.R.string.error_oops)) {viewModel.init(requireArguments())}
         binding.successGroup.visibility = View.GONE
+        binding.successGroupBottom.visibility = View.GONE
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -232,7 +235,8 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
             .setTitle(getString(com.example.presentation.R.string.create_word))
             .setView(dialogBinding.root)
             .setPositiveButton(getString(com.example.presentation.R.string.save), null)
-            .setNegativeButton(getString(com.example.presentation.R.string.cancel), null).create()
+            .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
+            .create()
 
         dialog.setOnShowListener {
             dialogBinding.rusEditText.requestFocus()

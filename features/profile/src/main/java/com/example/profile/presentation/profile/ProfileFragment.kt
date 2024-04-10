@@ -1,5 +1,6 @@
 package com.example.profile.presentation.profile
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.DialogInterface
@@ -22,6 +23,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.common.Container
 import com.example.presentation.adapter.DefaultLoadStateAdapter
@@ -68,8 +70,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
         setupToolbar()
         setupAdapters()
         setupObserves()
+        setupObserveLoadState()
         setupListeners()
     }
+
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         viewModel.updateFlow()
@@ -97,8 +101,33 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
         binding.recyclerViewProfileLessons.adapter = adapterWithLoadState
     }
 
+    private fun setupObserveLoadState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collectLatest {
+                    when (it.refresh) {
+                        is LoadState.NotLoading -> {
+                            binding.nestedScrollView.visibility = VISIBLE
+                            binding.errorInRecycler.showSuccess()
+                        }
+
+                        is LoadState.Loading -> {
+                            binding.nestedScrollView.visibility = GONE
+                            binding.errorInRecycler.showPending()
+                        }
+
+                        is LoadState.Error -> {
+                            binding.nestedScrollView.visibility = GONE
+                            binding.errorInRecycler.showError(getString(com.example.presentation.R.string.error_oops)) { adapter.retry() }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private fun setupObserves() {
+        var isFirst = true
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.profile.collect {
@@ -122,6 +151,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                                 nameTV.text = it.data.name
                                 idTV.text = it.data.id
                             }
+
                         }
                     }
                 }
@@ -134,7 +164,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.showErrorFlow.collectLatest {
+                    if (!isFirst)
+                        showErrorSnackBar()
+                    else
+                        isFirst = false
+                }
+            }
+        }
     }
+
 
     private fun setupListeners() {
         binding.redactNameButton.setOnClickListener {
@@ -296,5 +337,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
             }
         }
         return true
+    }
+
+    @SuppressLint("ShowToast")
+    private fun showErrorSnackBar() {
+        val snackBar = Snackbar.make(
+            binding.root,
+            getString(com.example.presentation.R.string.error_oops),
+            Snackbar.LENGTH_SHORT
+        )
+        snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
+            snackBar.dismiss()
+        }
+        snackBar.show()
     }
 }

@@ -100,9 +100,14 @@ class CatalogDataRepositoryImpl @Inject constructor(
 
     override fun getWords(): Flow<Container<List<WordDataEntity>>> = wordsFlow.asStateFlow()
     override suspend fun updateWords(idLesson: String) {
-        val words = catalogApi.getWords(GetWordsRequestBody(idLesson)).words
+        try {
+            wordsFlow.value = Container.Pending
+            val words = catalogApi.getWords(GetWordsRequestBody(idLesson)).words
 
-        wordsFlow.value = Container.Success(words)
+            wordsFlow.value = Container.Success(words)
+        } catch (e: Exception) {
+            wordsFlow.value = Container.Error(e.message.toString())
+        }
     }
 
 

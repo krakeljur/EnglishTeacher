@@ -30,6 +30,9 @@ class ProfileViewModel @Inject constructor(
 
     val profile = getProfileUseCase.getAccount()
     private val updateLessonFlow = MutableStateFlow(false)
+    var showErrorFlow =
+        MutableStateFlow(false)
+        private set
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val myLessons = updateLessonFlow.flatMapLatest {
@@ -39,8 +42,12 @@ class ProfileViewModel @Inject constructor(
 
     fun logout(activity: FragmentActivity) {
         viewModelScope.launch {
-            logoutUseCase.logout()
-            router.launchSignInFromProfile(activity)
+            try {
+                logoutUseCase.logout()
+                router.launchSignInFromProfile(activity)
+            } catch (_: Exception) {
+                showError()
+            }
         }
     }
 
@@ -56,13 +63,21 @@ class ProfileViewModel @Inject constructor(
 
     fun createLesson(name: String, description: String) {
         viewModelScope.launch {
-            createOrDeleteLessonUseCase.createLesson(name, description)
+            try {
+                createOrDeleteLessonUseCase.createLesson(name, description)
+            } catch (_: Exception) {
+                showError()
+            }
         }
     }
 
     fun deleteLesson(lessonId: String) {
         viewModelScope.launch {
-            createOrDeleteLessonUseCase.deleteLesson(lessonId)
+            try {
+                createOrDeleteLessonUseCase.deleteLesson(lessonId)
+            } catch (_: Exception) {
+                showError()
+            }
         }
     }
 
@@ -72,6 +87,10 @@ class ProfileViewModel @Inject constructor(
 
     fun updateFlow() {
         updateLessonFlow.value = !updateLessonFlow.value
+    }
+
+    private fun showError() {
+        showErrorFlow.value = !showErrorFlow.value
     }
 
 }

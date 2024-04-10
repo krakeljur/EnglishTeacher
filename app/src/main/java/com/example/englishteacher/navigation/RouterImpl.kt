@@ -30,10 +30,6 @@ class RouterImpl @Inject constructor() : Router {
     }
 
 
-    override fun launchBackFromCard() {
-        navController?.navigateUp()
-    }
-
     override fun launchGameFromCard(idLesson: String) {
         val direction = CardFragmentDirections.actionCardFragmentToGameFragment(idLesson)
         navController?.navigate(direction)

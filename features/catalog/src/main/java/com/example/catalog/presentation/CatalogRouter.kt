@@ -5,7 +5,6 @@ import com.example.catalog.domain.entities.LessonData
 
 interface CatalogRouter {
 
-    fun launchBackFromCard()
 
     fun launchGameFromCard(idLesson: String)
 

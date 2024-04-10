@@ -61,10 +61,6 @@ class CardViewModel @Inject constructor(
         catalogRouter.launchGameFromCard((lesson.value as Container.Success).data.id)
     }
 
-    fun goBack() {
-        catalogRouter.launchBackFromCard()
-    }
-
 
 }
 

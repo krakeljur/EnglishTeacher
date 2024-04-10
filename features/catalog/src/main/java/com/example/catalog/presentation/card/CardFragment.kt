@@ -54,7 +54,7 @@ class CardFragment : Fragment(R.layout.fragment_card) {
                         binding.container.showPending()
                     } else if (it.isError || it.lesson == null) {
                         binding.cardConstraintLayout.visibility = View.GONE
-                        binding.container.showError("it.message") { viewModel.goBack() }
+                        binding.container.showError("it.message") { viewModel.init(requireArguments()) }
                     } else {
                         binding.cardConstraintLayout.visibility = View.VISIBLE
                         adapter.words = it.words

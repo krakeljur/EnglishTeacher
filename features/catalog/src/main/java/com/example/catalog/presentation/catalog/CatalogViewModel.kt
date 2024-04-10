@@ -28,6 +28,8 @@ class CatalogViewModel @Inject constructor(
     private val isFavoriteFlow = MutableStateFlow(false)
     private val searchByFlow = MutableStateFlow("")
     private val updateDataFlow = MutableStateFlow(false)
+    var isErrorFlow = MutableStateFlow(false)
+        private set
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val catalog = combine(isFavoriteFlow, searchByFlow, updateDataFlow) { isFavorite, searchBy, _ ->
@@ -41,13 +43,21 @@ class CatalogViewModel @Inject constructor(
 
     fun addFavorite(lesson: LessonData) {
         viewModelScope.launch {
-            addFavoriteUseCase.addFavorite(lesson)
+            try {
+                addFavoriteUseCase.addFavorite(lesson)
+            } catch (_: Exception) {
+                isErrorFlow.value = !isErrorFlow.value
+            }
         }
     }
 
     fun deleteFavorite(lesson: LessonData) {
         viewModelScope.launch {
-            deleteFavoriteUseCase.deleteFavorite(lesson)
+            try {
+                deleteFavoriteUseCase.deleteFavorite(lesson)
+            } catch (_: Exception) {
+                isErrorFlow.value = !isErrorFlow.value
+            }
         }
     }
 

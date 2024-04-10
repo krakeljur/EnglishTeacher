@@ -93,7 +93,7 @@ class StatisticFragment : Fragment(R.layout.fragment_statistic) {
     }
 
     private fun showError(tryAgainAction: TryAgainAction) {
-        binding.containerView.showError("oops", tryAgainAction)
+        binding.containerView.showError(getString(com.example.presentation.R.string.error_oops), tryAgainAction)
         binding.constraintLayoutView.visibility = View.GONE
     }
 }

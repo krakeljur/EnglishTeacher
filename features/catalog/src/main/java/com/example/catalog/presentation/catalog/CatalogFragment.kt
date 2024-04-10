@@ -22,6 +22,7 @@ import com.example.catalog.presentation.catalog.adapters.CatalogActionListener
 import com.example.catalog.presentation.catalog.adapters.CatalogAdapter
 import com.example.presentation.adapter.DefaultLoadStateAdapter
 import com.example.presentation.adapter.TryAgainAction
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -65,12 +66,13 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
         binding.catalogRecyclerView.adapter = adapterWithLoadState
 
 
-        setupObserveLessonData()
+        setupObservers()
         setupObserveLoadState(tryAgainAction)
     }
 
 
-    private fun setupObserveLessonData() {
+    private fun setupObservers() {
+        var isFirst = true
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.catalog.collectLatest {
@@ -78,7 +80,18 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isErrorFlow.collectLatest {
+                    if (isFirst)
+                        isFirst = false
+                    else
+                        showErrorSnackBar()
+                }
+            }
+        }
     }
+
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         viewModel.updateDataSource()
@@ -111,6 +124,17 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
         }
     }
 
+    private fun showErrorSnackBar() {
+        val snackBar = Snackbar.make(
+            binding.root,
+            getString(com.example.presentation.R.string.error_oops),
+            Snackbar.LENGTH_SHORT
+        )
+        snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
+            snackBar.dismiss()
+        }
+        snackBar.show()
+    }
 
     private fun pending() {
         binding.constraintLayout.visibility = View.GONE

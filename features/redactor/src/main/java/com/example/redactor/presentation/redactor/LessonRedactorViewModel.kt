@@ -81,26 +81,43 @@ class LessonRedactorViewModel @Inject constructor(
 
     fun patchLesson(newName: String, newDescription: String) {
         viewModelScope.launch {
-            val lessonId = (lessonFlow.value as Container.Success).data.id
-            lessonFlow.value = Container.Pending
-            patchLessonUseCase.patchLesson(newName, newDescription, lessonId)
-            lessonFlow.value = Container.Success(LessonEntity(lessonId, newName, newDescription))
+            try {
+                val lessonId = (lessonFlow.value as Container.Success).data.id
+                lessonFlow.value = Container.Pending
+                patchLessonUseCase.patchLesson(newName, newDescription, lessonId)
+                lessonFlow.value =
+                    Container.Success(LessonEntity(lessonId, newName, newDescription))
+            } catch (_: Exception) {
+                lessonFlow.value = Container.Error("")
+            }
         }
     }
 
     fun addWord(rus: String, eng: String) {
         viewModelScope.launch {
-            val lessonId = (lessonFlow.value as Container.Success).data.id
-            redactWordUseCase.addWord(rus, eng, lessonId)
-            getWordsUseCase.updateWords(lessonId)
+            try {
+                val lesson = (lessonFlow.value as Container.Success).data
+                lessonFlow.value = Container.Pending
+                redactWordUseCase.addWord(rus, eng, lesson.id)
+                getWordsUseCase.updateWords(lesson.id)
+                lessonFlow.value = Container.Success(lesson)
+            } catch (_: Exception) {
+                lessonFlow.value = Container.Error("")
+            }
         }
     }
 
     fun deleteWord(wordEntity: WordEntity) {
         viewModelScope.launch {
-            val lessonId = (lessonFlow.value as Container.Success).data.id
-            redactWordUseCase.deleteWord(wordEntity, lessonId)
-            getWordsUseCase.updateWords(lessonId)
+            try {
+                val lesson = (lessonFlow.value as Container.Success).data
+                lessonFlow.value = Container.Pending
+                redactWordUseCase.deleteWord(wordEntity, lesson.id)
+                getWordsUseCase.updateWords(lesson.id)
+                lessonFlow.value = Container.Success(lesson)
+            } catch (_: Exception) {
+                lessonFlow.value = Container.Error("")
+            }
         }
     }
 

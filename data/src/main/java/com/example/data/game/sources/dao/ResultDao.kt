@@ -11,8 +11,8 @@ import com.example.data.game.etities.room.ResultDbEntity
 @Dao
 interface ResultDao {
 
-    @Query("SELECT * FROM result WHERE :idLesson is null OR id_lesson = :idLesson")
-    fun getPagingSource(idLesson: String? = null): PagingSource<Int, ResultDbEntity>
+    @Query("SELECT * FROM result WHERE (:idLesson = '') OR (id_lesson = :idLesson)")
+    fun getPagingSource(idLesson: String): PagingSource<Int, ResultDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(results: List<ResultDbEntity>)
