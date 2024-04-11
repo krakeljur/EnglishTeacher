@@ -114,6 +114,17 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
         )
 
         dialog.setOnShowListener {
+
+            dialogBinding.nameLessonEditText.setOnFocusChangeListener { _, hasFocus ->
+                dialogBinding.nameLessonEditText.hint =
+                    if (hasFocus) "" else getString(com.example.presentation.R.string.name)
+            }
+
+            dialogBinding.descriptionLessonEditText.setOnFocusChangeListener { _, hasFocus ->
+                dialogBinding.descriptionLessonEditText.hint =
+                    if (hasFocus) "" else getString(com.example.presentation.R.string.description)
+            }
+
             dialogBinding.nameLessonEditText.setText(name)
             dialogBinding.descriptionLessonEditText.setText(description)
             dialogBinding.nameLessonEditText.requestFocus()
@@ -256,17 +267,18 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
         )
 
         dialog.setOnShowListener {
-            dialogBinding.rusEditText.requestFocus()
 
             dialogBinding.rusEditText.setOnFocusChangeListener { _, hasFocus ->
                 dialogBinding.rusEditText.hint =
-                    if (hasFocus) "" else getString(com.example.presentation.R.string.name)
+                    if (hasFocus) "" else getString(com.example.presentation.R.string.rus)
             }
 
             dialogBinding.engWordEditText.setOnFocusChangeListener { _, hasFocus ->
                 dialogBinding.engWordEditText.hint =
-                    if (hasFocus) "" else getString(com.example.presentation.R.string.description)
+                    if (hasFocus) "" else getString(com.example.presentation.R.string.eng)
             }
+
+            dialogBinding.rusEditText.requestFocus()
 
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
                 val rusWord = dialogBinding.rusEditText.text.toString().trim().lowercase()

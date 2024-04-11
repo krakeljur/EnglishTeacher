@@ -1,6 +1,6 @@
 <resources>
     <string name="try_again">Try again</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="name">Name</string>
     <string name="login">Login</string>
     <string name="change">Change</string>
@@ -21,7 +21,7 @@
     <string name="error_oops">Oops, error :c</string>
 
 
-    <string name="id">id</string>
+    <string name="id" translatable="false">id</string>
     <string name="start">Start</string>
     <string name="back">Back</string>
     <string name="add_favorite">Add to favorites</string>
@@ -53,8 +53,8 @@
     <string name="search">Search</string>
     <string name="create_lesson">Create new lesson</string>
     <string name="create_word">Create new word</string>
-    <string name="user_id">ID User</string>
-    <string name="lesson_id">ID Lesson</string>
+    <string name="user_id" translatable="false">ID User</string>
+    <string name="lesson_id" translatable="false">ID Lesson</string>
     <string name="copy_notification_user">Your ID has been copied to the clipboard</string>
     <string name="copy_notification_lesson">Lesson ID has been copied to the clipboard</string>
     <string name="redactor">Redactor</string>
