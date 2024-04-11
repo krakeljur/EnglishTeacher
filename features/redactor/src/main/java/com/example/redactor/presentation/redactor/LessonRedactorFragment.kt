@@ -3,6 +3,7 @@ package com.example.redactor.presentation.redactor
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -80,10 +81,12 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
                 getString(com.example.presentation.R.string.copy_notification_lesson),
                 Snackbar.LENGTH_SHORT
             )
-
-            snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
+            snackBar.setActionTextColor(Color.WHITE).setAction(getString(com.example.presentation.R.string.ok)) {
                 snackBar.dismiss()
             }
+
+            val snackBarView = snackBar.view
+            snackBarView.setBackgroundResource(com.example.presentation.R.drawable.background_element)
 
             snackBar.show()
         }
@@ -97,11 +100,18 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
     private fun showRenameDialog(name: String, description: String) {
         val dialogBinding = AlertdialogRenameLessonBinding.inflate(layoutInflater)
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(requireContext(), com.example.presentation.R.style.DefaultAlertDialogStyle)
             .setTitle(getString(com.example.presentation.R.string.redactor_lesson))
             .setView(dialogBinding.root)
             .setPositiveButton(getString(com.example.presentation.R.string.save), null)
             .setNegativeButton(getString(com.example.presentation.R.string.cancel), null).create()
+
+        dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                com.example.presentation.R.drawable.background_hud_element
+            )
+        )
 
         dialog.setOnShowListener {
             dialogBinding.nameLessonEditText.setText(name)
@@ -231,15 +241,32 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
     private fun showAddWordDialog() {
         val dialogBinding = AlertdialogCreateWordBinding.inflate(layoutInflater)
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(requireContext(), com.example.presentation.R.style.DefaultAlertDialogStyle)
             .setTitle(getString(com.example.presentation.R.string.create_word))
             .setView(dialogBinding.root)
             .setPositiveButton(getString(com.example.presentation.R.string.save), null)
             .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
             .create()
 
+        dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                com.example.presentation.R.drawable.background_hud_element
+            )
+        )
+
         dialog.setOnShowListener {
             dialogBinding.rusEditText.requestFocus()
+
+            dialogBinding.rusEditText.setOnFocusChangeListener { _, hasFocus ->
+                dialogBinding.rusEditText.hint =
+                    if (hasFocus) "" else getString(com.example.presentation.R.string.name)
+            }
+
+            dialogBinding.engWordEditText.setOnFocusChangeListener { _, hasFocus ->
+                dialogBinding.engWordEditText.hint =
+                    if (hasFocus) "" else getString(com.example.presentation.R.string.description)
+            }
 
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
                 val rusWord = dialogBinding.rusEditText.text.toString().trim().lowercase()

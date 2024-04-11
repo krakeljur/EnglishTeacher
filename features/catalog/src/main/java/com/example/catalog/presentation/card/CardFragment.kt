@@ -1,5 +1,6 @@
 package com.example.catalog.presentation.card
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -85,8 +86,11 @@ class CardFragment : Fragment(R.layout.fragment_card) {
                         getString(com.example.presentation.R.string.time) + " - $time"
 
             val snackBar = Snackbar.make(binding.root, finalString, Snackbar.LENGTH_LONG)
+            val snackBarView = snackBar.view
 
-            snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
+            snackBarView.setBackgroundResource(com.example.presentation.R.drawable.background_element)
+
+            snackBar.setActionTextColor(Color.WHITE).setAction(getString(com.example.presentation.R.string.ok)) {
                 snackBar.dismiss()
             }
             snackBar.show()

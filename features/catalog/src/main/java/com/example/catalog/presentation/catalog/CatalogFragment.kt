@@ -1,5 +1,6 @@
 package com.example.catalog.presentation.catalog
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -129,12 +130,17 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
     private fun showErrorSnackBar() {
         val snackBar = Snackbar.make(
             binding.root,
-            getString(com.example.presentation.R.string.error_oops),
+            (getString(com.example.presentation.R.string.error_oops)).uppercase(),
             Snackbar.LENGTH_SHORT
         )
-        snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
-            snackBar.dismiss()
-        }
+        snackBar.setActionTextColor(Color.WHITE)
+            .setAction(getString(com.example.presentation.R.string.ok)) {
+                snackBar.dismiss()
+            }
+
+        val snackBarView = snackBar.view
+        snackBarView.setBackgroundResource(com.example.presentation.R.drawable.background_error_element)
+
         snackBar.show()
     }
 
@@ -166,7 +172,8 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
 
         val searchView = menu.findItem(R.id.search).actionView as SearchView
 
-        val searchEditText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        val searchEditText =
+            searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             searchEditText.setTextCursorDrawable(com.example.presentation.R.drawable.cursor_drawable)
         }

@@ -2,10 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="22dp"
-    android:paddingEnd="22dp"
-    android:paddingTop="22dp"
-    android:paddingBottom="22dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     android:orientation="vertical">
 
 
@@ -13,11 +11,21 @@
         android:id="@+id/nameLessonEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textColorHint="@color/dark_white"
+        android:background="@drawable/background_element"
+        android:layout_marginTop="8dp"
+        android:elevation="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:gravity="center"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        android:ems="10"
         android:hint="@string/name"
         android:imeOptions="actionDone"
         android:inputType="text"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
         android:selectAllOnFocus="true"
         android:layout_marginBottom="16dp"/>
 
@@ -28,13 +36,19 @@
         android:layout_height="wrap_content"
         android:hint="@string/description"
         android:imeOptions="actionDone"
+        android:textColor="@color/white"
+        android:textColorHint="@color/dark_white"
+        android:background="@drawable/background_element"
+        android:elevation="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:gravity="center"
+        android:textCursorDrawable="@drawable/cursor_drawable"
+        android:ems="10"
         android:inputType="text"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
         android:selectAllOnFocus="true"
         />
-
-
-
 
 </LinearLayout>

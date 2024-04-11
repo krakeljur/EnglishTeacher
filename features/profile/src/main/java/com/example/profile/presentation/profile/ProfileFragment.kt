@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,6 +14,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -193,10 +195,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
                 getString(com.example.presentation.R.string.copy_notification_user),
                 Snackbar.LENGTH_SHORT
             )
-
-            snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
+            snackBar.setActionTextColor(Color.WHITE).setAction(getString(com.example.presentation.R.string.ok)) {
                 snackBar.dismiss()
             }
+            val snackBarView = snackBar.view
+
+            snackBarView.setBackgroundResource(com.example.presentation.R.drawable.background_element)
 
             snackBar.show()
         }
@@ -206,12 +210,22 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
     private fun showNameDialog(oldName: String) {
         val dialogBinding = AlertdialogRenameBinding.inflate(layoutInflater)
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(
+            requireContext(),
+            com.example.presentation.R.style.DefaultAlertDialogStyle
+        )
             .setTitle(getString(com.example.presentation.R.string.rename_hint))
             .setView(dialogBinding.root)
             .setPositiveButton(getString(com.example.presentation.R.string.save), null)
             .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
             .create()
+
+        dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                com.example.presentation.R.drawable.background_hud_element
+            )
+        )
 
         dialog.setOnShowListener {
             dialogBinding.nameEditText.setText(oldName)
@@ -245,14 +259,35 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
     private fun showAddLessonDialog() {
         val dialogBinding = AlertdialogAddLessonBinding.inflate(layoutInflater)
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(
+            requireContext(),
+            com.example.presentation.R.style.DefaultAlertDialogStyle
+        )
             .setTitle(getString(com.example.presentation.R.string.create_lesson))
             .setView(dialogBinding.root)
             .setPositiveButton(getString(com.example.presentation.R.string.save), null)
             .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
             .create()
 
+        dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                com.example.presentation.R.drawable.background_hud_element
+            )
+        )
+
         dialog.setOnShowListener {
+
+            dialogBinding.nameLessonEditText.setOnFocusChangeListener { _, hasFocus ->
+                dialogBinding.nameLessonEditText.hint =
+                    if (hasFocus) "" else getString(com.example.presentation.R.string.name)
+            }
+
+            dialogBinding.descriptionLessonEditText.setOnFocusChangeListener { _, hasFocus ->
+                dialogBinding.descriptionLessonEditText.hint =
+                    if (hasFocus) "" else getString(com.example.presentation.R.string.description)
+            }
+
             dialogBinding.nameLessonEditText.requestFocus()
 
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
@@ -295,11 +330,23 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
     }
 
     fun showDeleteDialog(lesson: Lesson) {
-        val dialog = AlertDialog.Builder(requireContext())
-            .setTitle(getString(com.example.presentation.R.string.delete_lesson_sure) + " ${lesson.name}?")
+        val dialog = AlertDialog.Builder(
+            requireContext(),
+            com.example.presentation.R.style.DefaultAlertDialogStyle
+        )
+            .setTitle(getString(com.example.presentation.R.string.delete_lesson_sure).uppercase() + " ${lesson.name}?")
             .setPositiveButton(getString(com.example.presentation.R.string.delete), null)
+            .setPositiveButtonIcon(ContextCompat.getDrawable(requireContext(), com.example.presentation.R.drawable.baseline_error_24))
             .setNegativeButton(getString(com.example.presentation.R.string.cancel), null)
             .create()
+
+        dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                com.example.presentation.R.drawable.background_error_element
+            )
+        )
+
 
         dialog.setOnShowListener {
 
@@ -343,12 +390,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), MenuProvider {
     private fun showErrorSnackBar() {
         val snackBar = Snackbar.make(
             binding.root,
-            getString(com.example.presentation.R.string.error_oops),
+            getString(com.example.presentation.R.string.error_oops).uppercase(),
             Snackbar.LENGTH_SHORT
         )
-        snackBar.setAction(getString(com.example.presentation.R.string.ok)) {
-            snackBar.dismiss()
-        }
+        snackBar.setActionTextColor(Color.WHITE)
+            .setAction(getString(com.example.presentation.R.string.ok)) {
+                snackBar.dismiss()
+            }
+
+        val snackBarView = snackBar.view
+        snackBarView.setBackgroundResource(com.example.presentation.R.drawable.background_error_element)
+
         snackBar.show()
     }
 }
