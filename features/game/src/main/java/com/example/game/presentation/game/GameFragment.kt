@@ -103,6 +103,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
                 secondHintTextView.text = getString(com.example.presentation.R.string.hint)
                 editText.setText("")
             }
+            editText.setOnFocusChangeListener { _, isFocus ->
+                editText.hint =
+                    if (isFocus) "" else getString(com.example.presentation.R.string.answer)
+            }
         }
     }
 

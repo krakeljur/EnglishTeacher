@@ -62,6 +62,15 @@ class SignUpFragment() : Fragment(R.layout.fragment_sign_up) {
                 }
 
             }
+            passwordEditText.setOnFocusChangeListener { _, hasFocus ->
+                passwordEditText.hint = if (hasFocus) "" else getString(com.example.presentation.R.string.password)
+            }
+            loginEditText.setOnFocusChangeListener { _, hasFocus ->
+                loginEditText.hint = if (hasFocus) "" else getString(com.example.presentation.R.string.login)
+            }
+            nameEditText.setOnFocusChangeListener { _, hasFocus ->
+                nameEditText.hint = if (hasFocus) "" else getString(com.example.presentation.R.string.name)
+            }
         }
     }
 }

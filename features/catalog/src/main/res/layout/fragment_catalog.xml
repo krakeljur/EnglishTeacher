@@ -24,7 +24,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_lesson" />
+            tools:listitem="@layout/item_lesson"
+            android:paddingBottom="8dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.example.presentation.view.ContainerView

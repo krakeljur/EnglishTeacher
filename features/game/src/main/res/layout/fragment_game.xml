@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".presentation.game.GameFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,10 +16,14 @@
             android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toTopOf="@+id/helpButton"
-            app:layout_constraintEnd_toEndOf="@+id/helpButton"
-            app:layout_constraintStart_toStartOf="@+id/helpButton"
+            android:background="@drawable/background_element"
+            android:paddingBottom="8dp"
+            android:paddingHorizontal="4dp"
+            android:textColor="@color/white"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/questionTextView"
+            app:layout_constraintStart_toStartOf="@+id/questionTextView"
             app:layout_constraintTop_toTopOf="parent">
 
         </Chronometer>
@@ -26,10 +31,12 @@
         <Button
             android:id="@+id/nextButton"
             android:layout_width="0dp"
+            android:elevation="10dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/next"
+            android:backgroundTint="@color/list_element_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +46,16 @@
             android:id="@+id/editText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/background_element"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/dark_white"
+            android:textCursorDrawable="@drawable/cursor_drawable"
             android:layout_marginBottom="32dp"
             android:ems="10"
             android:inputType="text"
@@ -53,6 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:text="@string/hint"
             app:layout_constraintBottom_toTopOf="@+id/editText"
             app:layout_constraintEnd_toEndOf="@+id/editText"
@@ -64,6 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:text="@string/hint"
             app:layout_constraintBottom_toTopOf="@+id/secondHintTextView"
             app:layout_constraintEnd_toEndOf="@+id/secondHintTextView"
@@ -76,20 +97,29 @@
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/question"
+            android:textColor="@color/white"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/firstHintTextView"
             app:layout_constraintEnd_toEndOf="@+id/firstHintTextView"
             app:layout_constraintStart_toStartOf="@+id/firstHintTextView" />
 
-        <Button
+        <ImageButton
             android:id="@+id/helpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="@string/help"
-            app:layout_constraintBottom_toTopOf="@+id/questionTextView"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/outline_help_24"
+            android:background="@drawable/item_background_circle"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="12dp"
+            android:elevation="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/timer"
             app:layout_constraintEnd_toEndOf="@+id/questionTextView"
-            app:layout_constraintStart_toStartOf="@+id/questionTextView" />
+            app:layout_constraintTop_toTopOf="@+id/timer"
+            tools:ignore="ContentDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.example.presentation.view.ContainerView

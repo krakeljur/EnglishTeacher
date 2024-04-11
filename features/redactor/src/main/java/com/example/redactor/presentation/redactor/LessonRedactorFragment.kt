@@ -242,8 +242,8 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
             dialogBinding.rusEditText.requestFocus()
 
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                val rusWord = dialogBinding.rusEditText.text.toString()
-                val engWord = dialogBinding.engWordEditText.text.toString()
+                val rusWord = dialogBinding.rusEditText.text.toString().trim().lowercase()
+                val engWord = dialogBinding.engWordEditText.text.toString().trim().lowercase()
 
                 if (rusWord.isBlank()) {
                     dialogBinding.rusEditText.error =
@@ -266,7 +266,7 @@ class LessonRedactorFragment : Fragment(R.layout.fragment_lesson_redactor), Menu
                     return@setOnClickListener
                 }
 
-                viewModel.addWord(rusWord.lowercase(), engWord.lowercase())
+                viewModel.addWord(rusWord, engWord)
 
                 dialog.dismiss()
             }

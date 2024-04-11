@@ -1,11 +1,13 @@
 package com.example.catalog.presentation.catalog
 
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
+import android.widget.EditText
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -164,6 +166,10 @@ class CatalogFragment : Fragment(R.layout.fragment_catalog), MenuProvider {
 
         val searchView = menu.findItem(R.id.search).actionView as SearchView
 
+        val searchEditText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            searchEditText.setTextCursorDrawable(com.example.presentation.R.drawable.cursor_drawable)
+        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

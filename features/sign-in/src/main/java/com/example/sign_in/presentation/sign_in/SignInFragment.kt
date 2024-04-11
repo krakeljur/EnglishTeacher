@@ -61,5 +61,11 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             viewModel.launchSignUp()
         }
 
+        binding.loginEditText.setOnFocusChangeListener { _, hasFocus ->
+            binding.loginEditText.hint = if (hasFocus) "" else getString(com.example.presentation.R.string.login)
+        }
+        binding.passwordEditText.setOnFocusChangeListener { _, hasFocus ->
+            binding.passwordEditText.hint = if (hasFocus) "" else getString(com.example.presentation.R.string.password)
+        }
     }
 }
